@@ -7,7 +7,7 @@
   --color-blue-03: #5B8DEF;
 
   --color-green-01: #05A660;
-  --color-green-02:#06C270;
+  --color-green-02: #06C270;
   --color-green-03: #39D98A;
 
   --color-red-03: #FF5C5C;
@@ -179,78 +179,101 @@ small,
 // Alignements
 // ==================
 .text-left {
-  text-align: left!important;
+  text-align: left !important;
 }
+
 .text-right {
   text-align: right !important;
 }
+
 .text-center {
   text-align: center !important;
 }
+
 .text-inversed {
   color: var(--color-inversed);
 }
+
 .alignItems-center {
   align-items: center;
 }
+
 .verticalAlign-middle {
   vertical-align: middle;
 }
+
 .normal {
   font-weight: normal;
 }
+
 .bold {
   font-weight: bold;
 }
+
 .uppercase {
   text-transform: uppercase;
 }
+
 .underline {
   cursor: pointer;
   text-decoration: underline;
 }
+
 a.underline:hover {
   text-decoration: none;
 }
+
 .reader-only {
   display: none;
 }
+
 .text-success {
   color: var(--color-green-02);
 }
+
 .text-info {
   color: var(--color-orange-03);
 }
+
 .text-danger {
   color: var(--color-red-02);
 }
+
 .text-normal {
   color: var(--color-dark-05)
 }
+
 .text-muted {
   color: var(--color-dark-04)
 }
+
 .text-light {
   color: var(--color-dark-05);
 }
+
 .text-truncate {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .text-big {
   font-size: 1.1em;
 }
-.icon-verticalAlign{
+
+.icon-verticalAlign {
   display: flex;
 
   align-items: center;
 }
+
 .ignore-br br {
   display: none;
 }
+
 .link {
   transition: color .3s;
 }
+
 .link:hover {
   color: var(--contrast);
   text-decoration: underline;

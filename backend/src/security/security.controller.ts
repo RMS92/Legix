@@ -37,7 +37,7 @@ export class SecurityController {
 
   @Post('register')
   @HttpCode(201)
-  register(@Body() createUserDTO: CreateUserDto): Promise<User> {
+  register(@Body() createUserDTO: CreateUserDto) {
     return this.securityService.register(createUserDTO);
   }
 

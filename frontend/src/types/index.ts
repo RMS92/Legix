@@ -12,8 +12,8 @@ export type Scan = {
   description: string;
   status: number;
   is_visible: boolean;
-  created_at: Date
-  updated_at: Date
+  created_at: Date;
+  updated_at: Date;
   user: User;
   scanFiles: ScanFile[];
 };
@@ -35,6 +35,12 @@ export type CommentType = {
   replies: CommentType[];
   scan: Scan;
   author: User;
+};
+
+export type FlashMessage = {
+  status: number;
+  message: string;
+  success: boolean;
 };
 
 export type Props = { [key: string]: any };

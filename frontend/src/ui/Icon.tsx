@@ -261,6 +261,18 @@ export default function Icon(props: Props) {
             stroke="currentColor"
           />
         </svg>
+      ) : name === "success" ? (
+        <svg
+          {...props}
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 2a10.01 10.01 0 000 20 10.01 10.01 0 000-20zm-2 14.41l-3.71-3.7 1.41-1.42 2.3 2.3 5.3-5.3 1.4 1.42-6.7 6.7z"
+            fill="currentColor"
+          />
+        </svg>
       ) : name === "warning" ? (
         <svg
           {...props}

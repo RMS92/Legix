@@ -71,18 +71,18 @@
 }
 
 .alert-success {
-  border-bottom-color: var(--green);
+  border-bottom-color: var(--color-green-02);
 
   svg:first-child {
-    color: var(--green);
+    color: var(--color-green-02);
   }
 }
 
 .alert-info {
-  border-bottom-color: var(--contrast);
+  border-bottom-color: var(--color-orange-03);
 
   svg:first-child {
-    color: var(--contrast);
+    color: var(--color-orange-03);
   }
 }
 

@@ -6,6 +6,7 @@ import clsx from "clsx";
 
 export default function RegisterForm() {
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [animation, setAnimation] = useState("");
 
   useEffect(() => {
@@ -20,12 +21,12 @@ export default function RegisterForm() {
     const data: string = JSON.stringify(formToObject(form));
 
     try {
-      await apiFetch("/register", {
+      const res = await apiFetch("/register", {
         method: "post",
         body: data,
         dataType: "json",
       });
-
+      setSuccess(res.message);
       form.reset();
     } catch (e) {
       console.log(e);
@@ -39,6 +40,11 @@ export default function RegisterForm() {
       {error ? (
         <Alert type="danger" onDisappear={setError}>
           {error}
+        </Alert>
+      ) : null}
+      {success ? (
+        <Alert type="success" onDisappear={setSuccess}>
+          {success}
         </Alert>
       ) : null}
       <form

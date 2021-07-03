@@ -3,11 +3,16 @@ import Field from "../../ui/Field";
 import { apiFetch, formToObject } from "../../utils/api";
 import Alert from "../../ui/Alert";
 import clsx from "clsx";
+import { FlashMessage } from "../../types";
 
 export default function LoginForm({
   onConnect,
+  flashMessages,
+  setFlashMessages,
 }: {
   onConnect: Dispatch<SetStateAction<boolean>>;
+  flashMessages: FlashMessage;
+  setFlashMessages: Function;
 }) {
   const [error, setError] = useState("");
   const [animation, setAnimation] = useState("");
@@ -19,6 +24,7 @@ export default function LoginForm({
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setError("");
+    setFlashMessages("");
 
     const form: HTMLFormElement = e.target as HTMLFormElement;
     const data: string = JSON.stringify(formToObject(form));
@@ -44,6 +50,14 @@ export default function LoginForm({
       {error ? (
         <Alert type="danger" onDisappear={setError}>
           {error}
+        </Alert>
+      ) : null}
+      {flashMessages ? (
+        <Alert
+          type={clsx(flashMessages.success ? "success" : "danger")}
+          onDisappear={setFlashMessages}
+        >
+          {flashMessages.message}
         </Alert>
       ) : null}
       <form

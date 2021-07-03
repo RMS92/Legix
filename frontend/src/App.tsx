@@ -9,7 +9,7 @@ import {
 import RegisterForm from "./components/auth/RegisterForm";
 import LoginForm from "./components/auth/LoginForm";
 import { apiFetch } from "./utils/api";
-import { User } from "./types";
+import { FlashMessage, User } from "./types";
 import Dashboard from "./components/dashboard/Dashboard";
 import { DashboardContextProvider } from "./contexts/DashboardContext";
 import Profil from "./components/Profil";
@@ -24,6 +24,8 @@ import EmailConfirm from "./components/EmailConfirm";
 export default function App() {
   // @ts-ignore
   const [user, setUser] = useState<User>({});
+  // @ts-ignore
+  const [flashMessages, setFlashMessages] = useState<FlashMessage>(null);
   const [onConnect, setOnConnect] = useState(false);
 
   useEffect(() => {
@@ -76,7 +78,11 @@ export default function App() {
             {onConnect ? (
               <Redirect to="/" />
             ) : (
-              <LoginForm onConnect={setOnConnect} />
+              <LoginForm
+                onConnect={setOnConnect}
+                flashMessages={flashMessages}
+                setFlashMessages={setFlashMessages}
+              />
             )}
           </Route>
           <Route exact path="/administration">
@@ -85,7 +91,7 @@ export default function App() {
             </DashboardContextProvider>
           </Route>
           <Route exact path="/inscription/confirmation/:id">
-            <EmailConfirm />
+            <EmailConfirm setFlashMessages={setFlashMessages} />
           </Route>
         </Switch>
       </Router>

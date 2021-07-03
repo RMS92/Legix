@@ -21,4 +21,12 @@ export class MailService {
       },
     });
   }
+
+  // https://bearnithi.com/2019/11/10/how-to-calculate-the-time-difference-days-hours-minutes-between-two-dates-in-javascript/
+  isTokenExpired(createdAt: Date, now): boolean {
+    let diffInMilliSeconds = Math.abs(createdAt.getTime() - now) / 1000;
+    const hours = Math.floor(diffInMilliSeconds / 3600) % 24;
+    console.log(hours);
+    return hours <= 2;
+  }
 }
