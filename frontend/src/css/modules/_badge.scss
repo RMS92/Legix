@@ -1,0 +1,44 @@
+%badge,
+.badge {
+  @extend %label-medium;
+  position: relative;
+  flex: none;
+  white-space: nowrap;
+  align-items: center;
+  display: inline-flex;
+  text-decoration: none!important;
+  padding: space(1) space(2);
+  font-weight: bold;
+  overflow: hidden;
+  z-index: 1;
+  border-radius: 20px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: currentColor;
+    opacity: 0.1;
+    transition: opacity .3s;
+    z-index: -1;
+  }
+}
+
+.badge-primary {
+  color: var(--color-blue-03);
+}
+
+.badge-success {
+  color: var(--color-green-03);
+}
+
+.badge-danger {
+  color: var(--color-red-03);
+}
+
+.badge-info {
+  color: var(--color-orange-03);
+}

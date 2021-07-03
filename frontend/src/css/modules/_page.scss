@@ -1,0 +1,10 @@
+// Page header
+// ==========================================================================
+.page-header {
+  @extend %container;
+  @extend %level3;
+  width: 100%;
+  padding-bottom: space(6);
+  padding-top: space(6);
+  border-bottom: 1px solid var(--tab-border);
+}

@@ -1,0 +1,258 @@
+.rounded {
+  border-radius: 50%;
+}
+
+.shadow {
+  box-shadow: 0 2px 20px var(--shadow);
+}
+
+.is-display {
+  display: block;
+}
+
+.is-hidden {
+  display: none;
+}
+
+.card,
+%card {
+  @extend %level2;
+  border-radius: 3px;
+  transition: 0.3s;
+}
+
+.notification,
+%notification {
+  @extend %level3;
+  border-radius: 3px;
+  transition: 0.3s;
+}
+
+.modal,
+%modal {
+  @extend %level6;
+  border-radius: 3px;
+  transition: 0.3s;
+}
+
+// Carte scans
+// =============
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.card__body {
+  padding: var(--card-padding);
+}
+
+.card__icons {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+
+.card__description p {
+  color: var(--color-dark-05)
+}
+
+.card__title {
+  font-family: $font-alt;
+  line-height: 22px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.card__description {
+
+}
+
+.card a {
+  position: relative;
+  z-index: 3;
+}
+
+.card__link {
+  display: block;
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2 !important;
+  border: 1px solid transparent;
+  transition: 0.3s;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.card a:not([class^='btn']):not([class^='badge']):hover {
+  color: var(--color-primary-03);
+}
+
+.card__link:hover {
+  border: 1px solid var(--color-primary-02);
+}
+
+.card__icons img {
+  width: auto;
+  height: 40px;
+  border-radius: 4px;
+  display: block;
+  object-fit: contain;
+}
+
+.card__description {
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.card__footer {
+  @extend %label-large;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 8px var(--card-padding);
+  color: var(--color-dark-05);
+  background: var(--background-elevation-01);
+
+  svg {
+    width: 20px;
+    height: 20px;
+    margin-right: space(1);
+  }
+
+  & > *:last-child {
+    margin-right: 0;
+    margin-left: auto;
+  }
+}
+
+.card__author {
+  display: flex;
+  align-items: center;
+
+  svg {
+    width: 22px;
+    height: 22px;
+    margin-right: space(1);
+  }
+}
+
+.card__count {
+  @extend %label-medium;
+}
+
+.card__progress {
+  opacity: 0;
+  margin-top: auto;
+}
+
+.card__badge {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: space(2);
+  right: space(2);
+
+  > * + * {
+    margin-left: space(1);
+  }
+}
+
+// Carte scan
+// =============
+.card__image img {
+  width: 100%;
+  border-radius: 3px;
+  display: block;
+  object-fit: contain;
+}
+
+.card__orientation {
+  display: flex;
+  align-items: center;
+}
+
+.card__edit {
+  svg:hover {
+    cursor: pointer;
+    color: var(--color-blue-03)
+  }
+}
+
+// Carte download
+// =============
+.card-download {
+  background: var(--background-elevation--01);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px dashed #7B7C8B;
+  border-radius: 3px;
+}
+
+.card-download__delete {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  color: var(--color-red-03);
+}
+
+.card-download__body {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: space(3);
+  text-align: center;
+  padding: space(4) space(2);
+}
+
+.card-download__actions input {
+  display: none;
+}
+
+.card-download__infos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-blue-03);
+
+  svg {
+    margin-right: space(1);
+    margin-left: -30px;
+  }
+}
+
+// Carte file
+// =============
+.card-file {
+  position: relative;
+  img {
+    border-radius: 4px;
+    height: 100%;
+  }
+}
+
+.card-file__badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  z-index: 1;
+}
+
+.card-file:after {
+  @extend %level5;
+  content: " ";
+  display: block;
+  top: -12px;
+  right: -12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  position: absolute;
+  z-index: 0;
+}

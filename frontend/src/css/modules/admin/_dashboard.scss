@@ -1,0 +1,137 @@
+.dashboard-sidebar {
+  background: var(--background-elevation--01);
+  border-right: 1px solid var(--tab-border);
+  min-width: 228px;
+  min-height: calc(100vh - 90.5px);
+}
+
+.dashboard-sidebar__wrapper {
+  top: 0;
+  position: relative;
+  max-height: 100vh;
+  overflow: auto;
+  padding: space(4) space(4);
+}
+
+.dashboard-sidebar__main .is-active {
+  color: var(--color-white-04);
+}
+
+.dashboard-sidebar__main {
+  h5 {
+    margin-bottom: space(2);
+  }
+  li {
+    color: var(--color-dark-04);
+    margin-left: space(4);
+    margin-bottom: space(1);
+  }
+  li:hover {
+    color: var(--color-white-04);
+  }
+}
+
+.dashboard-sidebar__main li:last-child {
+  margin-bottom: space(4);
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 162px;
+    left: space(4);
+    margin-top: space(5);
+    background-color: #44465B;
+    height: 1px;
+  }
+}
+
+.dashboard-sidebar__main li a {
+
+}
+
+// Main
+// =============
+.dashboard-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 20px;
+
+  svg {
+    margin-right: space(1);
+  }
+}
+
+.dashboard-head__search {
+
+}
+
+.dashboard-searchField {
+  position: relative;
+}
+
+.dashboard-searchField input {
+  @extend %input;
+  padding: space(2) space(5);
+  height: 45px;
+  width: 225px;
+}
+
+.dashboard-searchField input:focus {
+  border-color: var(--color-primary-02);
+  box-shadow: 0 0 0 3px #3E7BFA33;
+}
+
+.dashboard-searchField button {
+  position: absolute;
+  top: 2px;
+  left: -2px;
+  height: 100%;
+}
+
+.dashboard-searchField svg {
+  width: 14.58px;
+  height: 14px;
+  margin-left: space(2);
+  color: var(--color-primary-02);
+}
+
+.dashboard-tab {
+  // @extend %level1;
+  box-shadow: var(--box-shadow-elevation-01);
+  padding: 20px;
+}
+
+.dashboard-tab__body .icon-more {
+  height: 20px;
+  width: 18.3px;
+  padding-top: 14px;
+}
+
+.dashboard-tab__footer {
+  display: flex;
+  font-size: 14px;
+  align-items: center;
+  line-height: 24px;
+  justify-content: space-between;
+  margin-top: space(8);
+  color: var(--color-dark-04);
+}
+
+.dashboard-pagination > * {
+  margin-right: space(2);
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.dashboard-outOf span {
+  color: var(--color-white-04);
+  font-weight: 700;
+}
+
+
+
+
+

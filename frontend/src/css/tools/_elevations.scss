@@ -1,0 +1,65 @@
+// Elevations
+// ==================
+:root {
+  --background-elevation--01: #26273B;
+  --background-elevation-00: #28293D;
+  --background-elevation-01: #2A2B40;
+  --background-elevation-02: #2C2D42;
+  --background-elevation-03: #2D2E45;
+  --background-elevation-04: #2F3047;
+  --background-elevation-05: #30324A;
+  --background-elevation-06: #32334D;
+
+  --box-shadow-elevation-01: 0px 0px 1px rgba(40, 41, 61, 0.08), 0px 1px 2px rgba(0, 0, 0, 0.32);
+  --box-shadow-elevation-02: 0px 0px 1px rgba(0, 0, 0, 0.04), 0px 2px 4px rgba(0, 0, 0, 0.32);
+  --box-shadow-elevation-03: 0px 0px 2px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.32);
+  --box-shadow-elevation-04: 0px 2px 4px rgba(0, 0, 0, 0.04), 0px 8px 16px rgba(0, 0, 0, 0.32);
+  --box-shadow-elevation-05: 0px 2px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.32);
+  --box-shadow-elevation-06: 0px 2px 8px rgba(0, 0, 0, 0.08), 0px 20px 32px rgba(0, 0, 0, 0.32);
+}
+
+%level-1,
+.level-1 {
+  background: var(--background-elevation--01);
+}
+
+%level0,
+.level0 {
+  background: var(--background-elevation-00);
+}
+
+%level1,
+.level1 {
+  background: var(--background-elevation-01);
+  box-shadow: var(--box-shadow-elevation-01);
+}
+
+%level2,
+.level2 {
+  background: var(--background-elevation-02);
+  box-shadow: var(--box-shadow-elevation-02);
+}
+
+%level3,
+.level3 {
+  background: var(--background-elevation-03);
+  box-shadow: var(--box-shadow-elevation-03);
+}
+
+%level4,
+.level4 {
+  background: var(--background-elevation-04);
+  box-shadow: var(--box-shadow-elevation-04);
+}
+
+%level5,
+.level5 {
+  background: var(--background-elevation-05);
+  box-shadow: var(--box-shadow-elevation-05);
+}
+
+%level6,
+.level6 {
+  background: var(--background-elevation-06);
+  box-shadow: var(--box-shadow-elevation-06);
+}

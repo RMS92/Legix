@@ -1,0 +1,258 @@
+@import url(https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap);
+
+// Variables
+// ==================
+:root {
+  --color-blue-01: #004FC4;
+  --color-blue-03: #5B8DEF;
+
+  --color-green-01: #05A660;
+  --color-green-02:#06C270;
+  --color-green-03: #39D98A;
+
+  --color-red-03: #FF5C5C;
+
+  --color-orange-03: #FDAC42;
+}
+
+$font: 'Inter', sans-serif;
+$font-alt: 'Inter', sans-serif;
+
+%hero-title,
+.hero-title {
+  font-size: 52px;
+  font-family: $font-alt;
+  font-weight: 700;
+  line-height: 1.2;
+
+  strong {
+    color: var(--color-primary-03);
+  }
+
+  @include down(675) {
+    font-size: 45px;
+  }
+}
+
+%hero-text,
+.hero-text {
+  font-size: 16px;
+
+  strong {
+    font-weight: bold;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  @include up(600) {
+    font-size: 22px;
+  }
+}
+
+%section-title,
+.section-title {
+  font-family: $font-alt;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: bold;
+  border-bottom: 1px solid var(--tab-border);
+  padding-bottom: space(2);
+  margin-bottom: space(3);
+}
+
+%card-title {
+  font-family: $font-alt;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+%h1,
+.h1 {
+  font-family: $font-alt;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 32px;
+  line-height: 1.2;
+
+  @include up(600) {
+    font-size: 42px;
+    line-height: 54px;
+  }
+}
+
+%h2,
+.h2 {
+  font-weight: 700;
+  font-style: normal;
+  font-size: 32px;
+  line-height: 44px;
+}
+
+%stack-title,
+.stack-title {
+  @extend %h2;
+  @extend %underlined;
+}
+
+%underlined {
+  border-bottom: 1px solid var(--tab-border);
+  padding-bottom: space(1);
+  margin-bottom: space(3);
+}
+
+%h3,
+.h3 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 38;
+
+  strong {
+    font-weight: bold;
+  }
+}
+
+%h4,
+.h4 {
+  font-family: $font-alt;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 32px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+%h5,
+.h5 {
+  font-family: $font-alt;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+%h6,
+.h6 {
+  font-family: $font-alt;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.strong-title {
+  color: var(--color-blue-03);
+}
+
+.stack-large__title {
+  @extend %h4;
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: space(2);
+  }
+}
+
+%label-large,
+small,
+.label-large {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+%label-medium,
+.label-medium {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+%label-small,
+.label-small {
+  font-size: 10px;
+  line-height: 14px;
+}
+
+// Alignements
+// ==================
+.text-left {
+  text-align: left!important;
+}
+.text-right {
+  text-align: right !important;
+}
+.text-center {
+  text-align: center !important;
+}
+.text-inversed {
+  color: var(--color-inversed);
+}
+.alignItems-center {
+  align-items: center;
+}
+.verticalAlign-middle {
+  vertical-align: middle;
+}
+.normal {
+  font-weight: normal;
+}
+.bold {
+  font-weight: bold;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+.underline {
+  cursor: pointer;
+  text-decoration: underline;
+}
+a.underline:hover {
+  text-decoration: none;
+}
+.reader-only {
+  display: none;
+}
+.text-success {
+  color: var(--color-green-02);
+}
+.text-info {
+  color: var(--color-orange-03);
+}
+.text-danger {
+  color: var(--color-red-02);
+}
+.text-normal {
+  color: var(--color-dark-05)
+}
+.text-muted {
+  color: var(--color-dark-04)
+}
+.text-light {
+  color: var(--color-dark-05);
+}
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.text-big {
+  font-size: 1.1em;
+}
+.icon-verticalAlign{
+  display: flex;
+
+  align-items: center;
+}
+.ignore-br br {
+  display: none;
+}
+.link {
+  transition: color .3s;
+}
+.link:hover {
+  color: var(--contrast);
+  text-decoration: underline;
+}
+

@@ -1,0 +1,83 @@
+%btn {
+  text-decoration: none!important;
+  padding: 9px 16px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0px 1px 2px #3E7BFA44;
+  border-radius: 4px;
+  line-height: 1.6;
+  font-family: $font-alt;
+  font-weight: bold;
+  color: var(--color-white-04);
+  cursor: pointer;
+  transition: filter 0.3s, background 0.3s, color 0.3s;
+  font-size: 0.9em;
+  filter: brightness(1);
+  white-space: nowrap;
+
+  &[disabled] {
+    cursor: default;
+    filter: grayscale(1);
+    opacity: 0.7;
+  }
+
+  &:hover[disabled] {
+    filter: grayscale(1);
+  }
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+
+  .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: space(1);
+  }
+}
+
+// Bouton avec un effet de profondeur "Web 2.0"
+.btn-gradient {
+  @extend %btn;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%) var(--color-primary-02);
+}
+
+.btn-primary {
+  @extend %btn;
+  background: var(--color-primary-02);
+  border: solid 1px var(--color-primary-02);
+}
+
+.btn-danger {
+  @extend %btn;
+  background: var(--color-red-02);
+  border: solid 1px var(--color-red-02);
+}
+
+.btn-primary-outlined {
+  @extend %btn;
+  border: 1px solid var(--color-primary-outline);
+  color: var(--color-white-04);
+  box-shadow: none;
+
+  &:hover {
+    background: var(--color-primary-02);
+    filter: brightness(1.2);
+  }
+}
+
+// Btn download
+// =============
+%btn-download,
+.btn-download {
+  @extend %level4;
+  border-radius: 50px;
+  padding: 21px 21px;
+  width: 64px;
+  height: 64px;
+
+  svg {
+    margin: 0;
+  }
+}

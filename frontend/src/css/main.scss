@@ -1,0 +1,81 @@
+// Variables
+// ==================
+:root {
+  --color: #FAFAFC;
+
+  --color-dark-01: #1C1C28;
+  --color-dark-03: #555770;
+  --color-dark-04: #8F90A6;
+  --color-dark-05: #C7C9D9;
+
+  --color-white-04: #FAFAFC;
+  --color-white-05: #FFFFFF;
+
+  --color-primary-01: #3568D4;
+  --color-primary-02: #3E7BFA;
+  --color-primary-03: #6698FA;
+  --color-primary-outline: #3E7BFA;
+
+  --form-border: #606170;
+  --form-background: #26273B;
+  --form-shadow: inset 0px 0.5px 4px rgba(0, 0, 0, 0.32);
+
+  --tab-border: #44465b;
+
+  --color-red-01: #E53535;
+  --color-red-02: #FF3B3B;
+
+  --gap: 20px;
+  --card-padding: 16px;
+  --space: 8px;
+}
+
+// Outils
+// ==================
+@import "tools/reset";
+@import "tools/functions";
+@import "tools/mixins";
+@import "tools/layout";
+@import "tools/elevations";
+@import "tools/typography";
+@import "tools/animations";
+
+// Generic
+// ==================
+body {
+  font-family: $font;
+  font-size: 16px;
+  color: var(--color);
+  line-height: 1.6;
+  background: var(--background-elevation--01);
+  scroll-margin: 100px 0 0 0;
+  word-break: break-word;
+}
+
+::selection {
+
+}
+
+// Modules
+// ==================
+@import "modules/header";
+@import "modules/page";
+@import "modules/user";
+@import "modules/comments";
+@import "modules/card";
+@import "modules/alert";
+@import "modules/badge";
+@import "modules/btn";
+@import "modules/select";
+@import "modules/form";
+@import "modules/table";
+@import "modules/list";
+@import "modules/pagination";
+@import "modules/filter";
+@import "modules/footer";
+
+// Pages
+// ==================
+@import "pages/auth";
+@import "pages/home";
+@import "pages/scans";
