@@ -84,7 +84,7 @@ export default function App() {
               <Dashboard />
             </DashboardContextProvider>
           </Route>
-          <Route exact path="/inscription/confirmation/:token">
+          <Route exact path="/inscription/confirmation/:id">
             <EmailConfirm />
           </Route>
         </Switch>

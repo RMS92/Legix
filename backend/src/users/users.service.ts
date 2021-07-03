@@ -29,6 +29,10 @@ export class UsersService {
     return this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true });
   }
 
+  async updateField(id: string, data: object): Promise<User> {
+    return this.userModel.findByIdAndUpdate(id, data, { new: true });
+  }
+
   async updateRoles(
     id: string,
     updateRolesUserDto: UpdateRolesUserDto,

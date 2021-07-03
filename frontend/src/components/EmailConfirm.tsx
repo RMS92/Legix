@@ -1,9 +1,22 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Redirect, useParams } from "react-router-dom";
+import useQuery from "../hooks/useQuery";
+import { apiFetch } from "../utils/api";
 
 export default function EmailConfirm() {
   // @ts-ignore
-  const { token } = useParams();
-  console.log("token", token);
-  return <div>Confirm email</div>;
+  const { id } = useParams();
+  const query = useQuery();
+
+  useEffect(() => {
+    (async () => {
+      await apiFetch("/register/confirm", {
+        method: "post",
+        body: JSON.stringify({ id, token: query.get("token") }),
+        dataType: "json",
+      });
+    })();
+  }, []);
+
+  return <Redirect to="/connexion" />;
 }

@@ -2,6 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/schemas/user.schema';
+import { ConfigService } from '@nestjs/config';
+
 const bcrypt = require('bcrypt');
 
 @Injectable()
@@ -9,6 +11,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async validateUser(email: string, password: string): Promise<User> {
@@ -51,7 +54,8 @@ export class AuthService {
     return await bcrypt.compare(password, storedHashPassword);
   }
 
-  async generateToken (): Promise<string> {
-    return Math.floor(1000 + Math.random() * 9000).toString();
+  async generateToken(length: number): Promise<string> {
+    const rand = () => Math.random().toString(36).substr(2);
+    return (rand() + rand() + rand() + rand()).substr(0, length);
   }
 }

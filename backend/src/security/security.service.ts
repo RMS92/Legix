@@ -5,6 +5,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { User } from '../users/schemas/user.schema';
 import { MailService } from '../mail/mail.service';
+import { RegistrationConfirmDto } from './dto/registration-confirm.dto';
 
 @Injectable()
 export class SecurityService {
@@ -34,7 +35,7 @@ export class SecurityService {
             createUserDTO.password,
           );
           // Send confirmation email
-          const token = await this.authService.generateToken();
+          const token = await this.authService.generateToken(50);
           createUserDTO.confirmation_token = token;
 
           const newUser = await this.usersService.create(createUserDTO);
@@ -65,6 +66,23 @@ export class SecurityService {
         {
           status: HttpStatus.BAD_REQUEST,
           message: "L'email est déjà utilisé",
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  async registrationConfirm(registrationConfirmDto: RegistrationConfirmDto) {
+    const user = await this.usersService.findOne(registrationConfirmDto.id);
+    if (user.confirmation_token === registrationConfirmDto.token) {
+      return this.usersService.updateField(user._id, {
+        confirmation_token: '',
+      });
+    } else {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          message: "Le token n'est pas valide",
         },
         HttpStatus.BAD_REQUEST,
       );
