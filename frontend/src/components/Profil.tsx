@@ -19,7 +19,9 @@ export default function Profil({ user }: { user: User }) {
           <div className="profil-header__body">
             <h1 className="h1">Mon compte</h1>
             <p>
-              <a className="badge badge-primary">Compte standard</a>
+              <a href="#" className="badge badge-primary">
+                Compte standard
+              </a>
               <span className="label-large text-normal">
                 Inscrit depuis environ 1 an
               </span>
@@ -179,9 +181,7 @@ function ProfilBodyScans({ user }: { user: User }) {
         </h4>
         <div className="scans">
           {scans.map((s) => (
-            <ScanCard
-              scan={s}
-            />
+            <ScanCard scan={s} />
           ))}
         </div>
       </main>

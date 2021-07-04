@@ -57,8 +57,32 @@ export function pagination(currentPage: number, pageCount: number) {
 }
 
 // Find day diff for comment
-export function dayDiff(date: Date) {
-  const nbOfDays = date.getTime() / 86400000;
-  const now = Date.now() / 86400000;
-  return Number(now - nbOfDays).toFixed(0);
+export function dateDiff(createdAt: Date) {
+  const now = Date.now();
+  let diffInMilliSeconds = Math.abs(createdAt.getTime() - now) / 1000;
+  // calculate days
+  const days = Math.floor(diffInMilliSeconds / 86400);
+  diffInMilliSeconds -= days * 86400;
+
+  // calculate hours
+  const hours = Math.floor(diffInMilliSeconds / 3600) % 24;
+  diffInMilliSeconds -= hours * 3600;
+
+  // calculate minutes
+  const minutes = Math.floor(diffInMilliSeconds / 60) % 60;
+
+  let difference = "Il y a ";
+  if (days > 0) {
+    difference += days === 1 ? `${days} jour, ` : `${days} jours, `;
+  }
+
+  if (hours > 0 && days < 0) {
+    difference +=
+      hours === 0 || hours === 1 ? `${hours} heure, ` : `${hours} heures, `;
+  }
+
+  difference +=
+    minutes === 0 || hours === 1 ? `${minutes} minute` : `${minutes} minutes`;
+
+  return difference;
 }

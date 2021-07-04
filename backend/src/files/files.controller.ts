@@ -1,21 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseInterceptors,
-  UploadedFiles,
-  UploadedFile,
-} from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { UpdateScanFileDto } from './dto/update-scan-file.dto';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { imageFileFilter, renameFilename } from './utils/file-upload.util';
-import { ConfigService } from '@nestjs/config';
 
 @Controller('files')
 export class FilesController {

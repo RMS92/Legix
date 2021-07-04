@@ -4,7 +4,7 @@ import Icon from "../../ui/Icon";
 import clsx from "clsx";
 import Field from "../../ui/Field";
 import { apiFetch, formToObject } from "../../utils/api";
-import {dayDiff, formatTitle } from "../../utils/functions";
+import { dateDiff, formatTitle } from "../../utils/functions";
 import {
   FileTextStatus,
   ScanBadgeStatus,
@@ -13,7 +13,7 @@ import {
 import { Modal } from "../../ui/Modal";
 import { useScanContext } from "../../contexts/ScanContext";
 import { FileCard } from "../../ui/Cards";
-import { ScanFile } from "../../types"
+import { ScanFile } from "../../types";
 import Comment from "../comments/Comment";
 import { useComments } from "../../hooks/useComments";
 import { CommentType } from "../../types";
@@ -56,7 +56,10 @@ export default function ScanDetails() {
           <div className="grid2">
             <div className="stack pt3">
               <img
-                src={`/src/images/uploads/scans/${scan.user.username}/${selectedFile.current_filename}`}
+                src={
+                  process.env.PUBLIC_URL +
+                  `/media/uploads/scans/${scan.user.username}/${selectedFile.current_filename}`
+                }
                 alt={selectedFile.current_filename}
               />
             </div>
@@ -126,7 +129,7 @@ function ScanBodyReview() {
     deleteComment,
   } = useComments();
 
-  const nbOfDays = Number(dayDiff(new Date(scan.created_at)))
+  const nbOfDays = dateDiff(new Date(scan.created_at));
 
   const parentsComments = (comments || []).filter(
     (c: CommentType) => !c.parent
@@ -254,7 +257,7 @@ function ScanBodyReview() {
       <aside className="">
         <div className="stack-large">
           <div className="text-right">
-            <small className="text-muted">{nbOfDays > 1 ? `Publié il y a ${nbOfDays} jours` : nbOfDays === 1 ? `Publié il y a ${nbOfDays} jour` : `Publié il y a moins d'un jour`}</small>
+            <small className="text-muted">{nbOfDays}</small>
           </div>
           <div>
             <h5 className="h5 mb2">Résultat de l'expertise</h5>

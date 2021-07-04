@@ -4,6 +4,7 @@ import { apiFetch, formToObject } from "../../utils/api";
 import Alert from "../../ui/Alert";
 import clsx from "clsx";
 import { FlashMessage } from "../../types";
+import { Link } from "react-router-dom";
 
 export default function LoginForm({
   onConnect,
@@ -39,7 +40,6 @@ export default function LoginForm({
       onConnect(true);
       form.reset();
     } catch (e) {
-      console.log(e);
       setError(e.message);
     }
   };
@@ -71,6 +71,11 @@ export default function LoginForm({
         <Field name="password" type="password">
           Mot de passe
         </Field>
+        <div className="auth-actions flex flex-end">
+          <Link to="/password/nouveau" className="auth-password-forgot">
+            Mot de passe oublié ?
+          </Link>
+        </div>
         <button className="btn-gradient" type="submit">
           Se connecter
         </button>

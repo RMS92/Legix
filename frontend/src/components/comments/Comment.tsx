@@ -5,7 +5,7 @@ import { useToggle } from "../../hooks/useToogle";
 import Field from "../../ui/Field";
 import { formToObject } from "../../utils/api";
 import { useScanContext } from "../../contexts/ScanContext";
-import {dayDiff} from "../../utils/functions"
+import { dateDiff } from "../../utils/functions";
 
 export default function Comment({
   childrenComments,
@@ -23,7 +23,7 @@ export default function Comment({
   const { user, scan } = useScanContext();
 
   const [reply, setReply] = useToggle(false);
-  const nbOfDays = Number(dayDiff(new Date(comment.created_at)))
+  const nbOfDays: string = dateDiff(new Date(comment.created_at));
 
   const filteredComments = (childrenComments || []).filter(
     (c: CommentType) => c.parent._id === comment._id
@@ -68,7 +68,7 @@ export default function Comment({
       <div className="comment__meta">
         <div className="comment__author">{comment.author.username}</div>
         <div className="comment__actions">
-          <a className="comment__date">{nbOfDays > 1 ? `Il y a ${nbOfDays} jours` : nbOfDays === 1 ? `Il y a ${nbOfDays} jour` : `Il y a moins d'un jour`}</a>
+          <a className="comment__date">{nbOfDays}</a>
           <a className="comment__answer" onClick={() => setReply()}>
             <Icon name="reply" width="14" className="icon icon-reply" />
             Répondre

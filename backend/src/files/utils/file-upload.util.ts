@@ -12,7 +12,7 @@ export const customStorage = async (
   const username = req.user.username;
   const mkdirAsync = promisify(fs.mkdir);
   const existsAsync = promisify(fs.exists);
-  const destination = `../frontend/src/images/uploads/scans/${username}`;
+  const destination = `../frontend/public/media/uploads/scans/${username}`;
 
   const exists = await existsAsync(destination);
 

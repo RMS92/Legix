@@ -19,9 +19,10 @@ export class ScansService {
     userId: string,
     files: Array<Express.Multer.File>,
   ): Promise<Scan> {
-    const data = { user: userId, ...createScanDto };
+    const data = { user: userId, created_at: Date.now(), ...createScanDto };
     // Save scan
     const newScan = new this.scanModel(data);
+
     // Save files
     const scanFiles = await this.filesService.saveFiles(files, newScan._id);
     // Associate file ids to  current scan

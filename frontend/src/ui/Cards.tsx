@@ -6,19 +6,18 @@ import { ScanBadgeStatus } from "./Utils";
 import { ScanFile } from "../types";
 import { Scan } from "../types";
 
-export function ScanCard({
-  scan,
-}: {
-  scan: Scan
-}) {
-  const filename = scan.scanFiles[0].current_filename
+export function ScanCard({ scan }: { scan: Scan }) {
+  const filename = scan.scanFiles[0].current_filename;
   return (
     <div className="card">
       <div className="card__body stack">
         <div className="card__icons">
           <a href="#" className="user__icon">
             <img
-              src={`/src/images/uploads/scans/${scan.user.username}/${filename}`}
+              src={
+                process.env.PUBLIC_URL +
+                `/media/uploads/scans/${scan.user.username}/${filename}`
+              }
               alt={filename}
             />
           </a>
@@ -39,8 +38,7 @@ export function ScanCard({
           <Icon name="roundedUser" />
           <p>{scan.user.username}</p>
         </div>
-        <div>
-        </div>
+        <div></div>
       </footer>
 
       <div className="card__badge">
@@ -90,7 +88,10 @@ export function FileCard({
         key={file._id}
         onClick={() => handleClick(file as ScanFile)}
         style={{ cursor: "pointer" }}
-        src={`/src/images/uploads/scans/${scan.user.username}/${file.current_filename}`}
+        src={
+          process.env.PUBLIC_URL +
+          `/media/uploads/scans/${scan.user.username}/${file.current_filename}`
+        }
         alt={file.current_filename}
       />
     </div>

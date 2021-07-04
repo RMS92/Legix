@@ -17,7 +17,11 @@ export class CommentsService {
     createCommentDto: CreateCommentDto,
     userId: string,
   ): Promise<Comment> {
-    const data = { author: userId, ...createCommentDto };
+    const data = {
+      author: userId,
+      created_at: Date.now(),
+      ...createCommentDto,
+    };
     const newComment = new this.commentModel(data);
     await newComment.save();
     return this.commentModel
@@ -54,17 +58,25 @@ export class CommentsService {
   }
 
   async remove(id: string): Promise<Comment> {
-    const commentToDelete = await this.commentModel.findByIdAndRemove({_id: id})
-    this.removeChildren(commentToDelete.replies)
+    const commentToDelete = await this.commentModel.findByIdAndRemove({
+      _id: id,
+    });
+    this.removeChildren(commentToDelete.replies);
     return commentToDelete;
   }
 
   async removeChildren(children: Comment[]) {
     if (children && children.length > 0) {
       for (const child of children) {
-        const childComment = await this.commentModel.findByIdAndRemove({_id: child})
-        if (childComment && childComment.replies && childComment.replies.length > 0) {
-          this.removeChildren(childComment.replies)
+        const childComment = await this.commentModel.findByIdAndRemove({
+          _id: child,
+        });
+        if (
+          childComment &&
+          childComment.replies &&
+          childComment.replies.length > 0
+        ) {
+          this.removeChildren(childComment.replies);
         }
       }
     }

@@ -53,6 +53,7 @@ export class FilesService {
         extension,
         size,
         scan: scanId,
+        created_at: Date.now(),
       });
       await newScanFile.save();
       scanFiles.push(newScanFile._id);

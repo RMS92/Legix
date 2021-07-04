@@ -28,6 +28,8 @@
   lastLoginAt*)
   
 - emailVerification(_id, email, author, createdAt, token)
+
+- PasswordResetToken(_id, created_at, token, user)
   
 - scan (_id, title, description, status, isVisible, createdAt, updatedAt, user, scan_files[])
   

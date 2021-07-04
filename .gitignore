@@ -1,7 +1,7 @@
 .idea
 ./.idea
 /frontend/node_modules
-/frontend/src/images/
+/frontend/public/media
 /frontend/.DS_Store
 /frontend/dist
 /frontend/dist-ssr

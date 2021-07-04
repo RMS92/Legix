@@ -13,7 +13,10 @@ export default function ModalScanFileView() {
       <div className="grid2">
         <div className="stack pt3">
           <img
-            src={`/src/images/uploads/scans/${selectedScan.user.username}/${selectedFile.current_filename}`}
+            src={
+              process.env.PUBLIC_URL +
+              `/media/uploads/scans/${selectedScan.user.username}/${selectedFile.current_filename}`
+            }
             alt={selectedFile.current_filename}
           />
         </div>
