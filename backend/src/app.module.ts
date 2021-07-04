@@ -11,6 +11,7 @@ import { ScansModule } from './scans/scans.module';
 import { FilesModule } from './files/files.module';
 import { CommentsModule } from './comments/comments.module';
 import { MailModule } from './mail/mail.module';
+import { PasswordModule } from './password/password.module';
 
 @Module({
   imports: [
@@ -32,6 +33,8 @@ import { MailModule } from './mail/mail.module';
     CommentsModule,
 
     MailModule,
+
+    PasswordModule,
   ],
   controllers: [AppController],
   providers: [AppService],

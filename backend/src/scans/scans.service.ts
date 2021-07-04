@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateScanDto } from './dto/create-scan.dto';
 import { UpdateScanDto } from './dto/update-scan.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { Scan, ScanDocument } from './schemas/scan.schema';
 import { FilesService } from '../files/files.service';
 const { ObjectId } = require('mongodb');
@@ -22,7 +22,6 @@ export class ScansService {
     const data = { user: userId, created_at: Date.now(), ...createScanDto };
     // Save scan
     const newScan = new this.scanModel(data);
-
     // Save files
     const scanFiles = await this.filesService.saveFiles(files, newScan._id);
     // Associate file ids to  current scan

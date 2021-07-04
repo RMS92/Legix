@@ -7,13 +7,23 @@ export class MailService {
   constructor(private readonly mailerService: MailerService) {}
 
   async sendUserConfirmation(user: User, token: string) {
-    const url = `http://localhost:3000/inscription/confirmation/${user._id}?token=${token}`;
+    const path = `/inscription/confirmation/${user._id}?token=${token}`;
+    await this.sendEmail(user, path, './confirmation');
+  }
+
+  async sendUserResetPassword(user: User, token: string) {
+    const path = `/password/nouveau/${user._id}?token=${token}`;
+    await this.sendEmail(user, path, './resetPassword');
+  }
+
+  async sendEmail(user: User, path: string, template: string) {
+    const url = `http://localhost:3000${path}`;
 
     await this.mailerService.sendMail({
       to: user.email,
-      from: '"Support Team" <support@legix.com>', // override default from
+      from: '"No Reply" <support@legix.com>', // override default from
       subject: 'Welcome to Legix App! Confirm your Email',
-      template: './confirmation',
+      template: template,
       context: {
         // ✏️ filling curly brackets with content
         name: user.full_name,

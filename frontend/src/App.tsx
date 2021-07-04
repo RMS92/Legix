@@ -19,8 +19,9 @@ import Scans from "./components/scans/Scans";
 import CreateScan from "./components/scans/CreateScan";
 import ScanDetails from "./components/scans/Scan";
 import { ScanContextProvider } from "./contexts/ScanContext";
-import EmailConfirm from "./components/EmailConfirm";
+import EmailConfirm from "./components/auth/EmailConfirm";
 import ForgotPasswordForm from "./components/auth/ForgotPasswordForm";
+import ResetPasswordConfirmForm from "./components/auth/ResetPasswordConfirmForm";
 
 export default function App() {
   // @ts-ignore
@@ -95,7 +96,13 @@ export default function App() {
             <EmailConfirm setFlashMessages={setFlashMessages} />
           </Route>
           <Route exact path="/password/nouveau">
-            <ForgotPasswordForm />
+            <ForgotPasswordForm
+              flashMessages={flashMessages}
+              setFlashMessages={setFlashMessages}
+            />
+          </Route>
+          <Route exact path="/password/nouveau/:id">
+            <ResetPasswordConfirmForm />
           </Route>
         </Switch>
       </Router>

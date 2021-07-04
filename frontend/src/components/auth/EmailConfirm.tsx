@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Redirect, useParams } from "react-router-dom";
-import useQuery from "../hooks/useQuery";
-import { apiFetch } from "../utils/api";
+import useQuery from "../../hooks/useQuery";
+import { apiFetch } from "../../utils/api";
 
 export default function EmailConfirm({
   setFlashMessages,
