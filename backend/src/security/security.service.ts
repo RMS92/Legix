@@ -30,7 +30,7 @@ export class SecurityService {
       );
       if (!usernameExists) {
         if (createUserDTO.password2 === createUserDTO.password) {
-          createUserDTO.password = await this.authService.hasPassword(
+          createUserDTO.password = await this.authService.hashPassword(
             createUserDTO.password,
           );
           // Send confirmation email
@@ -78,12 +78,12 @@ export class SecurityService {
   async registrationConfirm(registrationConfirmDto: RegistrationConfirmDto) {
     const user = await this.usersService.findOne(registrationConfirmDto.id);
     // Calculate hour differences between user created_at and now
-    const expires = this.mailService.isTokenExpired(
+    const isExpired = this.mailService.isTokenExpired(
       user.created_at,
       Date.now(),
+      2,
     );
-    console.log(expires);
-    if (user.confirmation_token === registrationConfirmDto.token && expires) {
+    if (user.confirmation_token === registrationConfirmDto.token && isExpired) {
       await this.usersService.updateField(user._id, {
         confirmation_token: '',
       });

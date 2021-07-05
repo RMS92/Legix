@@ -9,8 +9,12 @@ import { User } from '../../users/schemas/user.schema';
 import { Action } from '../enums/action.enum';
 import { Role } from '../enums/role.enum';
 import { Scan } from '../../scans/schemas/scan.schema';
+import { Comment } from '../../comments/schemas/comment.schema';
 
-type Subjects = InferSubjects<typeof User | typeof Scan> | 'all';
+type Subjects =
+  | InferSubjects<typeof User | typeof Scan>
+  | typeof Comment
+  | 'all';
 
 export type UserAbility = Ability<[Action, Subjects]>;
 
@@ -34,14 +38,18 @@ export function createAbilitiesForUser(
     authUser.roles.includes(Role.ROLE_USER) &&
     String(authUser._id) === id
   ) {
-    if (type === 'user') {
+    if (type === 'users') {
       can(Action.Read, User);
       can(Action.Update, User);
       can(Action.Delete, User);
     }
 
-    if (type === 'scan') {
+    if (type === 'scans') {
       can(Action.Update, Scan);
+    }
+
+    if (type === 'comments') {
+      can(Action.Delete, Comment);
     }
   }
 

@@ -9,6 +9,7 @@ import { AuthService } from '../auth/auth.service';
 import { CreatePasswordResetTokenDto } from './dto/create-password-reset-token.dto';
 import { UsersService } from '../users/users.service';
 import { MailService } from '../mail/mail.service';
+import { ResetPasswordConfirmDto } from './dto/reset-password-confirm.dto';
 
 @Injectable()
 export class PasswordService {
@@ -52,5 +53,75 @@ export class PasswordService {
     }
   }
 
-  async resetConfirm() {}
+  async resetConfirm(resetPasswordConfirmDto: ResetPasswordConfirmDto) {
+    const user = await this.usersService.findOne(resetPasswordConfirmDto.id);
+    // Find user
+    if (user) {
+      const passwordResetToken = await this.passwordResetTokenModel.findOne({
+        token: resetPasswordConfirmDto.token,
+      });
+      const isExpired = this.mailService.isTokenExpired(
+        passwordResetToken.created_at,
+        Date.now(),
+        1,
+      );
+      // Find token reset model && check if it is not expired ( < 2 hours)
+      if (passwordResetToken && isExpired) {
+        // Passwords match
+        if (
+          resetPasswordConfirmDto.password === resetPasswordConfirmDto.password2
+        ) {
+          // Hash new password
+          const hashPassword = await this.authService.hashPassword(
+            resetPasswordConfirmDto.password,
+          );
+          // Update user
+          await this.usersService.updateField(user._id, {
+            password: hashPassword,
+          });
+
+          // Delete token reset model
+          await this.passwordResetTokenModel.findByIdAndRemove({
+            _id: passwordResetToken._id,
+          });
+          return {
+            status: HttpStatus.OK,
+            message: 'Votre mot de passe a bien été modifié.',
+            success: true,
+          };
+        } else {
+          throw new HttpException(
+            {
+              status: HttpStatus.BAD_REQUEST,
+              message: 'Les mots de passe ne correspondent pas.',
+              success: false,
+            },
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+      } else {
+        // Delete token reset model
+        await this.passwordResetTokenModel.findByIdAndRemove({
+          _id: passwordResetToken._id,
+        });
+        throw new HttpException(
+          {
+            status: HttpStatus.BAD_REQUEST,
+            message: 'Le token a expiré.',
+            success: false,
+          },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    } else {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          message: "L'utilisateur n'existe pas inconnu.",
+          success: false,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }

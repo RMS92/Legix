@@ -50,7 +50,7 @@ export class AuthService {
     return await this.jwtService.signAsync(payload);
   }
 
-  async hasPassword(password: string): Promise<string> {
+  async hashPassword(password: string): Promise<string> {
     return await bcrypt.hash(password, 12);
   }
 

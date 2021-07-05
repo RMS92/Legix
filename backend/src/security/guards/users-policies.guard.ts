@@ -14,6 +14,7 @@ import {
   UserAbility,
 } from '../functions/user-ability.function';
 import { ScansService } from '../../scans/scans.service';
+import { CommentsService } from '../../comments/comments.service';
 
 @Injectable()
 export class UsersPoliciesGuard implements CanActivate {
@@ -23,6 +24,8 @@ export class UsersPoliciesGuard implements CanActivate {
     private readonly usersService: UsersService,
     @Inject(forwardRef(() => ScansService))
     private readonly scansService: ScansService,
+    @Inject(forwardRef(() => CommentsService))
+    private readonly commentsService: CommentsService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -37,23 +40,46 @@ export class UsersPoliciesGuard implements CanActivate {
     const authUser = await this.usersService.findOne(user._id);
 
     if (params.id !== undefined) {
-      const paramsUser = await this.usersService.findOne(params.id);
-      if (!paramsUser) {
-        const paramScan = await this.scansService.findOne(params.id);
+      // Search for object type in url to get the item
+      const type = context.switchToHttp().getRequest().url.split('/')[2];
+
+      if (type === 'users') {
+        const paramsUser = await this.usersService.findOne(params.id);
         ability = createAbilitiesForUser(
-          'scan',
-          authUser,
-          String(paramScan.user._id),
-        );
-      } else {
-        ability = createAbilitiesForUser(
-          'user',
+          type,
           authUser,
           String(paramsUser._id),
         );
       }
 
-      // Find ability for user
+      if (type === 'scans') {
+        const typeBy = context.switchToHttp().getRequest().url.split('/')[3];
+        if (typeBy === 'users') {
+          const paramsUser = await this.usersService.findOne(params.id);
+          ability = createAbilitiesForUser(
+            typeBy,
+            authUser,
+            String(paramsUser._id),
+          );
+        } else {
+          const paramsScan = await this.scansService.findOne(params.id);
+          ability = createAbilitiesForUser(
+            type,
+            authUser,
+            String(paramsScan.user._id),
+          );
+        }
+      }
+
+      if (type === 'comments') {
+        const paramsComment = await this.commentsService.findOne(params.id);
+        ability = createAbilitiesForUser(
+          type,
+          authUser,
+          String(paramsComment.author),
+        );
+      }
+      // Find classic ability for user
     } else {
       ability = createAbilitiesForUser('default', authUser, params.id);
     }

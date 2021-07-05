@@ -25,7 +25,7 @@ import ResetPasswordConfirmForm from "./components/auth/ResetPasswordConfirmForm
 
 export default function App() {
   // @ts-ignore
-  const [user, setUser] = useState<User>({});
+  const [user, setUser] = useState<User>(null);
   // @ts-ignore
   const [flashMessages, setFlashMessages] = useState<FlashMessage>(null);
   const [onConnect, setOnConnect] = useState(false);
@@ -102,7 +102,10 @@ export default function App() {
             />
           </Route>
           <Route exact path="/password/nouveau/:id">
-            <ResetPasswordConfirmForm />
+            <ResetPasswordConfirmForm
+              flashMessages={flashMessages}
+              setFlashMessages={setFlashMessages}
+            />
           </Route>
         </Switch>
       </Router>

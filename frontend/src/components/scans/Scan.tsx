@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Icon from "../../ui/Icon";
 import clsx from "clsx";
 import Field from "../../ui/Field";
@@ -120,7 +120,7 @@ function ScanBody() {
 }
 
 function ScanBodyReview() {
-  const { setModal, scan, fetchFile } = useScanContext();
+  const { user, setModal, scan, fetchFile } = useScanContext();
   const {
     comments,
     fetchScanComments,
@@ -234,9 +234,15 @@ function ScanBodyReview() {
               </Field>
             </div>
             <div className="hstack">
-              <button className="btn-primary" type="submit">
-                Envoyer
-              </button>
+              {user && user._id ? (
+                <button className="btn-primary" type="submit">
+                  Envoyer
+                </button>
+              ) : (
+                <Link to="/connexion" className="btn-primary">
+                  Se connecter
+                </Link>
+              )}
             </div>
           </form>
           <hr />

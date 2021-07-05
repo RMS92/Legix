@@ -79,7 +79,7 @@ export default function Header({
             </li>
 
             <li className="header__logout">
-              <Link to="/logout" onClick={handleLogout}>
+              <Link to="/" onClick={handleLogout}>
                 <Icon name="logout" />
               </Link>
             </li>

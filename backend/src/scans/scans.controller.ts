@@ -88,7 +88,7 @@ export class ScansController {
     }),
   )
   @CheckUsersPolicies((ability: UserAbility) =>
-    ability.can(Action.Update, Scan),
+    ability.can(Action.Update, 'all'),
   )
   @UseGuards(AuthenticatedGuard, UsersPoliciesGuard)
   update(

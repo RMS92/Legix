@@ -181,7 +181,7 @@ function ProfilBodyScans({ user }: { user: User }) {
         </h4>
         <div className="scans">
           {scans.map((s) => (
-            <ScanCard scan={s} />
+            <ScanCard key={s._id} scan={s} />
           ))}
         </div>
       </main>

@@ -14,6 +14,10 @@ import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { AuthenticatedGuard } from '../auth/guards/authenticated-auth.guard';
 import { Comment } from './schemas/comment.schema';
+import { CheckUsersPolicies } from '../security/decorators/check-users-policies.decorator';
+import { UsersPoliciesGuard } from '../security/guards/users-policies.guard';
+import { UserAbility } from '../security/functions/user-ability.function';
+import { Action } from '../security/enums/action.enum';
 
 @Controller('comments')
 export class CommentsController {
@@ -53,6 +57,10 @@ export class CommentsController {
   }
 
   @Delete(':id')
+  @CheckUsersPolicies((ability: UserAbility) =>
+    ability.can(Action.Delete, Comment),
+  )
+  @UseGuards(AuthenticatedGuard, UsersPoliciesGuard)
   remove(@Param('id') id: string): Promise<Comment> {
     return this.commentsService.remove(id);
   }

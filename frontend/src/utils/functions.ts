@@ -73,16 +73,21 @@ export function dateDiff(createdAt: Date) {
 
   let difference = "Il y a ";
   if (days > 0) {
-    difference += days === 1 ? `${days} jour, ` : `${days} jours, `;
+    difference += days === 1 ? `${days} jour.` : `${days} jours.`;
+  } else {
   }
 
-  if (hours > 0 && days < 0) {
+  if (hours > 0 && days === 0) {
     difference +=
-      hours === 0 || hours === 1 ? `${hours} heure, ` : `${hours} heures, `;
+      hours === 0 || hours === 1 ? `${hours} heure.` : `${hours} heures.`;
   }
 
-  difference +=
-    minutes === 0 || hours === 1 ? `${minutes} minute` : `${minutes} minutes`;
+  if (hours === 0 && days === 0) {
+    difference +=
+      minutes === 0 || minutes === 1
+        ? `${minutes} minute.`
+        : `${minutes} minutes.`;
+  }
 
   return difference;
 }

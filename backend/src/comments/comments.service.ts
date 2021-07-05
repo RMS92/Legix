@@ -47,7 +47,7 @@ export class CommentsService {
       .populate({ path: 'scan', select: '_id' });
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Comment> {
     return this.commentModel.findOne({ _id: id });
   }
 
@@ -61,7 +61,7 @@ export class CommentsService {
     const commentToDelete = await this.commentModel.findByIdAndRemove({
       _id: id,
     });
-    this.removeChildren(commentToDelete.replies);
+    await this.removeChildren(commentToDelete.replies);
     return commentToDelete;
   }
 
