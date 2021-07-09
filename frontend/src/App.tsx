@@ -52,11 +52,14 @@ export default function App() {
         <Header user={user} connect={onConnect} onConnect={setOnConnect} />
         <Switch>
           <Route exact path="/">
-            <Home />
+            <Home
+              flashMessages={flashMessages}
+              setFlashMessages={setFlashMessages}
+            />
             <Footer />
           </Route>
           <Route exact path="/scans/nouveau">
-            <CreateScan />
+            <CreateScan setFlashMessages={setFlashMessages} />
             <Footer />
           </Route>
           <Route exact path="/scans">

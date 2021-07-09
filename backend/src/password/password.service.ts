@@ -10,6 +10,10 @@ import { CreatePasswordResetTokenDto } from './dto/create-password-reset-token.d
 import { UsersService } from '../users/users.service';
 import { MailService } from '../mail/mail.service';
 import { ResetPasswordConfirmDto } from './dto/reset-password-confirm.dto';
+import {AccountNotFoundException} from "./exceptions/account-not-found.exception";
+import {PasswordsDoNotMatchException} from "../security/exceptions/passwords-do-not-match.exception";
+import {TokenExpiredException} from "../security/exceptions/token-expired.exception";
+import {UserNotFoundException} from "../security/exceptions/user-not-found.exception";
 
 @Injectable()
 export class PasswordService {
@@ -21,7 +25,7 @@ export class PasswordService {
     private readonly mailService: MailService,
   ) {}
 
-  async reset(createPasswordResetTokenDto: CreatePasswordResetTokenDto) {
+  async reset(createPasswordResetTokenDto: CreatePasswordResetTokenDto): Promise<Object> {
     const user = await this.usersService.findByEmail(
       createPasswordResetTokenDto.email,
     );
@@ -42,18 +46,11 @@ export class PasswordService {
         success: true,
       };
     } else {
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          message: 'Aucun compte ne correspond à cet email.',
-          success: false,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new AccountNotFoundException()
     }
   }
 
-  async resetConfirm(resetPasswordConfirmDto: ResetPasswordConfirmDto) {
+  async resetConfirm(resetPasswordConfirmDto: ResetPasswordConfirmDto): Promise<Object> {
     const user = await this.usersService.findOne(resetPasswordConfirmDto.id);
     // Find user
     if (user) {
@@ -90,38 +87,17 @@ export class PasswordService {
             success: true,
           };
         } else {
-          throw new HttpException(
-            {
-              status: HttpStatus.BAD_REQUEST,
-              message: 'Les mots de passe ne correspondent pas.',
-              success: false,
-            },
-            HttpStatus.BAD_REQUEST,
-          );
+          throw new PasswordsDoNotMatchException()
         }
       } else {
         // Delete token reset model
         await this.passwordResetTokenModel.findByIdAndRemove({
           _id: passwordResetToken._id,
         });
-        throw new HttpException(
-          {
-            status: HttpStatus.BAD_REQUEST,
-            message: 'Le token a expiré.',
-            success: false,
-          },
-          HttpStatus.BAD_REQUEST,
-        );
+        throw new TokenExpiredException()
       }
     } else {
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          message: "L'utilisateur n'existe pas inconnu.",
-          success: false,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new UserNotFoundException()
     }
   }
 }

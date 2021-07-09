@@ -8,12 +8,16 @@ export class PasswordController {
   constructor(private readonly passwordService: PasswordService) {}
 
   @Post('reset')
-  reset(@Body() createPasswordResetTokenDto: CreatePasswordResetTokenDto) {
+  reset(
+    @Body() createPasswordResetTokenDto: CreatePasswordResetTokenDto,
+  ): Promise<Object> {
     return this.passwordService.reset(createPasswordResetTokenDto);
   }
 
   @Post('reset/confirm')
-  resetConfirm(@Body() resetPasswordConfirmDto: ResetPasswordConfirmDto) {
+  resetConfirm(
+    @Body() resetPasswordConfirmDto: ResetPasswordConfirmDto,
+  ): Promise<Object> {
     return this.passwordService.resetConfirm(resetPasswordConfirmDto);
   }
 }

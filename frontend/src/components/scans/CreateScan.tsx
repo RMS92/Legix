@@ -5,8 +5,13 @@ import { DownloadCard } from "../../ui/Cards";
 import Field from "../../ui/Field";
 import { useFiles } from "../../hooks/useFiles";
 import { API_URL } from "../../config";
+import { Redirect } from "react-router-dom";
 
-export default function CreateScan() {
+export default function CreateScan({
+  setFlashMessages,
+}: {
+  setFlashMessages: Function;
+}) {
   const [page, setPage] = useState("scan");
 
   return (
@@ -44,16 +49,17 @@ export default function CreateScan() {
           Création
         </a>
       </div>
-      <CreateScanBody />
+      <CreateScanBody setFlashMessages={setFlashMessages} />
     </>
   );
 }
 
-function CreateScanBody() {
+function CreateScanBody({ setFlashMessages }: { setFlashMessages: Function }) {
   const { files, fetchFiles, addFile, changeFile, deleteFile, resetFiles } =
     useFiles();
   const buttonRef = useRef<HTMLButtonElement>();
   const [reset, setReset] = useState(false);
+  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -64,6 +70,7 @@ function CreateScanBody() {
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    setFlashMessages("");
 
     const form: HTMLFormElement = e.target as HTMLFormElement;
     const data = new FormData(form);
@@ -74,6 +81,12 @@ function CreateScanBody() {
         credentials: "include",
         method: "post",
         body: data,
+      });
+      setRedirect(true);
+      setFlashMessages({
+        message:
+          "Votre demande d'authentification a bien été créée. Un email récapitulatif vous a été envoyé.",
+        success: true,
       });
       form.reset();
       // Reset file in card download
@@ -86,7 +99,9 @@ function CreateScanBody() {
     }
   };
 
-  return (
+  return redirect ? (
+    <Redirect to="/" />
+  ) : (
     <div className="layout-sidebar py5">
       <main className="stack-large">
         <div className="stack">

@@ -44,7 +44,6 @@ export default function ResetPasswordConfirmForm({
       setFlashMessages(res);
     } catch (err) {
       setFlashMessages(err);
-      console.log(e);
     }
   };
 

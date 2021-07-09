@@ -38,7 +38,6 @@ export default function ForgotPasswordForm({
       setFlashMessages(res);
     } catch (err) {
       setFlashMessages(err);
-      console.log(err);
     }
   };
 

@@ -29,7 +29,6 @@ export default function RegisterForm() {
       setSuccess(res.message);
       form.reset();
     } catch (e) {
-      console.log(e);
       setError(e.message);
     }
   };

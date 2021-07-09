@@ -2,6 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/schemas/user.schema';
+import { AccountNotValidatedException } from './exceptions/account-not-validated.exception';
+import { WrongEmailUsernameException } from './exceptions/wrong-email-username.exception';
 const bcrypt = require('bcrypt');
 
 @Injectable()
@@ -13,27 +15,15 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<User> {
     const user = await this.usersService.findByEmail(email);
-    if (user.confirmation_token === '') {
+    if (user && user.confirmation_token === '') {
       const validated = await this.comparePasswords(password, user.password);
       if (validated) {
         return user;
       } else {
-        throw new HttpException(
-          {
-            status: HttpStatus.UNAUTHORIZED,
-            message: 'Adresse email ou mot de passe incorrect',
-          },
-          HttpStatus.UNAUTHORIZED,
-        );
+        throw new WrongEmailUsernameException();
       }
     } else {
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          message: "Votre compte n'a pas encore été confirmé.",
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new AccountNotValidatedException();
     }
   }
 

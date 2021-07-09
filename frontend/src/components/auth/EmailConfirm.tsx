@@ -23,7 +23,6 @@ export default function EmailConfirm({
         setFlashMessages(res);
       } catch (err) {
         setFlashMessages(err);
-        console.log(err);
       }
     })();
   }, []);

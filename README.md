@@ -7,21 +7,26 @@
 
 ## Pages
 
-## Fonctionnalités
-- mise en place alertes
-- envoie d'email (confirmation compte, validité ou non d'un scan)
+## Fonctionnalités Done
+- mise en place alertes floating
+- envoie d'email confirmation compte
 - mot de passe oublié
 - commentaires et avis pour un scan
+- status scan(0 => fake, 1 => en attente, 2 => authentique, 3 => douteuse => faire voter la communauté)
+- backend user abilities for comment
+
+## Fonctionnalités TODO
+- système de notifications instantanées (ex: Votre scan a été validé)
+- design stats page
+- statistiques de validité du scan par rapport au nombre de photo validée (expert et comparer à la communauté)
+- private routes (frontend)
+- files voting for user
+- image resizer en backend
+- envoie email validité ou non d'un scan
 - sous menu dans admin par composants
 - priorité et nom de l'authentificateur pour les scans
 - ordre pour les scanfiles
-- status scan(0 => fake, 1 => en attente, 2 => authentique, 3 => douteuse => faire voter la communauté)
-- image resizer en backend
-- files voting for user
-- statistiques de validité du scan par rapport au nombre de photo validée (expert et comparer à la communauté)
-- authentification a double facteurs (ajouter sms)
-- redirection lors de déconnexion et private routes
-- backend user abilities for comment
+- authentification a double facteurs (ajouter sms) et oauth (fb, gmail)
 
 ## BDD
 - user(_id, username, email, fullName, password, roles, avatarFile*, avatarName*, createdAt, updatedAt*, country*, bannedAt*, confirmationToken*, theme*, lastLoginIP*,

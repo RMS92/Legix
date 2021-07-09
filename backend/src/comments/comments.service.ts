@@ -76,7 +76,7 @@ export class CommentsService {
           childComment.replies &&
           childComment.replies.length > 0
         ) {
-          this.removeChildren(childComment.replies);
+          await this.removeChildren(childComment.replies);
         }
       }
     }

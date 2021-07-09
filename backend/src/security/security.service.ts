@@ -5,6 +5,10 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { MailService } from '../mail/mail.service';
 import { RegistrationConfirmDto } from './dto/registration-confirm.dto';
+import {TokenExpiredException} from "./exceptions/token-expired.exception";
+import {EmailAlreadyUsedException} from "./exceptions/email-already-used.exception";
+import {UsernameAlreadyUsedException} from "./exceptions/username-already-used.exception";
+import {PasswordsDoNotMatchException} from "./exceptions/passwords-do-not-match.exception";
 
 @Injectable()
 export class SecurityService {
@@ -22,7 +26,7 @@ export class SecurityService {
     return this.authService.generateJwt(user);
   }
 
-  async register(createUserDTO: CreateUserDto) {
+  async register(createUserDTO: CreateUserDto): Promise<Object> {
     const emailExists = await this.usersService.mailExists(createUserDTO.email);
     if (!emailExists) {
       const usernameExists = await this.usersService.usernameExists(
@@ -47,35 +51,17 @@ export class SecurityService {
             success: true,
           };
         } else {
-          throw new HttpException(
-            {
-              status: HttpStatus.BAD_REQUEST,
-              message: 'Les mots de passe ne correspondent pas.',
-            },
-            HttpStatus.BAD_REQUEST,
-          );
+          throw new PasswordsDoNotMatchException()
         }
       } else {
-        throw new HttpException(
-          {
-            status: HttpStatus.BAD_REQUEST,
-            message: "Le nom d'utilisateur est déjà utilisé.",
-          },
-          HttpStatus.BAD_REQUEST,
-        );
+        throw new UsernameAlreadyUsedException();
       }
     } else {
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          message: "L'email est déjà utilisé.",
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new EmailAlreadyUsedException()
     }
   }
 
-  async registrationConfirm(registrationConfirmDto: RegistrationConfirmDto) {
+  async registrationConfirm(registrationConfirmDto: RegistrationConfirmDto): Promise<Object> {
     const user = await this.usersService.findOne(registrationConfirmDto.id);
     // Calculate hour differences between user created_at and now
     const isExpired = this.mailService.isTokenExpired(
@@ -93,14 +79,7 @@ export class SecurityService {
         success: true,
       };
     } else {
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          message: "Le token n'est pas valide",
-          success: false,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new TokenExpiredException();
     }
   }
 }
