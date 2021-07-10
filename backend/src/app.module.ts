@@ -12,6 +12,8 @@ import { FilesModule } from './files/files.module';
 import { CommentsModule } from './comments/comments.module';
 import { MailModule } from './mail/mail.module';
 import { PasswordModule } from './password/password.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -24,9 +26,18 @@ import { PasswordModule } from './password/password.module';
       isGlobal: true,
       cache: true,
     }),
+
     PassportModule.register({ session: true }),
 
     MongooseModule.forRoot(process.env.DATABASE_URL),
+
+    EventEmitterModule.forRoot({
+      wildcard: false,
+      delimiter: '.',
+      newListener: true,
+      removeListener: true,
+      ignoreErrors: false,
+    }),
 
     FilesModule,
 
@@ -35,6 +46,8 @@ import { PasswordModule } from './password/password.module';
     MailModule,
 
     PasswordModule,
+
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

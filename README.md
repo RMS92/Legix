@@ -16,8 +16,9 @@
 - backend user abilities for comment
 
 ## Fonctionnalités TODO
-- système de notifications instantanées (ex: Votre scan a été validé)
+- système de notifications app (ex: Votre scan a été validé, réponse à un commentaire)
 - design stats page
+- Bloquer création scan si user pas connecté
 - statistiques de validité du scan par rapport au nombre de photo validée (expert et comparer à la communauté)
 - private routes (frontend)
 - files voting for user
@@ -41,6 +42,8 @@
 - scan_file (_id, original_name, current_name, size, extension, category, status, orientation, priority%, order%, votesCount, scan_id)
 
 - comments (_id, content, author: User, parent: Comment, replies: Comments[])
+
+- notification (_id, user: User, message, url, channel="public", createdAt, target: Document)
 
 ## Photos
 - right, left, front, above, back, bottom

@@ -88,6 +88,19 @@ export default function Icon(props: Props) {
             fill="currentColor"
           />
         </svg>
+      ) : name === "bell" ? (
+        <svg
+          {...props}
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          id="bell"
+        >
+          <path
+            fill="currentColor"
+            d="M10 18l2-2H8l2 2zm4-8V8c0-2-1-4-3-4V3l-1-1-1 1v1C7 4 6 6 6 8v2l-2 3v2h12v-2l-2-3z"
+          />
+        </svg>
       ) : name === "plus" ? (
         <svg
           {...props}

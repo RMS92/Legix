@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 
 type SlideProps = {
   show: boolean;
-  fadeDelay: string;
+  className?: string;
   children: any;
 };
 
 export default function SlideIn({
   show,
-  fadeDelay = "",
+  className = "",
   children,
 }: SlideProps) {
   const [shouldRender, setRender] = useState(show);
@@ -17,8 +17,18 @@ export default function SlideIn({
     if (show) setRender(true);
   }, [show]);
 
+  const onAnimationEnd = (e: any) => {
+    if (!show && e.animationName === "slideOut") setRender(false);
+  };
+
   return shouldRender ? (
-    <div className={show ? `fade ${fadeDelay} in` : ""}>{children}</div>
+    <div
+      className={className}
+      style={{ animation: `${show ? "slideIn" : "slideOut"} .3s both` }}
+      onAnimationEnd={onAnimationEnd}
+    >
+      {children}
+    </div>
   ) : (
     <div />
   );

@@ -10,7 +10,6 @@
   animation: alertIn 0.5s both;
   line-height: 1.2;
   position: relative;
-  border-bottom: 3px solid var(--border);
   color: var(--color);
 
   a {
@@ -63,7 +62,7 @@
 }
 
 .alert-danger {
-  border-bottom-color: var(--color-red-02);
+  border-bottom: 3px solid var(--color-red-02);
 
   svg:first-child {
     color: var(--color-red-02);
@@ -71,7 +70,7 @@
 }
 
 .alert-success {
-  border-bottom-color: var(--color-green-02);
+  border-bottom: 3px solid var(--color-green-02);
 
   svg:first-child {
     color: var(--color-green-02);
@@ -79,7 +78,7 @@
 }
 
 .alert-info {
-  border-bottom-color: var(--color-orange-03);
+  border-bottom: 3px solid var(--color-orange-03);
 
   svg:first-child {
     color: var(--color-orange-03);
