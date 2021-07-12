@@ -29,7 +29,7 @@ function reducer(state: any, action: any) {
       return {
         ...state,
         comments: state.comments.filter(
-          (c: CommentType) => c !== action.payload
+          (c: CommentType) => c._id !== action.payload
         ),
       };
   }
@@ -40,6 +40,24 @@ export function useComments() {
     loading: false,
     comments: null,
   });
+
+  async function removeChildrenComments(children: CommentType[]) {
+    if (children && children.length !== 0) {
+      for (const childId of children) {
+        dispatch({ type: DELETE_COMMENT, payload: childId });
+        const childComment = await apiFetch("/comments/" + childId, {
+          method: "delete",
+        });
+        if (
+          childComment &&
+          childComment.replies &&
+          childComment.replies.length > 0
+        ) {
+          await removeChildrenComments(childComment.replies);
+        }
+      }
+    }
+  }
 
   return {
     loading: state.loading,
@@ -73,10 +91,11 @@ export function useComments() {
       });
     }, []),
     deleteComment: useCallback(async (comment: CommentType) => {
-      dispatch({ type: DELETE_COMMENT, payload: comment });
-      await apiFetch("/comments/" + comment._id, {
+      dispatch({ type: DELETE_COMMENT, payload: comment._id });
+      const commentToDelete = await apiFetch("/comments/" + comment._id, {
         method: "delete",
       });
+      await removeChildrenComments(commentToDelete.replies);
     }, []),
   };
 }

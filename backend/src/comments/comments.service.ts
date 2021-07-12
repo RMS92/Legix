@@ -5,9 +5,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Comment, CommentDocument } from './schemas/comment.schema';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { NotificationCreatedEvent } from '../notifications/events/notification-created.event';
 import { NotificationsService } from '../notifications/notifications.service';
 import { CreateNotificationDto } from '../notifications/dto/create-notification.dto';
+import { UsersService } from '../users/users.service';
+
 const { ObjectId } = require('mongodb');
 
 @Injectable()
@@ -16,6 +17,7 @@ export class CommentsService {
     @InjectModel('Comment')
     private readonly commentModel: Model<CommentDocument>,
     private readonly eventEmitter: EventEmitter2,
+    private readonly usersService: UsersService,
     private readonly notificationsService: NotificationsService,
   ) {}
 
@@ -34,10 +36,15 @@ export class CommentsService {
       const parent = await this.commentModel.findOne({
         _id: newComment.parent,
       });
+      const author = await this.usersService.findOne(userId);
+      const message =
+        String(author._id) === String(parent.author._id)
+          ? `Vous avez répondu a votre propre commentaire`
+          : `${author.username} à répondu a votre commentaire`;
       // @ts-ignore
       const data: CreateNotificationDto = {
-        message: 'Un utilisateur à répondu a votre commentaire',
-        url: 'http://localhost:3000/scans',
+        message,
+        url: 'http://localhost:3000/scans/' + newComment.scan._id,
         // @ts-ignore
         user: parent.author,
         channel: 'private',
@@ -70,7 +77,11 @@ export class CommentsService {
   }
 
   async findOne(id: string): Promise<Comment> {
-    return this.commentModel.findOne({ _id: id });
+    return this.commentModel
+      .findOne({ _id: id })
+      .populate({ path: 'author', select: 'username -_id' })
+      .populate({ path: 'parent', select: '_id' })
+      .populate({ path: 'scan', select: '_id' });
   }
 
   async update(id: string, updateCommentDto: UpdateCommentDto) {
@@ -80,11 +91,7 @@ export class CommentsService {
   }
 
   async remove(id: string): Promise<Comment> {
-    const commentToDelete = await this.commentModel.findByIdAndRemove({
-      _id: id,
-    });
-    await this.removeChildren(commentToDelete.replies);
-    return commentToDelete;
+    return this.commentModel.findByIdAndRemove({ _id: id });
   }
 
   async removeChildren(children: Comment[]) {

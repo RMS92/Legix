@@ -3,6 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { User } from '../../users/schemas/user.schema';
 import * as mongoose from 'mongoose';
 import { ScanFile } from '../../files/schemas/scan-file.schema';
+import { Comment } from '../../comments/schemas/comment.schema';
 
 export type ScanDocument = Scan & Document;
 

@@ -47,6 +47,7 @@ export default function Notifications({ user }: { user: User }) {
       );
       eventSource.onmessage = ({ data }) => {
         const eventNotification = JSON.parse(data);
+        console.log(eventNotification);
         if (!eventNotification.user || eventNotification.user === user._id) {
           setNotifications(eventNotification);
           setCount((nb) => nb + 1);
