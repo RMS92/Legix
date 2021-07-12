@@ -4,6 +4,10 @@ import { UpdateCommentDto } from './dto/update-comment.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Comment, CommentDocument } from './schemas/comment.schema';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { NotificationCreatedEvent } from '../notifications/events/notification-created.event';
+import { NotificationsService } from '../notifications/notifications.service';
+import { CreateNotificationDto } from '../notifications/dto/create-notification.dto';
 const { ObjectId } = require('mongodb');
 
 @Injectable()
@@ -11,6 +15,8 @@ export class CommentsService {
   constructor(
     @InjectModel('Comment')
     private readonly commentModel: Model<CommentDocument>,
+    private readonly eventEmitter: EventEmitter2,
+    private readonly notificationsService: NotificationsService,
   ) {}
 
   async create(
@@ -23,6 +29,22 @@ export class CommentsService {
       ...createCommentDto,
     };
     const newComment = new this.commentModel(data);
+
+    if (newComment.parent) {
+      const parent = await this.commentModel.findOne({
+        _id: newComment.parent,
+      });
+      // @ts-ignore
+      const data: CreateNotificationDto = {
+        message: 'Un utilisateur à répondu a votre commentaire',
+        url: 'http://localhost:3000/scans',
+        // @ts-ignore
+        user: parent.author,
+        channel: 'private',
+      };
+      await this.notificationsService.create(data);
+    }
+
     await newComment.save();
     return this.commentModel
       .findOne({ _id: newComment._id })

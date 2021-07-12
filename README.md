@@ -29,6 +29,10 @@
 - ordre pour les scanfiles
 - authentification a double facteurs (ajouter sms) et oauth (fb, gmail)
 
+## fix
+- when delete parent comment, delete children comment in front (1 comment not update)
+- delete replies comment in bdd
+
 ## BDD
 - user(_id, username, email, fullName, password, roles, avatarFile*, avatarName*, createdAt, updatedAt*, country*, bannedAt*, confirmationToken*, theme*, lastLoginIP*,
   lastLoginAt*)

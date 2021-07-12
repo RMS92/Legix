@@ -4,28 +4,69 @@ import Icon from "./Icon";
 import SlideIn from "./animations/SlideIn";
 import { useClickOutside } from "../hooks/useClickOutside";
 import clsx from "clsx";
+import { usePrepend } from "../hooks/usePrepend";
+import { NotificationType, User } from "../types";
+import { apiFetch } from "../utils/api";
+import { dateDiff } from "../utils/functions";
+import { useUpdateEffect } from "../hooks/useUpdateEffect";
+import Spinner from "./Spinner";
 
 const OPEN = 0;
 const CLOSE = 1;
-let notificationsLoaded = false;
+let notificationCache: NotificationType[] = [];
 
-export default function Notifications() {
+function countUnread(notification: NotificationType[]) {
+  return notification.filter((n) => {
+    return !n.read_at;
+  }).length;
+}
+
+export default function Notifications({ user }: { user: User }) {
+  const [notifications, setNotifications] = usePrepend([]);
+  const [count, setCount] = useState(0);
   const [state, setState] = useState(CLOSE);
   const [isActive, setIsActive] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const eventSource = new EventSource(
-      "http://localhost:3333/api/notifications/sse"
-    );
-    eventSource.onmessage = ({ data }) => {
-      console.log("New message", data);
-    };
+    (async () => {
+      setLoading(true);
+      const res = await apiFetch("/notifications");
+      for (let i = res.length - 1; i >= 0; i -= 1) {
+        setNotifications(res[i]);
+      }
+      setLoading(false);
+    })();
   }, []);
 
-  const openMenu = (e: SyntheticEvent) => {
+  useEffect(() => {
+    (async () => {
+      const eventSource = new EventSource(
+        "http://localhost:3333/api/notifications/sse",
+        { withCredentials: true }
+      );
+      eventSource.onmessage = ({ data }) => {
+        const eventNotification = JSON.parse(data);
+        if (!eventNotification.user || eventNotification.user === user._id) {
+          setNotifications(eventNotification);
+          setCount((nb) => nb + 1);
+        }
+      };
+    })();
+  }, []);
+
+  useUpdateEffect(() => {
+    setCount(countUnread(notifications));
+  }, [notifications]);
+
+  const openMenu = async (e: SyntheticEvent) => {
     e.preventDefault();
     setState(OPEN);
     setIsActive(true);
+    if (count > 0) {
+      await apiFetch("/notifications/read", { method: "post" });
+      setCount(0);
+    }
   };
 
   const closeMenu = () => {
@@ -46,9 +87,13 @@ export default function Notifications() {
           className={clsx("icon icon-bell", isActive ? "bell-active" : null)}
         />
       </button>
-      <Badge count={2} />
+      <Badge count={count} />
       <SlideIn className="notifications" show={state === OPEN}>
-        <Popup notifications={[]} onClickOutside={closeMenu} />
+        <Popup
+          notifications={notifications}
+          onClickOutside={closeMenu}
+          loading={loading}
+        />
       </SlideIn>
     </>
   );
@@ -65,8 +110,8 @@ function Popup({
   loading,
   onClickOutside,
 }: {
-  notifications: [];
-  loading?: false;
+  notifications: NotificationType[];
+  loading: boolean;
   onClickOutside: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -82,12 +127,19 @@ function Popup({
         </button>
       </div>
       <div className="notifications__body">
+        {loading ? (
+          <div className="notifications__body-empty flex flex-center">
+            <Spinner />
+          </div>
+        ) : null}
         {notifications.length === 0 ? (
           <span className="notifications__body-empty">
             Vous n'avez aucune notification :(
           </span>
         ) : (
-          notifications.map((n, i) => <Notification key={i} {...n} />)
+          notifications.map((n: NotificationType) => (
+            <Notification key={n._id} notification={n} />
+          ))
         )}
       </div>
       <Link to="/notifications" className="notifications__footer">
@@ -97,25 +149,17 @@ function Popup({
   );
 }
 
-function Notification({
-  url,
-  message,
-  createdAt,
-  notificationReadAt,
-}: {
-  url: string;
-  message: string;
-  createdAt: Date;
-  notificationReadAt: Date;
-}) {
-  const isRead = notificationReadAt > createdAt;
-  const className = `notifications__item ${isRead ? "is-read" : ""}`;
+function Notification({ notification }: { notification: NotificationType }) {
+  // const isRead = notificationReadAt > createdAt;
+  // const className = `notifications__item ${isRead ? "is-read" : ""}`;
   // const time = Date.parse(createdAt) / 1000;
   // eslint-disable-next-line react/no-danger
   return (
-    <a href={url} className={className}>
-      <div dangerouslySetInnerHTML={{ __html: message }} />
-      <small className="text-muted" />
+    <a href={notification.url} className="notifications__item">
+      <div dangerouslySetInnerHTML={{ __html: notification.message }} />
+      <small className="text-muted">
+        {dateDiff(new Date(notification.created_at))}
+      </small>
     </a>
   );
 }

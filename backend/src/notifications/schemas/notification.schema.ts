@@ -21,6 +21,9 @@ export class Notification {
   @Prop({ type: Date, default: Date.now() })
   created_at: Date;
 
+  @Prop({ type: Date, default: null })
+  read_at: Date;
+
   @Prop({ type: Object })
   target: object;
 

@@ -10,7 +10,7 @@ export default function Header({
   connect,
   onConnect,
 }: {
-  user: User | object;
+  user: User;
   connect: boolean;
   onConnect: Dispatch<SetStateAction<boolean>>;
 }) {
@@ -50,7 +50,7 @@ export default function Header({
         {connect ? (
           <>
             <li className="header__notification">
-              <Notifications />
+              <Notifications user={user} />
             </li>
 
             {"roles" in user &&

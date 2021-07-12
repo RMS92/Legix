@@ -52,3 +52,18 @@
     transition: none !important;
   }
 }
+
+// Spinner
+.loader {
+  width: 20px;
+  height: 20px;
+  border-radius: 25px;
+  border-top: 2px solid var(--color-white-04);
+  will-change: transform;
+  animation: loaderAnimation 1s infinite linear;
+}
+
+@keyframes loaderAnimation {
+  from {transform: rotate(0deg)}
+  to {transform: rotate(360deg)}
+}

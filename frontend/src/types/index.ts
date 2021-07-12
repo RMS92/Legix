@@ -37,6 +37,16 @@ export type CommentType = {
   author: User;
 };
 
+export type NotificationType = {
+  _id: string;
+  message: string;
+  url: string;
+  target: object;
+  created_at: Date;
+  read_at: Date;
+  user: User;
+};
+
 export type FlashMessage = {
   status: number;
   message: string;

@@ -106,6 +106,7 @@
   display: block;
   padding: space(2);
   position: relative;
+  color: var(--color-white-04);
   border-bottom: 1px solid var(--tab-border);
 
   strong {
@@ -120,7 +121,7 @@
 .notifications__item:hover {
   background-color: var(--background-elevation--01);
   opacity: 1 !important;
-  color: var(--color-white-04) !important;
+  color: var(--color-primary-03) !important;
 }
 
 .notifications__item.is-read {

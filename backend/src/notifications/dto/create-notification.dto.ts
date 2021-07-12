@@ -2,6 +2,8 @@ import { IsNotEmpty, IsString } from 'class-validator';
 import { User } from '../../users/schemas/user.schema';
 
 export class CreateNotificationDto {
+  _id: string;
+
   @IsString()
   @IsNotEmpty()
   message: string;
@@ -16,5 +18,7 @@ export class CreateNotificationDto {
 
   created_at: Date;
 
-  user: User;
+  read_at: Date;
+
+  user: string;
 }

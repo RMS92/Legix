@@ -60,6 +60,8 @@ export function pagination(currentPage: number, pageCount: number) {
 export function dateDiff(createdAt: Date) {
   const now = Date.now();
   let diffInMilliSeconds = Math.abs(createdAt.getTime() - now) / 1000;
+  // calculate month
+
   // calculate days
   const days = Math.floor(diffInMilliSeconds / 86400);
   diffInMilliSeconds -= days * 86400;

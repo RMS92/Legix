@@ -9,6 +9,7 @@ import {
 import { Model } from 'mongoose';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Observable, Subject } from 'rxjs';
+import { NotificationCreatedEvent } from './events/notification-created.event';
 
 @Injectable()
 export class NotificationsService {
@@ -24,8 +25,10 @@ export class NotificationsService {
     return this.event.asObservable();
   }
 
-  handleNotificationCreatedEvent(payload: Notification): void {
-    this.event.next({ data: payload });
+  handleNotificationCreatedEvent(
+    notificationCreatedEvent: NotificationCreatedEvent,
+  ): void {
+    this.event.next({ data: notificationCreatedEvent.getNotification() });
   }
 
   async create(
@@ -36,14 +39,34 @@ export class NotificationsService {
       ...createNotificationDto,
     };
     const newNotification = new this.notificationModel(data);
-    this.eventEmitter.emit('notification.created', {
-      payload: newNotification,
-    });
+    this.eventEmitter.emit(
+      'notification.created',
+      new NotificationCreatedEvent(newNotification),
+    );
     return newNotification.save();
   }
 
-  findAll() {
-    return `This action returns all notifications`;
+  async markAsRead(): Promise<Notification[]> {
+    const notifications = await this.notificationModel.find({
+      read_at: null,
+    });
+    for (let notification of notifications) {
+      await this.notificationModel.findByIdAndUpdate(
+        { _id: notification._id },
+        { read_at: new Date(Date.now()) },
+      );
+    }
+    return notifications;
+  }
+
+  async findAllByUser(userId: string): Promise<Notification[]> {
+    return (
+      this.notificationModel
+        // @ts-ignore
+        .find({ $or: [{ user: null }, { user: userId }] }, {}, {})
+        .sort({ created_at: -1 })
+        .limit(10)
+    );
   }
 
   findOne(id: number) {
