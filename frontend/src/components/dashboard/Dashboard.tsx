@@ -4,6 +4,7 @@ import { useDashboardContext } from "../../contexts/DashboardContext";
 import DashboardBody from "./DashboardBody";
 import ModalScanFileEdit from "../modals/ModalScanFileEdit";
 import ModalScanFileView from "../modals/ModalScanFileView";
+import Icon from "../../ui/Icon";
 
 export default function Dashboard() {
   const { page, setPage, modal } = useDashboardContext();
@@ -74,13 +75,28 @@ export default function Dashboard() {
                 <h5 className="h6">More</h5>
                 <ul>
                   <li>
-                    <a
-                      href="#"
-                      className={clsx(page === "utils" ? "is-active" : null)}
-                      onClick={() => setPage("utils")}
-                    >
-                      Utiles
-                    </a>
+                    <div className="flex">
+                      <a
+                        href="#"
+                        className={clsx(
+                          page === "notifications" ||
+                            page === "notifications/create"
+                            ? "is-active"
+                            : null
+                        )}
+                        onClick={() => setPage("notifications")}
+                      >
+                        Notifications
+                      </a>
+                      <Icon
+                        name="add"
+                        className="icon icon-plus"
+                        width="16"
+                        onClick={() => {
+                          setPage("notifications/create");
+                        }}
+                      />
+                    </div>
                   </li>
                 </ul>
               </div>

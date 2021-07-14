@@ -14,6 +14,7 @@ import Spinner from "./Spinner";
 const OPEN = 0;
 const CLOSE = 1;
 let notificationCache: NotificationType[] = [];
+let notificationLoaded = false;
 
 function countUnread(notification: NotificationType[]) {
   return notification.filter((n) => {
@@ -26,16 +27,18 @@ export default function Notifications({ user }: { user: User }) {
   const [count, setCount] = useState(0);
   const [state, setState] = useState(CLOSE);
   const [isActive, setIsActive] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(!notificationLoaded);
 
   useEffect(() => {
     (async () => {
-      setLoading(true);
-      const res = await apiFetch("/notifications");
-      for (let i = res.length - 1; i >= 0; i -= 1) {
-        setNotifications(res[i]);
+      if (notificationLoaded === false) {
+        const res = await apiFetch("/notifications/users");
+        for (let i = res.length - 1; i >= 0; i -= 1) {
+          setNotifications(res[i]);
+        }
+        setLoading(false);
+        notificationLoaded = true;
       }
-      setLoading(false);
     })();
   }, []);
 
@@ -48,7 +51,11 @@ export default function Notifications({ user }: { user: User }) {
       eventSource.onmessage = ({ data }) => {
         const eventNotification = JSON.parse(data);
         console.log(eventNotification);
-        if (!eventNotification.user || eventNotification.user === user._id) {
+        if (
+          (!eventNotification.user && eventNotification.channel === "public") ||
+          (eventNotification.user === user._id &&
+            eventNotification.channel === "private")
+        ) {
           setNotifications(eventNotification);
           setCount((nb) => nb + 1);
         }

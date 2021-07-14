@@ -26,9 +26,15 @@
     margin-left: space(4);
     margin-bottom: space(1);
   }
-  li:hover {
+  li a:hover {
     color: var(--color-white-04);
   }
+  .icon-plus {
+    margin-left: 8px;
+    color: var(--color-primary-03);
+    cursor: pointer;
+  }
+
 }
 
 .dashboard-sidebar__main li:last-child {

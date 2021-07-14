@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { createContext, useContext } from "react";
-import { User } from "../types";
+import { NotificationType, User } from "../types";
 import { useUsers } from "../hooks/useUsers";
 import { useScans } from "../hooks/useScans";
 import { Scan } from "../types";
 import { useFiles } from "../hooks/useFiles";
 import { ScanFile } from "../types";
+import { useNotifications } from "../hooks/useNotifications";
 
 interface DashboardContextInterface {
   page: string;
@@ -27,6 +28,13 @@ interface DashboardContextInterface {
   fetchFile: Function;
   updateFile: Function;
   unselectFile: Function;
+
+  notifications: NotificationType[];
+  createNotification: (data: any) => Promise<void>;
+  fetchNotification: (
+    notification: NotificationType,
+    type: string
+  ) => Promise<void>;
 }
 
 const DashboardContext = createContext<DashboardContextInterface>({
@@ -51,6 +59,10 @@ const DashboardContext = createContext<DashboardContextInterface>({
   fetchFile: () => Promise.resolve(),
   updateFile: () => Promise.resolve(),
   unselectFile: () => Promise.resolve(),
+
+  notifications: [],
+  createNotification: () => Promise.resolve(),
+  fetchNotification: () => Promise.resolve(),
 });
 
 export function useDashboardContext() {
@@ -74,6 +86,12 @@ export function DashboardContextProvider({
   } = useScans();
   const { selectedFile, fetchFiles, fetchFile, updateFile, unselectFile } =
     useFiles();
+  const {
+    notifications,
+    fetchNotifications,
+    fetchNotification,
+    createNotification,
+  } = useNotifications();
 
   const [page, setPage] = useState("scans");
   const [modal, setModal] = useState("");
@@ -82,6 +100,7 @@ export function DashboardContextProvider({
     (async () => {
       await fetchUsers();
       await fetchScans();
+      await fetchNotifications();
     })();
   }, []);
 
@@ -122,6 +141,10 @@ export function DashboardContextProvider({
         fetchFile,
         updateFile,
         unselectFile,
+
+        notifications,
+        createNotification,
+        fetchNotification,
       }}
     >
       {children}

@@ -59,7 +59,6 @@ function CreateScanBody({ setFlashMessages }: { setFlashMessages: Function }) {
     useFiles();
   const buttonRef = useRef<HTMLButtonElement>();
   const [reset, setReset] = useState(false);
-  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -82,7 +81,6 @@ function CreateScanBody({ setFlashMessages }: { setFlashMessages: Function }) {
         method: "post",
         body: data,
       });
-      setRedirect(true);
       setFlashMessages({
         message:
           "Votre demande d'authentification a bien été créée. Un email récapitulatif vous a été envoyé.",
@@ -99,9 +97,7 @@ function CreateScanBody({ setFlashMessages }: { setFlashMessages: Function }) {
     }
   };
 
-  return redirect ? (
-    <Redirect to="/" />
-  ) : (
+  return (
     <div className="layout-sidebar py5">
       <main className="stack-large">
         <div className="stack">

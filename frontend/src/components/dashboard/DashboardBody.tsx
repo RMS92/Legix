@@ -1,16 +1,13 @@
 import { useDashboardContext } from "../../contexts/DashboardContext";
-import React, { SyntheticEvent, useEffect, useState } from "react";
-import { User } from "../../types";
+import React, { SyntheticEvent, useState } from "react";
 import Icon from "../../ui/Icon";
-import clsx from "clsx";
 import { MoreModal } from "../../ui/Modal";
-import Pagination from "../../ui/Pagination";
-import { Scan } from "../../types";
-import Checkbox from "../../ui/Checkbox";
-import { formatTitle } from "../../utils/functions";
-import { ScanStatus } from "../../ui/Utils";
-import { ScanFile } from "../../types";
-import { FileCard } from "../../ui/Cards";
+import DashboardBodyUsers from "./users/DashboardBodyUsers";
+import DashboardBodyScans from "./scans/DashboardBodyScans";
+import DashboardBodyScansView from "./scans/DashboardBodyScansView";
+import DashboardBodyScansEdit from "./scans/DashboardBodyScansEdit";
+import SlideIn from "../../ui/animations/SlideIn";
+import { NotificationType, Scan } from "../../types";
 
 export default function DashboardBody() {
   const { page } = useDashboardContext();
@@ -24,38 +21,37 @@ export default function DashboardBody() {
         <DashboardBodyScansView />
       ) : page === "scans/edit" ? (
         <DashboardBodyScansEdit />
+      ) : page === "notifications" ? (
+        <DashboardBodyNotifications />
+      ) : page === "notifications/create" ? (
+        <DashboardBodyNotificationsCreate />
       ) : null}
     </main>
   );
 }
 
-function DashboardBodyUsers() {
-  const { setPage, users, deleteUser } = useDashboardContext();
+function DashboardBodyNotifications() {
+  const { setPage, notifications, fetchNotification } = useDashboardContext();
   const [currentModal, setCurrentModal] = useState<string>("");
-  const [paginationItems, setPaginationItems] = useState<User[]>([]);
-  const [searchValue, setSearchValue] = useState("");
+  const filteredNotifications = (notifications || []).filter((n) => n._id);
 
-  const filteredUsers = (users || []).filter((u) =>
-    searchValue === "" ||
-    u.email.toLowerCase().includes(searchValue.toLowerCase())
-      ? u
-      : ""
-  );
+  const handleChange = () => {};
 
-  const handleChange = (e: SyntheticEvent) => {
-    // @ts-ignore
-    setSearchValue(e.target.value);
+  const handleClick = async (notification: NotificationType, page: string) => {
+    await fetchNotification(notification, "select");
+    setPage(page);
   };
 
-  if (users === null) {
-    return <></>;
-  }
+  const closeModal = (): void => {
+    setCurrentModal("");
+  };
+
   return (
     <>
       <div className="dashboard-head">
         <h4 className="h4">
-          <Icon name="bigUser" />
-          Utilisateurs
+          <Icon name="bell" width="20" />
+          Notifications
         </h4>
         <div className="dashboard-head__search">
           <form className="dashboard-searchField">
@@ -76,310 +72,63 @@ function DashboardBodyUsers() {
           <table className="table">
             <thead>
               <tr>
-                <th>Nom Prénom</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Dernière connexion</th>
+                <th>Message</th>
+                <th>Url</th>
+                <th>Type</th>
                 <th />
               </tr>
             </thead>
             <tbody>
-              {paginationItems.map((u, i) => (
-                <tr key={u._id}>
-                  <td>{u.full_name}</td>
-                  <td>{u.email}</td>
-                  <td>{u.roles}</td>
-                  <td>04-05-2021</td>
+              {filteredNotifications.map((n, i) => (
+                <tr key={n._id}>
+                  <td>{n.message}</td>
+                  <td>{n.url}</td>
+                  <td>{n.channel}</td>
                   <td style={{ width: "20px" }}>
                     <Icon
                       name="more"
                       className="icon icon-more"
                       onClick={() => {
-                        setCurrentModal(u._id);
+                        setCurrentModal(n._id);
                       }}
                     />
-                    <div
-                      className={clsx(
-                        "table__modal",
-                        currentModal !== u._id ? "is-hidden" : "is-display"
-                      )}
+                    <SlideIn
+                      className="table__modal"
+                      show={currentModal === n._id}
                     >
                       <MoreModal
-                        object={u}
-                        onDelete={deleteUser}
-                        onClick={setCurrentModal}
-                        onEdit={() => setPage("users/edit")}
+                        object={n}
+                        onDelete={() => {}}
+                        onClick={closeModal}
+                        onEdit={() => handleClick(n, "notifications/edit")}
                       />
-                    </div>
+                    </SlideIn>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <div className="dashboard-tab__footer">
-          <Pagination
-            items={filteredUsers}
-            itemsPerPage={9}
-            totalItems={filteredUsers.length}
-            setPaginationItems={setPaginationItems}
-          />
-        </div>
+        <div className="dashboard-tab__footer" />
       </div>
     </>
   );
 }
 
-function DashboardBodyScans() {
-  const {
-    setPage,
-    scans,
-    selectedScan,
-    fetchScan,
-    updateScan,
-    deleteScan,
-    unselectScan,
-  } = useDashboardContext();
-  const [currentModal, setCurrentModal] = useState<string>("");
-  const [paginationItems, setPaginationItems] = useState<Scan[]>([]);
-  const [searchValue, setSearchValue] = useState("");
-
-  const filteredScans = (scans || []).filter((s: Scan) =>
-    searchValue === "" ||
-    s.title.toLowerCase().includes(searchValue.toLowerCase())
-      ? s
-      : ""
-  );
-
-  useEffect(() => {
-    if (selectedScan) {
-      unselectScan();
-    }
-  }, []);
-
-  const handleClick = (scan: Scan, page: string) => {
-    fetchScan(scan, "select");
-    setPage(page);
-  };
-
-  const handleChange = (e: SyntheticEvent) => {
-    // @ts-ignore
-    setSearchValue(e.target.value);
-  };
-
-  if (!scans) {
-    return <></>;
-  }
-
-  return (
-    <>
-      <div className="dashboard-head">
-        <h4 className="h4">
-          <Icon name="badge" />
-          Scans
-        </h4>
-        <div className="dashboard-head__search">
-          <form className="dashboard-searchField">
-            <input
-              type="search"
-              name="search"
-              placeholder="e.g. titre"
-              onChange={handleChange}
-            />
-            <button title="search">
-              <Icon name="search" />
-            </button>
-          </form>
-        </div>
-      </div>
-      <div className="dashboard-tab">
-        <div className="dashboard-tab__body">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>
-                  <div className="table__sortable">
-                    Titre <Icon name="arrowSort" />
-                  </div>
-                </th>
-                <th>Status</th>
-                <th>Visible</th>
-                <th>Date de création</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {paginationItems.map((s, i) => (
-                <tr key={s._id}>
-                  <td>
-                    <a href="#" onClick={() => handleClick(s, "scans/view")}>
-                      {formatTitle(s.title)}
-                    </a>
-                  </td>
-                  <td>
-                    <ScanStatus status={s.status} />
-                  </td>
-                  <td>
-                    <Checkbox
-                      object={s}
-                      state={s.is_visible}
-                      onUpdate={updateScan}
-                    />
-                  </td>
-                  <td>{s.created_at}</td>
-                  <td style={{ width: "20px" }}>
-                    <Icon
-                      name="more"
-                      className="icon icon-more"
-                      onClick={() => {
-                        setCurrentModal(s._id);
-                      }}
-                    />
-                    <div
-                      className={clsx(
-                        "table__modal",
-                        currentModal !== s._id ? "is-hidden" : "is-display"
-                      )}
-                    >
-                      <MoreModal
-                        object={s}
-                        onClick={setCurrentModal}
-                        onEdit={() => handleClick(s, "scans/edit")}
-                        onDelete={deleteScan}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="dashboard-tab__footer">
-          <Pagination
-            items={filteredScans}
-            itemsPerPage={10}
-            totalItems={filteredScans.length}
-            setPaginationItems={setPaginationItems}
-          />
-        </div>
-      </div>
-    </>
-  );
-}
-
-function DashboardBodyScansView() {
-  const { setModal, selectedScan, fetchFile } = useDashboardContext();
-  return (
-    <main className="stack-large">
-      <div className="stack">
-        <h4 className="stack-large__title">
-          <Icon name="badge" />
-          {formatTitle(selectedScan.title)} -&nbsp;
-          <ScanStatus status={selectedScan.status} />
-        </h4>
-        <div className="level1 stack-large p3">
-          <div className="form-group">
-            <label htmlFor="title">Nom de la paire</label>
-            <input
-              name="title"
-              id="title"
-              type="text"
-              value={selectedScan.title}
-              readOnly
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="description">Description</label>
-            <textarea
-              name="description"
-              id="description"
-              value={selectedScan.description}
-              readOnly
-            />
-          </div>
-        </div>
-      </div>
-      <div className="stack">
-        <h4 className="stack-large__title">
-          <Icon name="photo" />
-          Photos
-        </h4>
-        <div className="level1 stack-large p3">
-          <section className="scan-info">
-            <div className="section-title">La paire</div>
-            <div className="scans">
-              {selectedScan.scanFiles.slice(0, 6).map((f: ScanFile) => (
-                <FileCard
-                  key={f._id}
-                  scan={selectedScan}
-                  file={f}
-                  fetchFile={fetchFile}
-                  modalName="files/view"
-                  setModal={setModal}
-                />
-              ))}
-            </div>
-          </section>
-          <section className="scan-info">
-            <div className="section-title">La boite</div>
-            <div className="scans">
-              {selectedScan.scanFiles.slice(6, 9).map((f: ScanFile) => (
-                <FileCard
-                  key={f._id}
-                  scan={selectedScan}
-                  file={f}
-                  fetchFile={fetchFile}
-                  modalName="files/view"
-                  setModal={setModal}
-                />
-              ))}
-            </div>
-          </section>
-          <section className="scan-info">
-            <div className="section-title">Documents et accessoires</div>
-            <div className="scans">
-              {selectedScan.scanFiles.slice(9, 12).map((f: ScanFile) => (
-                <FileCard
-                  key={f._id}
-                  scan={selectedScan}
-                  file={f}
-                  fetchFile={fetchFile}
-                  modalName="files/view"
-                  setModal={setModal}
-                />
-              ))}
-            </div>
-          </section>
-        </div>
-      </div>
-    </main>
-  );
-}
-
-function DashboardBodyScansEdit() {
-  const {
-    setModal,
-    selectedScan,
-    fetchScan,
-    updateScan,
-    selectedFile,
-    fetchFile,
-  } = useDashboardContext();
-  const [init, setInit] = useState(false);
+function DashboardBodyNotificationsCreate() {
+  const { createNotification } = useDashboardContext();
   const [fields, setFields] = useState({
-    title: formatTitle(selectedScan.title),
-    description: selectedScan.description,
-    status: selectedScan.status,
+    message: "Sujet</br><strong>Titre</strong>",
+    url: "http://localhost:3000/",
   });
 
-  useEffect(() => {
-    (async () => {
-      if (!selectedFile && init) {
-        await fetchScan(selectedScan, "fetch");
-      }
-      setInit(true);
-    })();
-  }, [selectedFile]);
+  const handleSubmit = async () => {
+    try {
+      await createNotification(fields);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleChange = (e: SyntheticEvent) => {
     // @ts-ignore
@@ -388,112 +137,37 @@ function DashboardBodyScansEdit() {
     setFields({ ...fields, [e.target.name]: value });
   };
 
-  const handleSubmit = async () => {
-    Object.assign(fields, { status: Number(fields.status) });
-    try {
-      await updateScan(selectedScan, fields);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  if (!selectedScan) {
-    return <></>;
-  }
-
   return (
     <main className="stack-large">
       <div className="stack">
         <h4 className="stack-large__title">
-          <Icon name="badge" />
-          {formatTitle(selectedScan.title)}
+          <Icon name="bell" />
+          Envoyer une notification
         </h4>
         <div className="level1 stack-large p3">
           <div className="form-group">
-            <label htmlFor="title">Nom de la paire</label>
+            <label htmlFor="message">Message</label>
             <input
-              name="title"
-              id="title"
+              name="message"
+              id="message"
               type="text"
-              value={fields.title}
+              value={fields.message}
+              placeholder="Entrer votre message"
               onChange={handleChange}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="description">Description</label>
-            <textarea
-              name="description"
-              id="description"
-              value={fields.description}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="status">Status</label>
+            <label htmlFor="url">Url</label>
             <input
-              name="status"
-              id="status"
-              type="status"
-              value={fields.status}
+              name="url"
+              id="url"
+              value={fields.url}
               onChange={handleChange}
             />
           </div>
-        </div>
-      </div>
-      <div className="stack">
-        <h4 className="stack-large__title">
-          <Icon name="photo" />
-          Photos
-        </h4>
-        <div className="level1 stack-large p3">
-          <section className="scan-info">
-            <div className="section-title">La paire</div>
-            <div className="scans">
-              {selectedScan.scanFiles.slice(0, 6).map((f: ScanFile) => (
-                <FileCard
-                  key={f._id}
-                  scan={selectedScan}
-                  file={f}
-                  fetchFile={fetchFile}
-                  modalName="files/edit"
-                  setModal={setModal}
-                />
-              ))}
-            </div>
-          </section>
-          <section className="scan-info">
-            <div className="section-title">La boite</div>
-            <div className="scans">
-              {selectedScan.scanFiles.slice(6, 9).map((f: ScanFile) => (
-                <FileCard
-                  key={f._id}
-                  scan={selectedScan}
-                  file={f}
-                  fetchFile={fetchFile}
-                  modalName="files/edit"
-                  setModal={setModal}
-                />
-              ))}
-            </div>
-          </section>
-          <section className="scan-info">
-            <div className="section-title">Documents et accessoires</div>
-            <div className="scans">
-              {selectedScan.scanFiles.slice(6, 9).map((f: ScanFile) => (
-                <FileCard
-                  key={f._id}
-                  scan={selectedScan}
-                  file={f}
-                  fetchFile={fetchFile}
-                  modalName="files/edit"
-                  setModal={setModal}
-                />
-              ))}
-            </div>
-          </section>
           <div className="text-right">
             <button className="btn-primary" onClick={handleSubmit}>
-              Enregistrer
+              Envoyer
             </button>
           </div>
         </div>

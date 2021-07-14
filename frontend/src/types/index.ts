@@ -41,6 +41,7 @@ export type NotificationType = {
   _id: string;
   message: string;
   url: string;
+  channel: string;
   target: object;
   created_at: Date;
   read_at: Date;

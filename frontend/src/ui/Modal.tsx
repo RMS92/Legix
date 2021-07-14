@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import Icon from "./Icon";
+import { useClickOutside } from "../hooks/useClickOutside";
 
 export function Modal({
   title,
@@ -38,29 +39,35 @@ export function MoreModal({
   onDelete,
 }: {
   object: any;
-  onClick: Function;
+  onClick: () => void;
   onEdit: Function;
   onDelete: Function;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useClickOutside(ref, onClick);
+
   const handleDelete = async () => {
     await onDelete(object);
   };
 
   return (
-    <div className="modal-more">
-      <div className="modal-more__wrapper">
-        <Icon
-          name="cross"
-          className="icon icon-cross"
-          onClick={() => onClick()}
-        />
-        <div className="modal-edit" onClick={() => onEdit()}>
-          <Icon name="edit" />
-          Editer
-        </div>
-        <div className="modal-delete" onClick={handleDelete}>
-          <Icon name="delete" className="icon icon-delete" />
-          Supprimer
+    <div ref={ref}>
+      <div className="modal-more">
+        <div className="modal-more__wrapper">
+          <Icon
+            name="cross"
+            className="icon icon-cross"
+            onClick={() => onClick()}
+          />
+          <div className="modal-edit" onClick={() => onEdit()}>
+            <Icon name="edit" />
+            Editer
+          </div>
+          <div className="modal-delete" onClick={handleDelete}>
+            <Icon name="delete" className="icon icon-delete" />
+            Supprimer
+          </div>
         </div>
       </div>
     </div>

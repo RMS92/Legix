@@ -59,14 +59,27 @@ export class NotificationsService {
     return notifications;
   }
 
+  async findAll(): Promise<Notification[]> {
+    return this.notificationModel
+      .find({ channel: { $ne: 'private' } })
+      .populate({ path: 'user', select: 'username -_id' });
+  }
+
   async findAllByUser(userId: string): Promise<Notification[]> {
-    return (
-      this.notificationModel
-        // @ts-ignore
-        .find({ $or: [{ user: null }, { user: userId }] }, {}, {})
-        .sort({ created_at: -1 })
-        .limit(10)
-    );
+    return this.notificationModel
+      .find(
+        {
+          $or: [
+            { $and: [{ user: null }, { channel: 'public' }] },
+            // @ts-ignore
+            { $and: [{ user: userId }, { channel: 'private' }] },
+          ],
+        },
+        {},
+        {},
+      )
+      .sort({ created_at: -1 })
+      .limit(10);
   }
 
   findOne(id: number) {

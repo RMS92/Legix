@@ -5,24 +5,9 @@ import { FlashMessage } from "../types";
 import Alert from "../ui/Alert";
 import clsx from "clsx";
 
-export default function Home({
-  flashMessages,
-  setFlashMessages,
-}: {
-  flashMessages: FlashMessage;
-  setFlashMessages: Function;
-}) {
+export default function Home() {
   return (
     <>
-      {flashMessages ? (
-        <Alert
-          isFloating={true}
-          type={clsx(flashMessages.success ? "success" : "danger")}
-          onDisappear={setFlashMessages}
-        >
-          {flashMessages.message}
-        </Alert>
-      ) : null}
       <main className="homepage">
         <section className="home-intro container">
           <div className="home-intro__body stack">

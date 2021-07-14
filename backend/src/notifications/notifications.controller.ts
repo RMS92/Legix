@@ -18,6 +18,10 @@ import { Notification } from './schemas/notification.schema';
 import { OnEvent } from '@nestjs/event-emitter';
 import { NotificationCreatedEvent } from './events/notification-created.event';
 import { AuthenticatedGuard } from '../auth/guards/authenticated-auth.guard';
+import { UsersPoliciesGuard } from '../security/guards/users-policies.guard';
+import { CheckUsersPolicies } from '../security/decorators/check-users-policies.decorator';
+import { UserAbility } from '../security/functions/user-ability.function';
+import { Action } from '../security/enums/action.enum';
 
 @Controller('notifications')
 export class NotificationsController {
@@ -38,6 +42,8 @@ export class NotificationsController {
   }
 
   @Post()
+  @CheckUsersPolicies((ability: UserAbility) => ability.can(Action.Read, 'all'))
+  @UseGuards(AuthenticatedGuard, UsersPoliciesGuard)
   create(
     @Body() createNotificationDto: CreateNotificationDto,
   ): Promise<Notification> {
@@ -50,6 +56,13 @@ export class NotificationsController {
   }
 
   @Get()
+  @CheckUsersPolicies((ability: UserAbility) => ability.can(Action.Read, 'all'))
+  @UseGuards(AuthenticatedGuard, UsersPoliciesGuard)
+  findAll(): Promise<Notification[]> {
+    return this.notificationsService.findAll();
+  }
+
+  @Get('users')
   @UseGuards(AuthenticatedGuard)
   findAllByUser(@Req() req): Promise<Notification[]> {
     const userId = req.user._id;
