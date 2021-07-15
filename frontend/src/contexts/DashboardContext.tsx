@@ -30,10 +30,15 @@ interface DashboardContextInterface {
   unselectFile: Function;
 
   notifications: NotificationType[];
-  createNotification: (data: any) => Promise<void>;
+  selectedNotification: NotificationType;
   fetchNotification: (
     notification: NotificationType,
     type: string
+  ) => Promise<void>;
+  createNotification: (data: any) => Promise<void>;
+  updateNotification: (
+    notification: NotificationType,
+    data: any
   ) => Promise<void>;
 }
 
@@ -61,8 +66,11 @@ const DashboardContext = createContext<DashboardContextInterface>({
   unselectFile: () => Promise.resolve(),
 
   notifications: [],
+  // @ts-ignore
+  selectedNotification: {},
   createNotification: () => Promise.resolve(),
   fetchNotification: () => Promise.resolve(),
+  updateNotification: () => Promise.resolve(),
 });
 
 export function useDashboardContext() {
@@ -88,9 +96,11 @@ export function DashboardContextProvider({
     useFiles();
   const {
     notifications,
+    selectedNotification,
     fetchNotifications,
     fetchNotification,
     createNotification,
+    updateNotification,
   } = useNotifications();
 
   const [page, setPage] = useState("scans");
@@ -143,8 +153,10 @@ export function DashboardContextProvider({
         unselectFile,
 
         notifications,
-        createNotification,
+        selectedNotification,
         fetchNotification,
+        createNotification,
+        updateNotification,
       }}
     >
       {children}

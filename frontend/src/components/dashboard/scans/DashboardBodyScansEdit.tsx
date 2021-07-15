@@ -55,7 +55,7 @@ export default function DashboardBodyScansEdit() {
       <div className="stack">
         <h4 className="stack-large__title">
           <Icon name="badge" />
-          {formatTitle(selectedScan.title)}
+          {formatTitle(selectedScan.title)} - Editer
         </h4>
         <div className="level1 stack-large p3">
           <div className="form-group">

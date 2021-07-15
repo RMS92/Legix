@@ -78,8 +78,8 @@ export class NotificationsController {
   update(
     @Param('id') id: string,
     @Body() updateNotificationDto: UpdateNotificationDto,
-  ) {
-    return this.notificationsService.update(+id, updateNotificationDto);
+  ): Promise<Notification> {
+    return this.notificationsService.update(id, updateNotificationDto);
   }
 
   @Delete(':id')

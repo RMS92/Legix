@@ -86,8 +86,13 @@ export class NotificationsService {
     return `This action returns a #${id} notification`;
   }
 
-  update(id: number, updateNotificationDto: UpdateNotificationDto) {
-    return `This action updates a #${id} notification`;
+  async update(
+    id: string,
+    updateNotificationDto: UpdateNotificationDto,
+  ): Promise<Notification> {
+    return this.notificationModel.findByIdAndUpdate(id, updateNotificationDto, {
+      new: true,
+    });
   }
 
   remove(id: number) {

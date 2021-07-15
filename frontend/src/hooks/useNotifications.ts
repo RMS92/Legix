@@ -84,7 +84,7 @@ export function useNotifications() {
   return {
     loading: state.loading,
     notifications: state.notifications,
-    selectedNotification: state.notifications,
+    selectedNotification: notification,
     fetchNotifications: useCallback(
       async (routeOptions: string = "") => {
         if (state.notifications !== null) {
@@ -112,5 +112,21 @@ export function useNotifications() {
       });
       dispatch({ type: ADD_NOTIFICATION, payload: notification });
     }, []),
+    updateNotification: useCallback(async (notification, data) => {
+      dispatch({
+        type: UPDATE_NOTIFICATION,
+        target: notification,
+        payload: data,
+      });
+      await apiFetch("/notifications/" + notification._id, {
+        method: "PATCH",
+        body: JSON.stringify(data),
+      });
+    }, []),
+    deleteNotification: useCallback(async () => {}, []),
+    unselectNotification: useCallback(
+      () => dispatch({ type: DESELECT_NOTIFICATION }),
+      []
+    ),
   };
 }

@@ -1,9 +1,6 @@
 import React from "react";
 import Icon from "../ui/Icon";
 import { Link } from "react-router-dom";
-import { FlashMessage } from "../types";
-import Alert from "../ui/Alert";
-import clsx from "clsx";
 
 export default function Home() {
   return (

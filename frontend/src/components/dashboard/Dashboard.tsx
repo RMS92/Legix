@@ -80,7 +80,8 @@ export default function Dashboard() {
                         href="#"
                         className={clsx(
                           page === "notifications" ||
-                            page === "notifications/create"
+                            page === "notifications/create" ||
+                            page === "notifications/edit"
                             ? "is-active"
                             : null
                         )}

@@ -25,6 +25,8 @@ export default function DashboardBody() {
         <DashboardBodyNotifications />
       ) : page === "notifications/create" ? (
         <DashboardBodyNotificationsCreate />
+      ) : page === "notifications/edit" ? (
+        <DashboardBodyNotificationsEdit />
       ) : null}
     </main>
   );
@@ -168,6 +170,67 @@ function DashboardBodyNotificationsCreate() {
           <div className="text-right">
             <button className="btn-primary" onClick={handleSubmit}>
               Envoyer
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function DashboardBodyNotificationsEdit() {
+  const { notifications, selectedNotification, updateNotification } =
+    useDashboardContext();
+  const [fields, setFields] = useState({
+    message: selectedNotification.message,
+    url: selectedNotification.url,
+  });
+
+  const handleChange = (e: SyntheticEvent) => {
+    // @ts-ignore
+    const value = e.target.value;
+    // @ts-ignore
+    setFields({ ...fields, [e.target.name]: value });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await updateNotification(selectedNotification, fields);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return (
+    <main className="stack-large">
+      <div className="stack">
+        <h4 className="stack-large__title">
+          <Icon name="bell" />
+          {selectedNotification._id} - Editer
+        </h4>
+        <div className="level1 stack-large p3">
+          <div className="form-group">
+            <label htmlFor="message">Message</label>
+            <input
+              name="message"
+              id="message"
+              type="text"
+              value={fields.message}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="url">Url</label>
+            <input
+              name="url"
+              id="url"
+              value={fields.url}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="text-right">
+            <button className="btn-primary" onClick={handleSubmit}>
+              Modifier
             </button>
           </div>
         </div>
