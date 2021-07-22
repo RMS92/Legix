@@ -28,6 +28,7 @@ import {
   renameFilename,
 } from '../files/utils/file-upload.util';
 import { User } from '../users/schemas/user.schema';
+import { ConfirmScanDto } from './dto/confirm-scan.dto';
 
 @Controller('scans')
 export class ScansController {
@@ -97,6 +98,18 @@ export class ScansController {
     @UploadedFiles() files: Array<Express.Multer.File>,
   ): Promise<Scan> {
     return this.scansService.update(id, updateScanDto, files);
+  }
+
+  @Patch(':id/confirm')
+  @CheckUsersPolicies((ability: UserAbility) =>
+    ability.can(Action.Update, 'all'),
+  )
+  @UseGuards(AuthenticatedGuard, UsersPoliciesGuard)
+  confirm(
+    @Param('id') id: string,
+    @Body() confirmScanDto: ConfirmScanDto,
+  ): Promise<Scan> {
+    return this.scansService.confirm(id, confirmScanDto);
   }
 
   @Delete(':id')

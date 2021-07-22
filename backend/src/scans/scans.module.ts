@@ -6,12 +6,14 @@ import { ScanSchema } from './schemas/scan.schema';
 import { UsersModule } from '../users/users.module';
 import { FilesModule } from '../files/files.module';
 import { CommentsModule } from '../comments/comments.module';
+import { NotificationsModule } from '../notifications/notifications.module';
 
 @Module({
   imports: [
     forwardRef(() => UsersModule),
     FilesModule,
     CommentsModule,
+    NotificationsModule,
     MongooseModule.forFeature([{ name: 'Scan', schema: ScanSchema }]),
   ],
   controllers: [ScansController],

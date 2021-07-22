@@ -14,13 +14,16 @@
 - commentaires et avis pour un scan
 - status scan(0 => fake, 1 => en attente, 2 => authentique, 3 => douteuse => faire voter la communauté)
 - backend user abilities for comment
+- système de notifications app (ex: Votre scan a été validé, réponse à un commentaire)
+- pages mes notifications
 
 ## Fonctionnalités TODO
-- système de notifications app (ex: Votre scan a été validé, réponse à un commentaire)
 - design stats page
-- Bloquer création scan si user pas connecté
+- delete auto last notifications
+- animations modals
+- Bloquer création scan si user pas connecté et private routes (frontend)
 - statistiques de validité du scan par rapport au nombre de photo validée (expert et comparer à la communauté)
-- private routes (frontend)
+- path submenu ex: scans -> scans title
 - files voting for user
 - image resizer en backend
 - envoie email validité ou non d'un scan
@@ -28,6 +31,7 @@
 - priorité et nom de l'authentificateur pour les scans
 - ordre pour les scanfiles
 - authentification a double facteurs (ajouter sms) et oauth (fb, gmail)
+- verify abilities for notification route
 
 ## fix
 - when delete parent comment, delete children comment in front (1 comment not update)

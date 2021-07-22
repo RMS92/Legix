@@ -50,7 +50,6 @@ export default function Notifications({ user }: { user: User }) {
       );
       eventSource.onmessage = ({ data }) => {
         const eventNotification = JSON.parse(data);
-        console.log(eventNotification);
         if (
           (!eventNotification.user && eventNotification.channel === "public") ||
           (eventNotification.user === user._id &&

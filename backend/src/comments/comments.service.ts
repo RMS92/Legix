@@ -39,8 +39,8 @@ export class CommentsService {
       const author = await this.usersService.findOne(userId);
       const message =
         String(author._id) === String(parent.author._id)
-          ? `Vous avez répondu a votre propre commentaire`
-          : `${author.username} à répondu a votre commentaire`;
+          ? `Vous avez répondu a votre propre commentaire.`
+          : `L&apos;utilisateur <strong>${author.username}</strong> à répondu a votre commentaire.`;
       // @ts-ignore
       const data: CreateNotificationDto = {
         message,

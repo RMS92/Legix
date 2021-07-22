@@ -40,7 +40,7 @@ export default function DashboardBodyScansEdit() {
   const handleSubmit = async () => {
     Object.assign(fields, { status: Number(fields.status) });
     try {
-      await updateScan(selectedScan, fields);
+      await updateScan(selectedScan, "update", fields);
     } catch (err) {
       console.log(err);
     }

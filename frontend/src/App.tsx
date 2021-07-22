@@ -22,6 +22,7 @@ import { ScanContextProvider } from "./contexts/ScanContext";
 import EmailConfirm from "./components/auth/EmailConfirm";
 import ForgotPasswordForm from "./components/auth/ForgotPasswordForm";
 import ResetPasswordConfirmForm from "./components/auth/ResetPasswordConfirmForm";
+import Notifications from "./components/Notifications";
 
 export default function App() {
   // @ts-ignore
@@ -86,6 +87,9 @@ export default function App() {
                 setFlashMessages={setFlashMessages}
               />
             )}
+          </Route>
+          <Route exact path="/notifications">
+            <Notifications />
           </Route>
           <Route exact path="/administration">
             <DashboardContextProvider>

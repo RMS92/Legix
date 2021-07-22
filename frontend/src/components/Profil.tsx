@@ -11,7 +11,7 @@ export default function Profil({ user }: { user: User }) {
 
   return (
     <>
-      <header className="page-header">
+      <header className="page-header separated">
         <div className="profil-header">
           <div className="profil-header__avatar">
             <Icon name="roundedUser" width="101" height="101" />

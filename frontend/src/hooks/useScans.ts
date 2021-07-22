@@ -96,12 +96,20 @@ export function useScans() {
         dispatch({ type: FETCH_SCAN_RESPONSE, payload: data, _id: scan._id });
       }
     }, []),
-    updateScan: useCallback(async (scan, data) => {
-      dispatch({ type: UPDATE_SCAN, target: scan, payload: data });
-      await apiFetch("/scans/" + scan._id, {
-        method: "PATCH",
-        body: JSON.stringify(data),
-      });
+    updateScan: useCallback(async (scan: Scan, type: string, data: object) => {
+      if (type === "confirm") {
+        dispatch({ type: UPDATE_SCAN, target: scan, payload: data });
+        await apiFetch("/scans/" + scan._id + "/confirm", {
+          method: "PATCH",
+          body: JSON.stringify(data),
+        });
+      } else {
+        dispatch({ type: UPDATE_SCAN, target: scan, payload: data });
+        await apiFetch("/scans/" + scan._id, {
+          method: "PATCH",
+          body: JSON.stringify(data),
+        });
+      }
     }, []),
     deleteScan: useCallback(async (scan: Scan) => {
       dispatch({ type: DELETE_SCAN, payload: scan });

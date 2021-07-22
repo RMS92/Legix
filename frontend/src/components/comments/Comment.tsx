@@ -6,6 +6,8 @@ import Field from "../../ui/Field";
 import { formToObject } from "../../utils/api";
 import { useScanContext } from "../../contexts/ScanContext";
 import { dateDiff } from "../../utils/functions";
+import SlideIn from "../../ui/animations/SlideIn";
+import Fade from "../../ui/animations/Fade";
 
 export default function Comment({
   childrenComments,
@@ -98,7 +100,12 @@ export default function Comment({
               />
             ))
           : null}
-        {reply ? (
+        <Fade
+          visible={reply}
+          duration={300}
+          from={{ opacity: 0 }}
+          animateEnter={false}
+        >
           <form className="grid" onSubmit={handleSubmit}>
             <div className="full">
               <Field name="content" type="textarea">
@@ -110,7 +117,7 @@ export default function Comment({
                 Envoyer
               </button>
               <button
-                className="btn-danger"
+                className="btn-secondary"
                 type="button"
                 onClick={() => setReply()}
               >
@@ -118,7 +125,7 @@ export default function Comment({
               </button>
             </div>
           </form>
-        ) : null}
+        </Fade>
       </div>
     </div>
   );

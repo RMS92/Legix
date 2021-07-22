@@ -6,10 +6,12 @@ export default function Checkbox({
   object,
   state,
   onUpdate,
+  type,
 }: {
   object: any;
   state: boolean;
   onUpdate: Function;
+  type: string;
 }) {
   const [checked, setChecked] = useToggle(state);
   const [loading, setLoading] = useState(true);
@@ -21,7 +23,7 @@ export default function Checkbox({
     }
     (async () => {
       try {
-        await onUpdate(object, { is_visible: checked });
+        await onUpdate(object, type, { is_visible: checked });
       } catch (err) {
         console.log(err);
       }

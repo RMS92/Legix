@@ -53,6 +53,22 @@
   @extend %btn;
   background: var(--color-red-02);
   border: solid 1px var(--color-red-02);
+
+  &:focus {
+    border-color: var(--color-red-02);
+    box-shadow: 0 0 0 3px #FF3B3B33;
+  }
+}
+
+.btn-secondary {
+  @extend %btn;
+  background: var(--color-dark-02);
+  border: solid 1px var(--form-border);
+
+  &:focus {
+    border-color: var(--form-border);
+    box-shadow: 0 0 0 3px  #60617033;
+  }
 }
 
 .btn-primary-outlined {

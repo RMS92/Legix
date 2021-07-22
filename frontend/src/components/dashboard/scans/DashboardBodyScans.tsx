@@ -108,6 +108,7 @@ export default function DashboardBodyScans() {
                       object={s}
                       state={s.is_visible}
                       onUpdate={updateScan}
+                      type="confirm"
                     />
                   </td>
                   <td>{s.created_at}</td>

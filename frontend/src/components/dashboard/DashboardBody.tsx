@@ -33,7 +33,8 @@ export default function DashboardBody() {
 }
 
 function DashboardBodyNotifications() {
-  const { setPage, notifications, fetchNotification } = useDashboardContext();
+  const { setPage, notifications, fetchNotification, deleteNotification } =
+    useDashboardContext();
   const [currentModal, setCurrentModal] = useState<string>("");
   const filteredNotifications = (notifications || []).filter((n) => n._id);
 
@@ -100,7 +101,7 @@ function DashboardBodyNotifications() {
                     >
                       <MoreModal
                         object={n}
-                        onDelete={() => {}}
+                        onDelete={deleteNotification}
                         onClick={closeModal}
                         onEdit={() => handleClick(n, "notifications/edit")}
                       />

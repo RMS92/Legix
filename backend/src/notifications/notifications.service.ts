@@ -95,7 +95,7 @@ export class NotificationsService {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} notification`;
+  async remove(id: string) {
+    return this.notificationModel.findByIdAndRemove({ _id: id });
   }
 }

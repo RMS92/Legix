@@ -123,7 +123,12 @@ export function useNotifications() {
         body: JSON.stringify(data),
       });
     }, []),
-    deleteNotification: useCallback(async () => {}, []),
+    deleteNotification: useCallback(async (notification: NotificationType) => {
+      dispatch({ type: DELETE_NOTIFICATION, payload: notification });
+      await apiFetch("/notifications/" + notification._id, {
+        method: "delete",
+      });
+    }, []),
     unselectNotification: useCallback(
       () => dispatch({ type: DESELECT_NOTIFICATION }),
       []

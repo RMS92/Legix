@@ -40,6 +40,7 @@ interface DashboardContextInterface {
     notification: NotificationType,
     data: any
   ) => Promise<void>;
+  deleteNotification: (notification: NotificationType) => Promise<void>;
 }
 
 const DashboardContext = createContext<DashboardContextInterface>({
@@ -71,6 +72,7 @@ const DashboardContext = createContext<DashboardContextInterface>({
   createNotification: () => Promise.resolve(),
   fetchNotification: () => Promise.resolve(),
   updateNotification: () => Promise.resolve(),
+  deleteNotification: () => Promise.resolve(),
 });
 
 export function useDashboardContext() {
@@ -101,6 +103,7 @@ export function DashboardContextProvider({
     fetchNotification,
     createNotification,
     updateNotification,
+    deleteNotification,
   } = useNotifications();
 
   const [page, setPage] = useState("scans");
@@ -157,6 +160,7 @@ export function DashboardContextProvider({
         fetchNotification,
         createNotification,
         updateNotification,
+        deleteNotification,
       }}
     >
       {children}

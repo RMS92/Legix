@@ -4,6 +4,7 @@
   --color: #FAFAFC;
 
   --color-dark-01: #1C1C28;
+  --color-dark-02: #28293D;
   --color-dark-03: #555770;
   --color-dark-04: #8F90A6;
   --color-dark-05: #C7C9D9;
@@ -65,6 +66,7 @@ body {
 @import "modules/card";
 @import "modules/badge";
 @import "modules/btn";
+@import "modules/formatted";
 @import "modules/select";
 @import "modules/form";
 @import "modules/table";

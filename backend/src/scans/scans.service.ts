@@ -5,6 +5,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Scan, ScanDocument } from './schemas/scan.schema';
 import { FilesService } from '../files/files.service';
+import { NotificationsService } from '../notifications/notifications.service';
+import { CreateNotificationDto } from '../notifications/dto/create-notification.dto';
 const { ObjectId } = require('mongodb');
 
 @Injectable()
@@ -12,6 +14,7 @@ export class ScansService {
   constructor(
     @InjectModel('Scan') private readonly scanModel: Model<ScanDocument>,
     private readonly filesService: FilesService,
+    private readonly notificationsService: NotificationsService,
   ) {}
 
   async create(
@@ -90,6 +93,31 @@ export class ScansService {
     return this.scanModel.findByIdAndUpdate(updatedScan._id, updatedScan, {
       new: true,
     });
+  }
+
+  async confirm(id: string, confirmScanDto): Promise<Scan> {
+    const updatedScan = await this.scanModel.findByIdAndUpdate(
+      { _id: id },
+      confirmScanDto,
+      {
+        new: true,
+      },
+    );
+
+    if (updatedScan.is_visible) {
+      // @ts-ignore
+      const data: CreateNotificationDto = {
+        message:
+          'Un expert a authentifié votre paire. <strong>Voir le résultat de l&apos;authentification.</strong>',
+        url: 'http://localhost:3000/scans/' + updatedScan._id,
+        // @ts-ignore
+        user: updatedScan.user,
+        channel: 'private',
+      };
+      await this.notificationsService.create(data);
+    }
+
+    return updatedScan;
   }
 
   async remove(id: string): Promise<Scan> {
