@@ -1,4 +1,10 @@
-import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
+import React, {
+  SyntheticEvent,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { Link } from "react-router-dom";
 import Icon from "./Icon";
 import SlideIn from "./animations/SlideIn";
@@ -29,7 +35,7 @@ export default function Notifications({ user }: { user: User }) {
   const [isActive, setIsActive] = useState(false);
   const [loading, setLoading] = useState(!notificationLoaded);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async () => {
       if (notificationLoaded === false) {
         const res = await apiFetch("/notifications/users");

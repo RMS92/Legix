@@ -23,6 +23,7 @@ export type ScanFile = {
   original_filename: string;
   current_filename: string;
   status: number;
+  position: number;
   category: string;
   orientation: string;
 };

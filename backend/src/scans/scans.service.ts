@@ -60,7 +60,10 @@ export class ScansService {
     return this.scanModel
       .findOne({ _id: id })
       .populate({ path: 'user', select: 'username' })
-      .populate({ path: 'scanFiles', select: 'current_filename status' });
+      .populate({
+        path: 'scanFiles',
+        select: 'current_filename position category status orientation',
+      });
   }
 
   async update(

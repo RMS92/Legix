@@ -44,6 +44,7 @@ export class FilesService {
 
   async saveFiles(files, scanId: string): Promise<ObjectId[]> {
     const scanFiles: ObjectId[] = [];
+    let position: number = 1;
     for (const file of files) {
       const { originalname, filename, mimetype, size } = file;
       const extension = mimetype.split('/')[1];
@@ -51,12 +52,15 @@ export class FilesService {
         original_filename: originalname,
         current_filename: filename,
         extension,
+        position,
         size,
         scan: scanId,
         created_at: Date.now(),
       });
       await newScanFile.save();
       scanFiles.push(newScanFile._id);
+      // Increment position
+      position += 1;
     }
     return scanFiles;
   }

@@ -17,6 +17,7 @@ import { ScanFile } from "../../types";
 import Comment from "../comments/Comment";
 import { useComments } from "../../hooks/useComments";
 import { CommentType } from "../../types";
+import ScanInfo from "../../ui/ScanInfo";
 
 export default function ScanDetails() {
   const {
@@ -131,6 +132,10 @@ function ScanBodyReview() {
 
   const nbOfDays = dateDiff(new Date(scan.created_at));
 
+  const files = (scan.scanFiles || []).sort(
+    (a: ScanFile, b: ScanFile) => a.position - b.position
+  );
+
   const parentsComments = (comments || []).filter(
     (c: CommentType) => !c.parent
   );
@@ -176,51 +181,36 @@ function ScanBodyReview() {
             Les photos
           </h4>
           <div className="level1 stack-large p3">
-            <section className="scan-info">
-              <div className="section-title">La paire</div>
-              <div className="scans">
-                {scan.scanFiles.slice(0, 6).map((f: ScanFile) => (
-                  <FileCard
-                    key={f._id}
-                    scan={scan}
-                    file={f}
-                    fetchFile={fetchFile}
-                    modalName="files/view"
-                    setModal={setModal}
-                  />
-                ))}
-              </div>
-            </section>
-            <section className="scan-info">
-              <div className="section-title">La boite</div>
-              <div className="scans">
-                {scan.scanFiles.slice(6, 9).map((f: ScanFile) => (
-                  <FileCard
-                    key={f._id}
-                    scan={scan}
-                    file={f}
-                    fetchFile={fetchFile}
-                    modalName="files/view"
-                    setModal={setModal}
-                  />
-                ))}
-              </div>
-            </section>
-            <section className="scan-info">
-              <div className="section-title">Documents et accessoires</div>
-              <div className="scans">
-                {scan.scanFiles.slice(9, 12).map((f: ScanFile) => (
-                  <FileCard
-                    key={f._id}
-                    scan={scan}
-                    file={f}
-                    fetchFile={fetchFile}
-                    modalName="files/view"
-                    setModal={setModal}
-                  />
-                ))}
-              </div>
-            </section>
+            <ScanInfo
+              files={files}
+              selectedScan={scan}
+              fetchFile={fetchFile}
+              setModal={setModal}
+              category="La paire"
+              mode="view"
+              min={0}
+              max={6}
+            />
+            <ScanInfo
+              files={files}
+              selectedScan={scan}
+              fetchFile={fetchFile}
+              setModal={setModal}
+              category="La boite"
+              mode="view"
+              min={7}
+              max={9}
+            />
+            <ScanInfo
+              files={files}
+              selectedScan={scan}
+              fetchFile={fetchFile}
+              setModal={setModal}
+              category="Documents et accessoires"
+              mode="view"
+              min={10}
+              max={12}
+            />
           </div>
         </div>
         <div className="comment-area">

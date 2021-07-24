@@ -18,14 +18,16 @@
 - pages mes notifications
 
 ## Fonctionnalités TODO
+- image resizer en backend
 - design stats page
-- delete auto last notifications
+- delete auto last notifications ou pagination notifications
 - animations modals
+- Edit admin and random profil information
 - Bloquer création scan si user pas connecté et private routes (frontend)
 - statistiques de validité du scan par rapport au nombre de photo validée (expert et comparer à la communauté)
 - path submenu ex: scans -> scans title
-- files voting for user
-- image resizer en backend
+- files voting for user on douteux scan
+- paypal module
 - envoie email validité ou non d'un scan
 - sous menu dans admin par composants
 - priorité et nom de l'authentificateur pour les scans

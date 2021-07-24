@@ -21,6 +21,9 @@ export class ScanFile {
   @Prop({ type: Number, required: true })
   size: number;
 
+  @Prop({ type: Number, required: true })
+  position: number;
+
   @Prop({ type: String, maxlength: 50 })
   category: string;
 
