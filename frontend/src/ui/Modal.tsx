@@ -1,18 +1,21 @@
 import React, { useRef } from "react";
 import Icon from "./Icon";
 import { useClickOutside } from "../hooks/useClickOutside";
+import SlideIn from "./animations/SlideIn";
 
 export function Modal({
   title,
+  visible,
   onClose,
   children,
 }: {
   title: string | JSX.Element;
+  visible: boolean;
   onClose: Function;
   children: any;
 }) {
   return (
-    <div className="modal">
+    <SlideIn show={visible} className="modal">
       <div className="modal__wrapper" onClick={() => onClose("")} />
       <div className="modal__body">
         <div className="modal__close">
@@ -28,7 +31,7 @@ export function Modal({
         </div>
         <div className="modal__content">{children}</div>
       </div>
-    </div>
+    </SlideIn>
   );
 }
 

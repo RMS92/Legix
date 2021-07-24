@@ -2,9 +2,10 @@ import React, { SyntheticEvent, useEffect, useState } from "react";
 import { Modal } from "../../ui/Modal";
 import { useDashboardContext } from "../../contexts/DashboardContext";
 import { FileTextStatus } from "../../ui/Utils";
+import { findByLabelText } from "@testing-library/react";
 
 export default function ModalScanFileEdit() {
-  const { setModal, selectedScan, selectedFile, updateFile } =
+  const { modal, setModal, selectedScan, selectedFile, updateFile } =
     useDashboardContext();
 
   const [fields, setFields] = useState({
@@ -32,6 +33,7 @@ export default function ModalScanFileEdit() {
 
   return (
     <Modal
+      visible={modal === "files/edit"}
       title={<FileTextStatus status={selectedFile.status} />}
       onClose={setModal}
     >

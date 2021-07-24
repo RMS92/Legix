@@ -51,7 +51,7 @@ export default function Fade({
       };
     } else if (state === ENTERING) {
       /* eslint-disable @typescript-eslint/no-unused-expressions */
-      document.body.offsetHeight;
+
       /* eslint-enable */
       setState(VISIBLE);
     }
@@ -78,6 +78,9 @@ export default function Fade({
         // @ts-ignore
         from.z ?? 0
       }px)`;
+    } else {
+      // @ts-ignore
+      style.opacity = 0;
     }
   }
 

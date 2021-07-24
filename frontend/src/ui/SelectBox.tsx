@@ -26,7 +26,13 @@ export default function SelectBox({
         <label htmlFor="filter-legit">Authenticité :</label>
         <div
           className="ts-control no-search single plugin-no_backspace_delete plugin-dropdown_input"
-          onClick={() => setVisible(true)}
+          onClick={() => {
+            if (!visible) {
+              setVisible(true);
+              return;
+            }
+            setVisible(false);
+          }}
         >
           <div
             className={clsx(

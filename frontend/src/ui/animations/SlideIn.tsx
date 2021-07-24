@@ -24,7 +24,9 @@ export default function SlideIn({
   return shouldRender ? (
     <div
       className={className}
-      style={{ animation: `${show ? "slideIn" : "slideOut"} .3s both` }}
+      style={{
+        animation: `${show ? "slideIn" : "slideOut"} .3s both`,
+      }}
       onAnimationEnd={onAnimationEnd}
     >
       {children}

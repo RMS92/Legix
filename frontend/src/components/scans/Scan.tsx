@@ -18,6 +18,8 @@ import Comment from "../comments/Comment";
 import { useComments } from "../../hooks/useComments";
 import { CommentType } from "../../types";
 import ScanInfo from "../../ui/ScanInfo";
+import SlideIn from "../../ui/animations/SlideIn";
+import Fade from "../../ui/animations/Fade";
 
 export default function ScanDetails() {
   const {
@@ -46,12 +48,18 @@ export default function ScanDetails() {
 
   return (
     <>
-      {modal === "files/view" ? (
+      {selectedFile ? (
         <Modal
           title={<FileTextStatus status={selectedFile.status} />}
+          visible={modal === "files/view"}
           onClose={(page: string) => {
             setModal(page);
-            unselectFile();
+            const timer = setTimeout(() => {
+              unselectFile();
+            }, 300);
+            return () => {
+              clearTimeout(timer);
+            };
           }}
         >
           <div className="grid2">

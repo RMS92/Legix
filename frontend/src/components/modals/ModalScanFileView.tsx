@@ -4,10 +4,11 @@ import { useDashboardContext } from "../../contexts/DashboardContext";
 import { FileTextStatus } from "../../ui/Utils";
 
 export default function ModalScanFileView() {
-  const { setModal, selectedScan, selectedFile } = useDashboardContext();
+  const { modal, setModal, selectedScan, selectedFile } = useDashboardContext();
   return (
     <Modal
       title={<FileTextStatus status={selectedFile.status} />}
+      visible={modal === "files/view"}
       onClose={setModal}
     >
       <div className="grid2">
