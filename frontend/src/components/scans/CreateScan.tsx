@@ -5,7 +5,6 @@ import { DownloadCard } from "../../ui/Cards";
 import Field from "../../ui/Field";
 import { useFiles } from "../../hooks/useFiles";
 import { API_URL } from "../../config";
-import { Redirect } from "react-router-dom";
 
 export default function CreateScan({
   setFlashMessages,

@@ -5,10 +5,12 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { MailService } from '../mail/mail.service';
 import { RegistrationConfirmDto } from './dto/registration-confirm.dto';
-import {TokenExpiredException} from "./exceptions/token-expired.exception";
-import {EmailAlreadyUsedException} from "./exceptions/email-already-used.exception";
-import {UsernameAlreadyUsedException} from "./exceptions/username-already-used.exception";
-import {PasswordsDoNotMatchException} from "./exceptions/passwords-do-not-match.exception";
+import { TokenExpiredException } from './exceptions/token-expired.exception';
+import { EmailAlreadyUsedException } from './exceptions/email-already-used.exception';
+import { UsernameAlreadyUsedException } from './exceptions/username-already-used.exception';
+import { PasswordsDoNotMatchException } from './exceptions/passwords-do-not-match.exception';
+import { UpdatePasswordDto } from './dto/update-password.dto';
+import { User } from '../users/schemas/user.schema';
 
 @Injectable()
 export class SecurityService {
@@ -51,17 +53,19 @@ export class SecurityService {
             success: true,
           };
         } else {
-          throw new PasswordsDoNotMatchException()
+          throw new PasswordsDoNotMatchException();
         }
       } else {
         throw new UsernameAlreadyUsedException();
       }
     } else {
-      throw new EmailAlreadyUsedException()
+      throw new EmailAlreadyUsedException();
     }
   }
 
-  async registrationConfirm(registrationConfirmDto: RegistrationConfirmDto): Promise<Object> {
+  async registrationConfirm(
+    registrationConfirmDto: RegistrationConfirmDto,
+  ): Promise<Object> {
     const user = await this.usersService.findOne(registrationConfirmDto.id);
     // Calculate hour differences between user created_at and now
     const isExpired = this.mailService.isTokenExpired(
@@ -80,6 +84,27 @@ export class SecurityService {
       };
     } else {
       throw new TokenExpiredException();
+    }
+  }
+
+  async updatePassword(
+    id: string,
+    updatePasswordDto: UpdatePasswordDto,
+  ): Promise<Object> {
+    if (updatePasswordDto.password === updatePasswordDto.password2) {
+      const hashPassword = await this.authService.hashPassword(
+        updatePasswordDto.password,
+      );
+      await this.usersService.updateField(id, {
+        password: hashPassword,
+      });
+      return {
+        status: HttpStatus.OK,
+        message: 'Votre mot de passe a bien été modifié.',
+        success: true,
+      };
+    } else {
+      throw new PasswordsDoNotMatchException();
     }
   }
 }

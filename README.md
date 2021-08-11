@@ -16,12 +16,14 @@
 - backend user abilities for comment
 - système de notifications app (ex: Votre scan a été validé, réponse à un commentaire)
 - pages mes notifications
+- animations modals
 
 ## Fonctionnalités TODO
+- set more user info in bdd
+- flash messages class à la place de "object"
 - image resizer en backend
 - design stats page
 - delete auto last notifications ou pagination notifications
-- animations modals
 - Edit admin and random profil information
 - Bloquer création scan si user pas connecté et private routes (frontend)
 - statistiques de validité du scan par rapport au nombre de photo validée (expert et comparer à la communauté)

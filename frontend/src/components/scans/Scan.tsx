@@ -18,8 +18,6 @@ import Comment from "../comments/Comment";
 import { useComments } from "../../hooks/useComments";
 import { CommentType } from "../../types";
 import ScanInfo from "../../ui/ScanInfo";
-import SlideIn from "../../ui/animations/SlideIn";
-import Fade from "../../ui/animations/Fade";
 
 export default function ScanDetails() {
   const {
@@ -71,6 +69,30 @@ export default function ScanDetails() {
                 }
                 alt={selectedFile.current_filename}
               />
+            </div>
+            <div className="stack pt3">
+              <div className="grid2">
+                <div className="form-group">
+                  <label htmlFor="category">Catégorie</label>
+                  <input
+                    name="category"
+                    id="category"
+                    type="text"
+                    value={selectedFile.category}
+                    readOnly
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="orientation">Orientation</label>
+                  <input
+                    name="orientation"
+                    id="orientation"
+                    type="text"
+                    value={selectedFile.orientation}
+                    readOnly
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </Modal>

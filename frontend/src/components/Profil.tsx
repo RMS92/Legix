@@ -1,16 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from "react";
 import Icon from "../ui/Icon";
 import clsx from "clsx";
 import Field from "../ui/Field";
-import { Scan, User } from "../types";
+import { FlashMessage, Scan, User } from "../types";
 import { ScanCard } from "../ui/Cards";
 import { apiFetch } from "../utils/api";
+import Alert from "../ui/Alert";
 
 export default function Profil({ user }: { user: User }) {
   const [page, setPage] = useState("profil");
+  // @ts-ignore
+  const [flashMessages, setFlashMessages] = useState<FlashMessage>(null);
 
   return (
     <>
+      {flashMessages ? (
+        <Alert
+          type={clsx(flashMessages.success ? "success" : "danger")}
+          isFloating={true}
+          onDisappear={setFlashMessages}
+        >
+          {flashMessages.message}
+        </Alert>
+      ) : null}
       <header className="page-header separated">
         <div className="profil-header">
           <div className="profil-header__avatar">
@@ -64,20 +82,62 @@ export default function Profil({ user }: { user: User }) {
           Scans
         </a>
       </div>
-      <ProfilBody user={user} page={page} />
+      <ProfilBody user={user} page={page} setFlashMessages={setFlashMessages} />
     </>
   );
 }
 
-function ProfilBody({ user, page }: { user: User; page: string }) {
+function ProfilBody({
+  user,
+  page,
+  setFlashMessages,
+}: {
+  user: User;
+  page: string;
+  setFlashMessages: Dispatch<SetStateAction<FlashMessage>>;
+}) {
   return page === "edit" ? (
-    <ProfilBodyEdit user={user} />
+    <ProfilBodyEdit user={user} setFlashMessages={setFlashMessages} />
   ) : page === "scans" ? (
     <ProfilBodyScans user={user} />
   ) : null;
 }
 
-function ProfilBodyEdit({ user }: { user: User }) {
+function ProfilBodyEdit({
+  user,
+  setFlashMessages,
+}: {
+  user: User;
+  setFlashMessages: Dispatch<SetStateAction<FlashMessage>>;
+}) {
+  const [passwordFields, setPasswordFields] = useState({
+    password: "",
+    password2: "",
+  });
+
+  const handlePasswordSubmit = async () => {
+    try {
+      const res = await apiFetch("/users/" + user._id + "/password", {
+        method: "PATCH",
+        body: JSON.stringify(passwordFields),
+      });
+      setFlashMessages(res);
+      setPasswordFields({
+        password: "",
+        password2: "",
+      });
+    } catch (err) {
+      setFlashMessages(err);
+    }
+  };
+
+  const handlePasswordChange = (e: SyntheticEvent) => {
+    // @ts-ignore
+    const value = e.target.value;
+    // @ts-ignore
+    setPasswordFields({ ...passwordFields, [e.target.name]: value });
+  };
+
   return (
     <div className="layout-sidebar py5">
       <main className="stack-large">
@@ -88,24 +148,33 @@ function ProfilBodyEdit({ user }: { user: User }) {
               Mes informations
             </h4>
             <div className="level1 grid p3">
-              <Field name="email" type="email" placeholder={user.email}>
+              <Field
+                name="email"
+                type="email"
+                value={user.email}
+                readOnly={true}
+              >
                 Adresse email
               </Field>
 
-              <Field name="username" placeholder={user.username}>
+              <Field
+                name="username"
+                type="text"
+                value={user.username}
+                readOnly={true}
+              >
                 Nom d'utilisateur
               </Field>
 
               <Field name="age">Age</Field>
             </div>
             <div className="text-right">
-              <button className="btn-primary" type="submit">
+              <button className="btn-primary" type="button">
                 Mofidier mon profil
               </button>
             </div>
           </div>
         </form>
-
         <form className="stack">
           <h4 className="stack-large__title">
             <Icon name="mdp" />
@@ -116,15 +185,23 @@ function ProfilBodyEdit({ user }: { user: User }) {
               name="password"
               type="password"
               placeholder="Nouveau mot de passe"
+              value={passwordFields.password}
+              onChange={handlePasswordChange}
             />
             <Field
               name="password2"
               type="password"
               placeholder="Confirmer le mot de passe"
+              value={passwordFields.password2}
+              onChange={handlePasswordChange}
             />
           </div>
           <div className="text-right">
-            <button className="btn-primary" type="submit">
+            <button
+              className="btn-primary"
+              type="button"
+              onClick={handlePasswordSubmit}
+            >
               Mofidier mon mot de passe
             </button>
           </div>

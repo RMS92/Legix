@@ -1,24 +1,33 @@
-import React, { useMemo } from "react";
+import React, { SyntheticEvent, useMemo } from "react";
 import { Props } from "../types";
 
 export default function Field({
   name,
   type = "text",
+  value,
+  onChange,
   placeholder = "",
   children,
+  readOnly = false,
   required = true,
 }: {
   name: string;
   type?: string;
+  onChange?: (e: SyntheticEvent) => void;
+  value?: string;
   placeholder?: string;
   children?: any;
+  readOnly?: boolean;
   required?: boolean;
 }) {
   const attr = {
     name,
     id: name,
+    onChange,
+    value,
     type,
     placeholder,
+    readOnly,
     required,
   };
 
