@@ -19,6 +19,7 @@ import { UsersPoliciesGuard } from '../security/guards/users-policies.guard';
 import { CheckUsersPolicies } from '../security/decorators/check-users-policies.decorator';
 import { UserAbility } from '../security/functions/user-ability.function';
 import { AuthenticatedGuard } from '../auth/guards/authenticated-auth.guard';
+import { DeleteAccountDto } from './dto/delete-account.dto';
 
 @Controller('users')
 export class UsersController {

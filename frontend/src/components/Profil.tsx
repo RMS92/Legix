@@ -32,7 +32,11 @@ export default function Profil({ user }: { user: User }) {
         </Alert>
       ) : null}
       {modal === "delete-account-modal" ? (
-        <ModalDeleteAccount setModal={setModal} />
+        <ModalDeleteAccount
+          user={user}
+          setModal={setModal}
+          setFlashMessages={setFlashMessages}
+        />
       ) : null}
       <header className="page-header separated">
         <div className="profil-header">

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -21,6 +22,7 @@ import { UserAbility } from './functions/user-ability.function';
 import { Action } from './enums/action.enum';
 import { UsersPoliciesGuard } from './guards/users-policies.guard';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import { DeleteAccountDto } from '../users/dto/delete-account.dto';
 
 @Controller()
 export class SecurityController {
@@ -63,6 +65,20 @@ export class SecurityController {
     @Body() updatePasswordDto: UpdatePasswordDto,
   ): Promise<Object> {
     return this.securityService.updatePassword(id, updatePasswordDto);
+  }
+
+  @Delete('users/:id/profil')
+  @CheckUsersPolicies((ability: UserAbility) =>
+    ability.can(Action.Delete, User),
+  )
+  @UseGuards(AuthenticatedGuard, UsersPoliciesGuard)
+  deleteAccount(
+    @Req() req,
+    @Param('id') id: string,
+    @Body() deleteAccountDto: DeleteAccountDto,
+  ): Promise<Object> {
+    // Logout user before deletation
+    return this.securityService.deleteAccount(req, id, deleteAccountDto);
   }
 
   @Get('me')

@@ -11,6 +11,11 @@ import { UsernameAlreadyUsedException } from './exceptions/username-already-used
 import { PasswordsDoNotMatchException } from './exceptions/passwords-do-not-match.exception';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { User } from '../users/schemas/user.schema';
+import { DeleteAccountDto } from '../users/dto/delete-account.dto';
+import { InvalidPasswordException } from './exceptions/invalid-password.exception';
+import { ObjectID } from 'typeorm';
+
+const { ObjectId } = require('mongodb');
 
 @Injectable()
 export class SecurityService {
@@ -105,6 +110,29 @@ export class SecurityService {
       };
     } else {
       throw new PasswordsDoNotMatchException();
+    }
+  }
+
+  async deleteAccount(
+    req: any,
+    id: string,
+    deleteAccountDto: DeleteAccountDto,
+  ): Promise<Object> {
+    const user = await this.usersService.findOne(id);
+    const passwordMatch: boolean = await this.authService.comparePasswords(
+      deleteAccountDto.password,
+      user.password,
+    );
+    if (passwordMatch) {
+      await this.usersService.remove(id);
+      req.logout();
+      return {
+        status: HttpStatus.OK,
+        message: 'Votre compte a bien été supprimé.',
+        success: true,
+      };
+    } else {
+      throw new InvalidPasswordException();
     }
   }
 }
