@@ -21,6 +21,8 @@
 ## Fonctionnalités TODO
 - set more user info in bdd
 - flash messages class à la place de "object"
+- admin for users (edit and view)
+- faire tous les updated date
 - image resizer en backend
 - design stats page
 - delete auto last notifications ou pagination notifications

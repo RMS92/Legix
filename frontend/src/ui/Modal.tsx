@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { ReactNode, useRef, useState } from "react";
 import Icon from "./Icon";
 import { useClickOutside } from "../hooks/useClickOutside";
 import SlideIn from "./animations/SlideIn";
+import clsx from "clsx";
 
 export function Modal({
   title,
@@ -32,6 +33,41 @@ export function Modal({
         <div className="modal__content">{children}</div>
       </div>
     </SlideIn>
+  );
+}
+
+export function DialogModal({
+  children,
+  onClose,
+  padding,
+  style,
+  className,
+}: {
+  children: ReactNode;
+  onClose: (modalName: string) => void;
+  padding: number;
+  style: object;
+  className: string;
+}) {
+  const bodyClassName = clsx("modal-box", padding && `p${padding}`, className);
+  const [hidden, setHidden] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  const closeModal = (): void => {
+    setHidden(true);
+    const timer = setTimeout(() => {
+      onClose("");
+    }, 300);
+  };
+
+  useClickOutside(ref, closeModal);
+
+  return (
+    <div className="modal-dialog" hidden={hidden}>
+      <section ref={ref} className={bodyClassName} style={style}>
+        {children}
+      </section>
+    </div>
   );
 }
 

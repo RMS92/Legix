@@ -3,7 +3,7 @@
  */
 import { useEffect } from "react";
 
-export function useAsyncEffect(fn: Function, deps = []) {
+export function useAsyncEffect(fn: Function, deps: any = []) {
   /* eslint-disable */
   useEffect(() => {
     fn();

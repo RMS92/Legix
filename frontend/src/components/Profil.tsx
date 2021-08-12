@@ -12,9 +12,11 @@ import { FlashMessage, Scan, User } from "../types";
 import { ScanCard } from "../ui/Cards";
 import { apiFetch } from "../utils/api";
 import Alert from "../ui/Alert";
+import ModalDeleteAccount from "./modals/ModalDeleteAccount";
 
 export default function Profil({ user }: { user: User }) {
   const [page, setPage] = useState("profil");
+  const [modal, setModal] = useState("");
   // @ts-ignore
   const [flashMessages, setFlashMessages] = useState<FlashMessage>(null);
 
@@ -28,6 +30,9 @@ export default function Profil({ user }: { user: User }) {
         >
           {flashMessages.message}
         </Alert>
+      ) : null}
+      {modal === "delete-account-modal" ? (
+        <ModalDeleteAccount setModal={setModal} />
       ) : null}
       <header className="page-header separated">
         <div className="profil-header">
@@ -82,7 +87,12 @@ export default function Profil({ user }: { user: User }) {
           Scans
         </a>
       </div>
-      <ProfilBody user={user} page={page} setFlashMessages={setFlashMessages} />
+      <ProfilBody
+        user={user}
+        page={page}
+        setFlashMessages={setFlashMessages}
+        setModal={setModal}
+      />
     </>
   );
 }
@@ -91,13 +101,19 @@ function ProfilBody({
   user,
   page,
   setFlashMessages,
+  setModal,
 }: {
   user: User;
   page: string;
   setFlashMessages: Dispatch<SetStateAction<FlashMessage>>;
+  setModal: Dispatch<SetStateAction<string>>;
 }) {
   return page === "edit" ? (
-    <ProfilBodyEdit user={user} setFlashMessages={setFlashMessages} />
+    <ProfilBodyEdit
+      user={user}
+      setFlashMessages={setFlashMessages}
+      setModal={setModal}
+    />
   ) : page === "scans" ? (
     <ProfilBodyScans user={user} />
   ) : null;
@@ -106,9 +122,11 @@ function ProfilBody({
 function ProfilBodyEdit({
   user,
   setFlashMessages,
+  setModal,
 }: {
   user: User;
   setFlashMessages: Dispatch<SetStateAction<FlashMessage>>;
+  setModal: Dispatch<SetStateAction<string>>;
 }) {
   const [passwordFields, setPasswordFields] = useState({
     password: "",
@@ -219,7 +237,11 @@ function ProfilBodyEdit({
             compte?
           </p>
           <div className="text-right">
-            <button className="btn-danger" type="button">
+            <button
+              className="btn-danger"
+              type="button"
+              onClick={() => setModal("delete-account-modal")}
+            >
               <Icon
                 name="delete"
                 width="16"
