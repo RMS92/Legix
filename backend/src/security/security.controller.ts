@@ -77,7 +77,6 @@ export class SecurityController {
     @Param('id') id: string,
     @Body() deleteAccountDto: DeleteAccountDto,
   ): Promise<Object> {
-    // Logout user before deletation
     return this.securityService.deleteAccount(req, id, deleteAccountDto);
   }
 

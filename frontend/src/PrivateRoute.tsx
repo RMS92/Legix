@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import { User } from "./types";
 import { Redirect, Route } from "react-router-dom";
 
-type PrivateRoute = {
+type PrivateRouteType = {
   user: User;
   path: string;
   requiredConnection?: boolean;
@@ -16,7 +16,7 @@ export default function PrivateRoute({
   requiredConnection = true,
   requiredRoles = ["ROLE_USER"],
   children,
-}: PrivateRoute) {
+}: PrivateRouteType) {
   return user &&
     (requiredConnection || requiredRoles?.includes(user.roles[0])) ? (
     <Route exact path={path}>

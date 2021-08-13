@@ -11,6 +11,7 @@
 - statistique for scans
 
 ## Fonctionnalités Done
+
 - mise en place alertes floating
 - envoie d'email confirmation compte
 - mot de passe oublié
@@ -25,6 +26,7 @@
 - ordre pour les scans
 
 ## Fonctionnalités TODO
+
 - set more user infos in bdd
 - nom de l'authentificateur pour les scans (expert field for scan)
 - files voting for user on douteux scan
@@ -51,12 +53,14 @@
 
 ## BDD
 
-- user(_id, username, email, fullName, password, roles, avatarFile*, avatarName*, createdAt, updatedAt*, country*,
-  bannedAt*, confirmationToken*, theme*, lastLoginIP*, lastLoginAt*)
+- user (_id, username, email, fullName, password, roles, avatarFile*, avatarName*, createdAt, updatedAt*, age*, country*,
+  bannedAt*, deletedAt*, confirmationToken*, theme*, lastLoginIP*, lastLoginAt*)
 
-- emailVerification(_id, email, author, createdAt, token)
+- avatarFile (_id, original_name, current_name, size, extension)
 
-- PasswordResetToken(_id, created_at, token, user)
+- emailVerification (_id, email, author, createdAt, token)
+
+- PasswordResetToken (_id, created_at, token, user)
 
 - scan (_id, title, description, status, isVisible, createdAt, updatedAt, user, scan_files[])
 

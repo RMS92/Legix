@@ -3,13 +3,16 @@ import { FilesService } from './files.service';
 import { FilesController } from './files.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScanFileSchema } from './schemas/scan-file.schema';
-import { ScansModule } from '../scans/scans.module';
 import { ConfigModule } from '@nestjs/config';
+import { AvatarFile, AvatarFileSchema } from './schemas/avatar-file.schema';
 
 @Module({
   imports: [
     ConfigModule,
-    MongooseModule.forFeature([{ name: 'ScanFile', schema: ScanFileSchema }]),
+    MongooseModule.forFeature([
+      { name: 'ScanFile', schema: ScanFileSchema },
+      { name: 'AvatarFile', schema: AvatarFileSchema },
+    ]),
   ],
   controllers: [FilesController],
   providers: [FilesService],
