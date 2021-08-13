@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import Icon from "../ui/Icon";
 import { Link } from "react-router-dom";
+import { FlashMessage, User } from "../types";
+import Alert from "../ui/Alert";
+import clsx from "clsx";
 
-export default function Home() {
+export default function Home({ user }: { user: User }) {
+  const [flashMessages, setFlashMessages] = useState<FlashMessage | null>(null);
   return (
     <>
+      {flashMessages ? (
+        <Alert
+          type={clsx(flashMessages.success ? "success" : "danger")}
+          isFloating={true}
+          onDisappear={setFlashMessages}
+        >
+          {flashMessages.message}
+        </Alert>
+      ) : null}
       <main className="homepage">
         <section className="home-intro container">
           <div className="home-intro__body stack">
@@ -20,9 +33,25 @@ export default function Home() {
               <Link to="/inscription" className="btn-primary">
                 Créer mon compte
               </Link>
-              <Link to="/scans/nouveau" className="btn-primary-outlined">
-                Scanner ma paire
-              </Link>
+              {user ? (
+                <Link to="/scans/nouveau" className="btn-primary-outlined">
+                  Scanner ma paire
+                </Link>
+              ) : (
+                <button
+                  className="btn-primary-outlined"
+                  onClick={() => {
+                    setFlashMessages({
+                      message:
+                        "Veuillez créer ou vous connecter à votre compte afin de pouvoir publier votre scan.",
+                      success: false,
+                      status: 400,
+                    });
+                  }}
+                >
+                  Scanner ma paire
+                </button>
+              )}
             </div>
           </div>
           <div className="home-intro__illustration">

@@ -1,7 +1,8 @@
 import React, {
+  Dispatch,
+  SetStateAction,
   SyntheticEvent,
   useEffect,
-  useLayoutEffect,
   useRef,
   useState,
 } from "react";
@@ -28,25 +29,28 @@ function countUnread(notification: NotificationType[]) {
   }).length;
 }
 
-export default function Notifications({ user }: { user: User }) {
+export default function Notifications({
+  user,
+  onConnect,
+}: {
+  user: User | null;
+  onConnect: Dispatch<SetStateAction<boolean>>;
+}) {
   const [notifications, setNotifications] = usePrepend([]);
   const [count, setCount] = useState(0);
   const [state, setState] = useState(CLOSE);
   const [isActive, setIsActive] = useState(false);
   const [loading, setLoading] = useState(!notificationLoaded);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     (async () => {
-      if (notificationLoaded === false) {
-        const res = await apiFetch("/notifications/users");
-        for (let i = res.length - 1; i >= 0; i -= 1) {
-          setNotifications(res[i]);
-        }
-        setLoading(false);
-        notificationLoaded = true;
+      const res = await apiFetch("/notifications/users");
+      for (let i = res.length - 1; i >= 0; i -= 1) {
+        setNotifications(res[i]);
       }
+      setLoading(false);
     })();
-  }, []);
+  }, [onConnect]);
 
   useEffect(() => {
     (async () => {
@@ -58,7 +62,7 @@ export default function Notifications({ user }: { user: User }) {
         const eventNotification = JSON.parse(data);
         if (
           (!eventNotification.user && eventNotification.channel === "public") ||
-          (eventNotification.user === user._id &&
+          (eventNotification.user === user?._id &&
             eventNotification.channel === "private")
         ) {
           setNotifications(eventNotification);

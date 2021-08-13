@@ -5,10 +5,13 @@ import { DownloadCard } from "../../ui/Cards";
 import Field from "../../ui/Field";
 import { useFiles } from "../../hooks/useFiles";
 import { API_URL } from "../../config";
+import { User } from "../../types";
 
 export default function CreateScan({
+  user,
   setFlashMessages,
 }: {
+  user: User | null;
   setFlashMessages: Function;
 }) {
   const [page, setPage] = useState("scan");
@@ -25,7 +28,7 @@ export default function CreateScan({
               <strong className="strong-title">Créer</strong> ton scan.
             </h1>
             <h5 className="h5">
-              Roromain
+              {user?.username ? user.username : "Non connecté"}
               <a className="badge badge-primary">Mode création</a>
             </h5>
             <h6>
@@ -54,8 +57,14 @@ export default function CreateScan({
 }
 
 function CreateScanBody({ setFlashMessages }: { setFlashMessages: Function }) {
-  const { files, fetchFiles, addFile, changeFile, deleteFile, resetFiles } =
-    useFiles();
+  const {
+    files,
+    fetchFiles,
+    addFile,
+    changeFile,
+    deleteFile,
+    resetFiles,
+  } = useFiles();
   const buttonRef = useRef<HTMLButtonElement>();
   const [reset, setReset] = useState(false);
 

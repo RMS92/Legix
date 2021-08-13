@@ -10,7 +10,7 @@ export default function Header({
   connect,
   onConnect,
 }: {
-  user: User;
+  user: User | null;
   connect: boolean;
   onConnect: Dispatch<SetStateAction<boolean>>;
 }) {
@@ -50,10 +50,10 @@ export default function Header({
         {connect ? (
           <>
             <li className="header__notification">
-              <Notifications user={user} />
+              <Notifications user={user} onConnect={onConnect} />
             </li>
 
-            {"roles" in user &&
+            {user?.roles &&
             (user.roles.includes("ROLE_ADMIN") ||
               user.roles.includes("ROLE_SUPERADMIN")) ? (
               <li className="header__dashboard">
@@ -74,7 +74,7 @@ export default function Header({
                 onClick={() => setPage("account")}
               >
                 <Icon name="user" />
-                {"username" in user ? user.username : null}
+                {user?.username ? user.username : null}
               </Link>
             </li>
 

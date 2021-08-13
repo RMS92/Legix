@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import Header from "./components/Header";
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
   Redirect,
+  Route,
+  Switch,
 } from "react-router-dom";
 import RegisterForm from "./components/auth/RegisterForm";
 import LoginForm from "./components/auth/LoginForm";
@@ -23,6 +23,7 @@ import EmailConfirm from "./components/auth/EmailConfirm";
 import ForgotPasswordForm from "./components/auth/ForgotPasswordForm";
 import ResetPasswordConfirmForm from "./components/auth/ResetPasswordConfirmForm";
 import Notifications from "./components/Notifications";
+import PrivateRoute from "./PrivateRoute";
 
 export default function App() {
   // @ts-ignore
@@ -42,7 +43,7 @@ export default function App() {
         setOnConnect(true);
       } catch (e) {
         // @ts-ignore
-        setUser({});
+        setUser(null);
       }
     })();
   }, [onConnect]);
@@ -53,13 +54,13 @@ export default function App() {
         <Header user={user} connect={onConnect} onConnect={setOnConnect} />
         <Switch>
           <Route exact path="/">
-            <Home />
+            <Home user={user} />
             <Footer />
           </Route>
-          <Route exact path="/scans/nouveau">
-            <CreateScan setFlashMessages={setFlashMessages} />
+          <PrivateRoute user={user} path="/scans/nouveau">
+            <CreateScan user={user} setFlashMessages={setFlashMessages} />
             <Footer />
-          </Route>
+          </PrivateRoute>
           <Route exact path="/scans">
             <Scans />
             <Footer />
@@ -91,11 +92,15 @@ export default function App() {
           <Route exact path="/notifications">
             <Notifications />
           </Route>
-          <Route exact path="/administration">
+          <PrivateRoute
+            user={user}
+            requiredRoles={["ROLE_ADMIN", "ROLE_SUPERADMIN"]}
+            path="/administration"
+          >
             <DashboardContextProvider>
               <Dashboard />
             </DashboardContextProvider>
-          </Route>
+          </PrivateRoute>
           <Route exact path="/inscription/confirmation/:id">
             <EmailConfirm setFlashMessages={setFlashMessages} />
           </Route>

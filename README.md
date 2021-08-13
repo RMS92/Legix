@@ -8,8 +8,9 @@
 
 ## Pages
 
-## Fonctionnalités Done
+- statistique for scans
 
+## Fonctionnalités Done
 - mise en place alertes floating
 - envoie d'email confirmation compte
 - mot de passe oublié
@@ -18,29 +19,30 @@
 - backend user abilities for comment
 - système de notifications app (ex: Votre scan a été validé, réponse à un commentaire)
 - pages mes notifications
-- animations modals
+- multiple animations modals
+- change message erreur login page when user do not exists
+- bloquer création scan si user pas connecté et private routes for role (frontend)
+- ordre pour les scans
 
 ## Fonctionnalités TODO
-- change message erreur login page when user do not exists
-- set more user info in bdd
-- flash messages class à la place de "object"
+- set more user infos in bdd
+- nom de l'authentificateur pour les scans (expert field for scan)
+- files voting for user on douteux scan
+- flash messages class à la place de "object" (backend)
 - admin for users (edit and view)
 - faire tous les updated date
 - image resizer en backend
 - design stats page
 - delete auto last notifications ou pagination notifications
 - Edit admin and random profil information
-- Bloquer création scan si user pas connecté et private routes (frontend)
 - statistiques de validité du scan par rapport au nombre de photo validée (expert et comparer à la communauté)
 - path submenu ex: scans -> scans title
-- files voting for user on douteux scan
 - paypal module
 - envoie email validité ou non d'un scan
 - sous menu dans admin par composants
-- priorité et nom de l'authentificateur pour les scans
 - ordre pour les scanfiles
 - authentification a double facteurs (ajouter sms) et oauth (fb, gmail)
-- verify abilities for notification route
+- verify abilities for notification route (a voir)
 
 ## fix
 
