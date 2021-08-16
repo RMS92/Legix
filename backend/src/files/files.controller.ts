@@ -1,6 +1,7 @@
-import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { UpdateScanFileDto } from './dto/update-scan-file.dto';
+import { AvatarFile } from './schemas/avatar-file.schema';
 
 @Controller('files')
 export class FilesController {
@@ -19,6 +20,11 @@ export class FilesController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.filesService.findOne(id);
+  }
+
+  @Get(':id/avatarFile')
+  findOneAvatarFile(@Param('id') id: string): Promise<AvatarFile> {
+    return this.filesService.findOneAvatarFile(id);
   }
 
   @Patch(':id')

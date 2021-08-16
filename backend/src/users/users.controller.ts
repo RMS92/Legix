@@ -7,7 +7,9 @@ import {
   Patch,
   Post,
   Req,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -19,7 +21,13 @@ import { UsersPoliciesGuard } from '../security/guards/users-policies.guard';
 import { CheckUsersPolicies } from '../security/decorators/check-users-policies.decorator';
 import { UserAbility } from '../security/functions/user-ability.function';
 import { AuthenticatedGuard } from '../auth/guards/authenticated-auth.guard';
-import { DeleteAccountDto } from './dto/delete-account.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import {
+  customAvatarFileStorage,
+  imageFileFilter,
+  renameFilename,
+} from '../files/utils/file-upload.util';
 
 @Controller('users')
 export class UsersController {
@@ -61,11 +69,32 @@ export class UsersController {
     ability.can(Action.Update, 'all'),
   )
   @UseGuards(AuthenticatedGuard, UsersPoliciesGuard)
-  updatesRoles(
+  updateRoles(
     @Param('id') id: string,
     @Body() updateRolesUserDto: UpdateRolesUserDto,
   ): Promise<User> {
     return this.usersService.updateRoles(id, updateRolesUserDto);
+  }
+
+  @Patch(':id/avatarFile')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: customAvatarFileStorage,
+        filename: renameFilename,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  @CheckUsersPolicies((ability: UserAbility) =>
+    ability.can(Action.Update, User),
+  )
+  @UseGuards(AuthenticatedGuard, UsersPoliciesGuard)
+  updateAvatarFile(
+    @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<User> {
+    return this.usersService.updateAvatarFile(id, file);
   }
 
   @Delete(':id')

@@ -1,6 +1,8 @@
 import { Role } from '../../security/enums/role.enum';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
+import { AvatarFile } from '../../files/schemas/avatar-file.schema';
 
 export type UserDocument = User & Document;
 
@@ -23,14 +25,26 @@ export class User {
   @Prop({ type: Array, default: [Role.ROLE_USER] })
   roles: Role[];
 
-  @Prop({type: String})
-  confirmation_token: string
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'AvatarFile' })
+  avatarFile: AvatarFile;
+
+  @Prop({ type: String })
+  confirmation_token: string;
 
   @Prop({ type: Date, default: Date.now() })
   created_at: Date;
 
   @Prop({ type: Date })
   updated_at: Date;
+
+  @Prop({ type: Date })
+  deleted_at: Date;
+
+  @Prop({ type: Date })
+  last_login_ip: Date;
+
+  @Prop({ type: Date })
+  last_login_at: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

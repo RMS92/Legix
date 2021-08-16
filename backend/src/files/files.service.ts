@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateScanFileDto } from './dto/create-scan-file.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId, Schema, Types } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { ScanFile, ScanFileDocument } from './schemas/scan-file.schema';
-import { ScansService } from '../scans/scans.service';
 import { ConfigService } from '@nestjs/config';
 import { UpdateScanFileDto } from './dto/update-scan-file.dto';
+import { AvatarFile, AvatarFileDocument } from './schemas/avatar-file.schema';
+
 const fs = require('fs');
 const { promisify } = require('util');
 
@@ -14,6 +14,8 @@ export class FilesService {
   constructor(
     @InjectModel('ScanFile')
     private readonly scanFileModel: Model<ScanFileDocument>,
+    @InjectModel('AvatarFile')
+    private readonly avatarFileModel: Model<AvatarFileDocument>,
     private readonly configService: ConfigService,
   ) {}
 
@@ -25,8 +27,12 @@ export class FilesService {
     return this.scanFileModel.find().populate('scan');
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     return this.scanFileModel.findOne({ _id: id });
+  }
+
+  async findOneAvatarFile(id: string): Promise<AvatarFile> {
+    return this.avatarFileModel.findOne({ _id: id });
   }
 
   async update(id: string, updateScanFileDto: UpdateScanFileDto) {
@@ -40,6 +46,19 @@ export class FilesService {
   async remove(username: string, id: string) {
     await this.removeFile(username, id);
     return this.scanFileModel.findByIdAndRemove({ _id: id });
+  }
+
+  async saveAvatarFile(file): Promise<AvatarFile> {
+    const { originalname, filename, mimetype, size } = file;
+    const extension = mimetype.split('/')[1];
+    const newAvatarFile = new this.avatarFileModel({
+      original_filename: originalname,
+      current_filename: filename,
+      extension,
+      size,
+      created_at: Date.now(),
+    });
+    return newAvatarFile.save();
   }
 
   async saveFiles(files, scanId: string): Promise<ObjectId[]> {

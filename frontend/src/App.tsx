@@ -71,10 +71,10 @@ export default function App() {
             </ScanContextProvider>
             <Footer />
           </Route>
-          <Route exact path="/profil">
+          <PrivateRoute user={user} path="/profil">
             <Profil user={user} />
             <Footer />
-          </Route>
+          </PrivateRoute>
           <Route exact path="/inscription">
             {onConnect ? <Redirect to="/" /> : <RegisterForm />}
           </Route>

@@ -5,11 +5,13 @@ import { User, UserSchema } from './schemas/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScansModule } from '../scans/scans.module';
 import { CommentsModule } from '../comments/comments.module';
+import { FilesModule } from '../files/files.module';
 
 @Module({
   imports: [
     forwardRef(() => ScansModule),
     CommentsModule,
+    FilesModule,
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
   ],
   controllers: [UsersController],

@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+
 const fs = require('fs');
 const { promisify } = require('util');
 const path = require('path');
@@ -13,6 +14,25 @@ export const customStorage = async (
   const mkdirAsync = promisify(fs.mkdir);
   const existsAsync = promisify(fs.exists);
   const destination = `../frontend/public/media/uploads/scans/${username}`;
+
+  const exists = await existsAsync(destination);
+
+  if (!exists) {
+    await mkdirAsync(path.resolve(destination));
+  }
+  callback(null, destination);
+};
+
+export const customAvatarFileStorage = async (
+  req: Express.Request,
+  file: Express.Multer.File,
+  callback: (error: Error | null, destination: string) => void,
+) => {
+  // @ts-ignore
+  const username = req.user.username;
+  const mkdirAsync = promisify(fs.mkdir);
+  const existsAsync = promisify(fs.exists);
+  const destination = `../frontend/public/media/uploads/profil/${username}`;
 
   const exists = await existsAsync(destination);
 
