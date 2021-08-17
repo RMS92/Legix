@@ -50,6 +50,7 @@
 
 - when delete parent comment, delete children comment in front (1 comment not update)
 - delete replies comment in bdd
+- when refresh private route it changes the route to /
 
 ## BDD
 

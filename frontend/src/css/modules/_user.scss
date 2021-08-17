@@ -6,6 +6,61 @@
   grid-gap: calc(2 * var(--space));
 }
 
+.profil-header__avatar {
+  display: block;
+  width: 110px;
+  height: 110px;
+  border-radius: 110px;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  // background-color: var(--tab-border);
+  border: solid 2px var(--tab-border);
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 110px;
+    transition: opacity .3s;
+  }
+
+  input {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+
+}
+
+.profil-header__avatar:hover .profil-header__upload {
+  transform: translateY(0);
+}
+
+.profil-header__avatar:hover img {
+  opacity: .7;
+}
+
+.profil-header__upload {
+  width: 110px;
+  height: 25px;
+  background: var(--tab-border);
+  transform: translateY(100%);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transition: .3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background-color: var(--color-dark-04);
+}
+
 .profil-header__body > * {
   margin-bottom: 4px;
 }

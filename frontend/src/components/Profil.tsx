@@ -8,7 +8,7 @@ import React, {
 import Icon from "../ui/Icon";
 import clsx from "clsx";
 import Field from "../ui/Field";
-import { FlashMessage, Scan, User } from "../types";
+import { AvatarFile, FlashMessage, Scan, User } from "../types";
 import { ScanCard } from "../ui/Cards";
 import { apiFetch } from "../utils/api";
 import Alert from "../ui/Alert";
@@ -19,6 +19,27 @@ export default function Profil({ user }: { user: User }) {
   const [modal, setModal] = useState("");
   // @ts-ignore
   const [flashMessages, setFlashMessages] = useState<FlashMessage>(null);
+  const [profilPicture, setProfilPicture] = useState<AvatarFile | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      if (!user.avatarFile) {
+        return;
+      }
+      const res = await apiFetch("/files/" + user.avatarFile + "/avatarFile");
+      setProfilPicture(res);
+    })();
+  }, []);
+
+  const handleSubmit = async (e: SyntheticEvent) => {
+    try {
+      const form: HTMLFormElement = e.target as HTMLFormElement;
+      const data = new FormData(form);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -40,9 +61,23 @@ export default function Profil({ user }: { user: User }) {
       ) : null}
       <header className="page-header separated">
         <div className="profil-header">
-          <div className="profil-header__avatar">
-            <Icon name="roundedUser" width="101" height="101" />
-          </div>
+          <form className="profil-header__avatar" onSubmit={handleSubmit}>
+            {profilPicture ? (
+              <img
+                src={
+                  process.env.PUBLIC_URL +
+                  `/media/uploads/profil/${user.username}/${profilPicture.current_filename}`
+                }
+                alt={`avatar-${user.username}`}
+              />
+            ) : (
+              <Icon name="roundedUser" width="101" height="101" />
+            )}
+            <div className="profil-header__upload">
+              <Icon name="cloud" width="20" />
+            </div>
+            <input type="file" name="avatarFile" />
+          </form>
           <div className="profil-header__body">
             <h1 className="h1">Mon compte</h1>
             <p>

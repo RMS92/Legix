@@ -4,6 +4,7 @@ export type User = {
   email: string;
   full_name: string;
   roles: any;
+  avatarFile: AvatarFile;
 };
 
 export type Scan = {
@@ -26,6 +27,12 @@ export type ScanFile = {
   position: number;
   category: string;
   orientation: string;
+};
+
+export type AvatarFile = {
+  _id: string;
+  original_filename: string;
+  current_filename: string;
 };
 
 export type CommentType = {
