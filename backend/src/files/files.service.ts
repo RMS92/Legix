@@ -43,11 +43,6 @@ export class FilesService {
     );
   }
 
-  async remove(username: string, id: string) {
-    await this.removeFile(username, id);
-    return this.scanFileModel.findByIdAndRemove({ _id: id });
-  }
-
   async saveAvatarFile(file): Promise<AvatarFile> {
     const { originalname, filename, mimetype, size } = file;
     const extension = mimetype.split('/')[1];
@@ -84,6 +79,16 @@ export class FilesService {
     return scanFiles;
   }
 
+  async remove(username: string, id: string) {
+    await this.removeFile(username, id);
+    return this.scanFileModel.findByIdAndRemove({ _id: id });
+  }
+
+  async removeAvatarFile(username: string, id: string): Promise<AvatarFile> {
+    await this.unlinkAvatarFile(username, id);
+    return this.avatarFileModel.findByIdAndRemove({ _id: id });
+  }
+
   async removeFile(username: string, fileId) {
     const unlinkAsync = promisify(fs.unlink);
     const file = await this.scanFileModel.findOne({ _id: fileId });
@@ -91,6 +96,17 @@ export class FilesService {
     await unlinkAsync(
       this.configService.get<string>('UPLOADS_PATH') +
         `/scans/${username}/` +
+        current_filename,
+    );
+  }
+
+  async unlinkAvatarFile(username: string, fileId) {
+    const unlinkAsync = promisify(fs.unlink);
+    const file = await this.avatarFileModel.findOne({ _id: fileId });
+    const { current_filename } = file;
+    await unlinkAsync(
+      this.configService.get<string>('UPLOADS_PATH') +
+        `/profil/${username}/` +
         current_filename,
     );
   }

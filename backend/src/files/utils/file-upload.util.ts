@@ -53,8 +53,11 @@ export const renameFilename = (
 };
 
 export const imageFileFilter = (req, file, callback) => {
-  if (!file.originalname.match(/\.(jpg|jpeg)$/)) {
-    return callback(new Error('Only jpeg image files are allowed'), false);
+  if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+    return callback(
+      new Error('Only jpeg and png image files are allowed'),
+      false,
+    );
   }
   callback(null, true);
 };

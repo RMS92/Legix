@@ -27,6 +27,8 @@
 
 ## Fonctionnalités TODO
 
+- change default pp on scan and css to make it bigger
+- work on scan pp (color for diff authentication)
 - set more user infos in bdd
 - nom de l'authentificateur pour les scans (expert field for scan)
 - files voting for user on douteux scan
@@ -50,7 +52,7 @@
 
 - when delete parent comment, delete children comment in front (1 comment not update)
 - delete replies comment in bdd
-- when refresh private route it changes the route to /
+- simplify code of remove and unlike file
 
 ## BDD
 

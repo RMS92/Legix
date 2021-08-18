@@ -38,12 +38,23 @@ export default function Profil({ user }: { user: User }) {
     const data = new FormData();
     data.append("file", file);
     try {
-      const res = await fetch(API_URL + "/users/" + user._id + "/avatarFile", {
-        credentials: "include",
-        method: "PATCH",
-        body: data,
+      // Update user with avatar file
+      const { avatarFile } = await fetch(
+        API_URL + "/users/" + user._id + "/avatarFile",
+        {
+          credentials: "include",
+          method: "PATCH",
+          body: data,
+        }
+      ).then((res) => {
+        return res.json().then((data) => {
+          return data;
+        });
       });
-      console.log("res", res);
+
+      // Find and set new avatar file from user
+      const file = await apiFetch("/files/" + avatarFile + "/avatarFile");
+      setProfilPicture(file);
     } catch (err) {
       console.log(err);
     }
@@ -79,7 +90,7 @@ export default function Profil({ user }: { user: User }) {
                 alt={`avatar-${user.username}`}
               />
             ) : (
-              <></>
+              <img src="/media/default.png" alt="avatar-default" />
             )}
             <div className="profil-header__upload">
               <Icon name="cloud" width="20" />

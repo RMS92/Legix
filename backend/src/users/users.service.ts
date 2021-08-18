@@ -47,7 +47,15 @@ export class UsersService {
   }
 
   async updateAvatarFile(id: string, file: Express.Multer.File): Promise<User> {
-    console.log('file', file);
+    const user = await this.userModel
+      .findOne({ _id: id })
+      .populate({ path: 'avatarFile', select: '_id' });
+    if (user.avatarFile) {
+      await this.fileService.removeAvatarFile(
+        user.username,
+        user.avatarFile._id,
+      );
+    }
     const newAvatarFile = await this.fileService.saveAvatarFile(file);
     const { _id } = newAvatarFile;
     return this.userModel.findByIdAndUpdate(
