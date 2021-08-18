@@ -13,6 +13,7 @@ import { ScanCard } from "../ui/Cards";
 import { apiFetch } from "../utils/api";
 import Alert from "../ui/Alert";
 import ModalDeleteAccount from "./modals/ModalDeleteAccount";
+import { API_URL } from "../config";
 
 export default function Profil({ user }: { user: User }) {
   const [page, setPage] = useState("profil");
@@ -29,13 +30,20 @@ export default function Profil({ user }: { user: User }) {
       const res = await apiFetch("/files/" + user.avatarFile + "/avatarFile");
       setProfilPicture(res);
     })();
-  }, []);
+  }, [user?.avatarFile]);
 
-  const handleSubmit = async (e: SyntheticEvent) => {
+  const handleChange = async (e: SyntheticEvent) => {
+    // @ts-ignore
+    const file = e.target.files[0];
+    const data = new FormData();
+    data.append("file", file);
     try {
-      const form: HTMLFormElement = e.target as HTMLFormElement;
-      const data = new FormData(form);
-      console.log(data);
+      const res = await fetch(API_URL + "/users/" + user._id + "/avatarFile", {
+        credentials: "include",
+        method: "PATCH",
+        body: data,
+      });
+      console.log("res", res);
     } catch (err) {
       console.log(err);
     }
@@ -61,7 +69,7 @@ export default function Profil({ user }: { user: User }) {
       ) : null}
       <header className="page-header separated">
         <div className="profil-header">
-          <form className="profil-header__avatar" onSubmit={handleSubmit}>
+          <div className="profil-header__avatar">
             {profilPicture ? (
               <img
                 src={
@@ -76,8 +84,8 @@ export default function Profil({ user }: { user: User }) {
             <div className="profil-header__upload">
               <Icon name="cloud" width="20" />
             </div>
-            <input type="file" name="avatarFile" />
-          </form>
+            <input type="file" name="avatarFile" onChange={handleChange} />
+          </div>
           <div className="profil-header__body">
             <h1 className="h1">Mon compte</h1>
             <p>

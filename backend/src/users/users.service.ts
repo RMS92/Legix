@@ -47,6 +47,7 @@ export class UsersService {
   }
 
   async updateAvatarFile(id: string, file: Express.Multer.File): Promise<User> {
+    console.log('file', file);
     const newAvatarFile = await this.fileService.saveAvatarFile(file);
     const { _id } = newAvatarFile;
     return this.userModel.findByIdAndUpdate(
