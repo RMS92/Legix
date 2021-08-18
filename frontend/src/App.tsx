@@ -57,7 +57,7 @@ export default function App() {
             <Home user={user} />
             <Footer />
           </Route>
-          <PrivateRoute user={user} path="/scans/nouveau">
+          <PrivateRoute path="/scans/nouveau">
             <CreateScan user={user} setFlashMessages={setFlashMessages} />
             <Footer />
           </PrivateRoute>
@@ -71,7 +71,7 @@ export default function App() {
             </ScanContextProvider>
             <Footer />
           </Route>
-          <PrivateRoute user={user} path="/profil">
+          <PrivateRoute path="/profil">
             <Profil user={user} />
             <Footer />
           </PrivateRoute>
@@ -93,7 +93,6 @@ export default function App() {
             <Notifications />
           </Route>
           <PrivateRoute
-            user={user}
             requiredRoles={["ROLE_ADMIN", "ROLE_SUPERADMIN"]}
             path="/administration"
           >

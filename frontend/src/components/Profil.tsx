@@ -23,7 +23,7 @@ export default function Profil({ user }: { user: User }) {
 
   useEffect(() => {
     (async () => {
-      if (!user.avatarFile) {
+      if (!user?.avatarFile) {
         return;
       }
       const res = await apiFetch("/files/" + user.avatarFile + "/avatarFile");
@@ -71,7 +71,7 @@ export default function Profil({ user }: { user: User }) {
                 alt={`avatar-${user.username}`}
               />
             ) : (
-              <Icon name="roundedUser" width="101" height="101" />
+              <></>
             )}
             <div className="profil-header__upload">
               <Icon name="cloud" width="20" />

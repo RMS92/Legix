@@ -1,6 +1,6 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import Icon from "../ui/Icon";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { apiFetch } from "../utils/api";
 import { User } from "../types";
 import Notifications from "../ui/Notifications";
@@ -14,8 +14,6 @@ export default function Header({
   connect: boolean;
   onConnect: Dispatch<SetStateAction<boolean>>;
 }) {
-  const [page, setPage] = useState("home");
-
   const handleLogout = async () => {
     try {
       const res = await apiFetch("/logout");
@@ -29,20 +27,16 @@ export default function Header({
     <nav className="header">
       <ul className="header-nav">
         <li className="header__home">
-          <Link to="/" onClick={() => setPage("home")}>
-            <Icon name="home" className={page === "home" ? "is-active" : ""} />
-          </Link>
+          <NavLink exact to="/">
+            <Icon name="home" />
+          </NavLink>
           <Icon name="separator" />
         </li>
 
         <li>
-          <Link
-            to="/scans"
-            className={page === "scans" ? "is-active" : ""}
-            onClick={() => setPage("scans")}
-          >
+          <NavLink exact to="/scans">
             Scans
-          </Link>
+          </NavLink>
         </li>
       </ul>
 
@@ -57,25 +51,15 @@ export default function Header({
             (user.roles.includes("ROLE_ADMIN") ||
               user.roles.includes("ROLE_SUPERADMIN")) ? (
               <li className="header__dashboard">
-                <Link
-                  to="/administration"
-                  className={page === "admin" ? "is-active" : ""}
-                  onClick={() => setPage("admin")}
-                >
-                  Administration
-                </Link>
+                <NavLink to="/administration">Administration</NavLink>
               </li>
             ) : null}
 
             <li className="header__account">
-              <Link
-                to="/profil"
-                className={page === "account" ? "is-active" : ""}
-                onClick={() => setPage("account")}
-              >
+              <NavLink exact to="/profil">
                 <Icon name="user" />
                 {user?.username ? user.username : null}
-              </Link>
+              </NavLink>
             </li>
 
             <li className="header__logout">
@@ -87,20 +71,12 @@ export default function Header({
         ) : (
           <>
             <li className="header-side__auth">
-              <Link
-                to="/inscription"
-                className="btn-primary-outlined"
-                onClick={() => setPage("register")}
-              >
+              <NavLink exact to="/inscription" className="btn-primary-outlined">
                 S'inscrire
-              </Link>
-              <Link
-                to="/connexion"
-                className="btn-primary"
-                onClick={() => setPage("login")}
-              >
+              </NavLink>
+              <NavLink exact to="/connexion" className="btn-primary">
                 Me connecter
-              </Link>
+              </NavLink>
             </li>
           </>
         )}
