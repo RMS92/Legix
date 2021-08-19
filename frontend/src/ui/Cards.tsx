@@ -25,7 +25,7 @@ export function ScanCard({ scan }: { scan: Scan }) {
         <div className="card__title">
           <Link to={`/scans/${scan._id}`}>{formatTitle(scan.title)}</Link>
         </div>
-        <div className="card__description">
+        <div className="card__description mb2">
           <p>{formatDescription(scan.description)}</p>
         </div>
         <Link to={`/scans/${scan._id}`} className="card__link" />
@@ -34,10 +34,22 @@ export function ScanCard({ scan }: { scan: Scan }) {
       <div className="card__progress" />
 
       <footer className="card__footer">
-        <div className="card__author">
-          <Icon name="roundedUser" />
-          <p>{scan.user.username}</p>
+        <div className="card_avatars avatars">
+          <a className="avatar">
+            {scan.user.avatarFile ? (
+              <img
+                src={
+                  process.env.PUBLIC_URL +
+                  `/media/uploads/profil/${scan.user.username}/${scan.user.avatarFile.current_filename}`
+                }
+                alt={``}
+              />
+            ) : (
+              <img src="/media/default.png" alt="avatar-default" />
+            )}
+          </a>
         </div>
+        <p className="ml1">{scan.user.username}</p>
         <div></div>
       </footer>
 

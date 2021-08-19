@@ -27,9 +27,7 @@
 
 ## Fonctionnalités TODO
 
-- change default pp on scan and css to make it bigger
-- work on scan pp (color for diff authentication)
-- set more user infos in bdd
+- set more user infos in bdd (last login at, ip, updated at )
 - nom de l'authentificateur pour les scans (expert field for scan)
 - files voting for user on douteux scan
 - flash messages class à la place de "object" (backend)

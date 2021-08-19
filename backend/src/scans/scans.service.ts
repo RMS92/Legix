@@ -7,6 +7,7 @@ import { Scan, ScanDocument } from './schemas/scan.schema';
 import { FilesService } from '../files/files.service';
 import { NotificationsService } from '../notifications/notifications.service';
 import { CreateNotificationDto } from '../notifications/dto/create-notification.dto';
+
 const { ObjectId } = require('mongodb');
 
 @Injectable()
@@ -52,7 +53,14 @@ export class ScansService {
       .find({ is_visible: true, status: { $ne: 1 } })
       .sort({ created_at: -1 })
       .limit(100)
-      .populate({ path: 'user', select: 'username' })
+      .populate({
+        path: 'user',
+        select: 'username avatarFile',
+        populate: {
+          path: 'avatarFile',
+          select: 'current_filename',
+        },
+      })
       .populate({ path: 'scanFiles', select: 'current_filename' });
   }
 

@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Icon from "../../ui/Icon";
 import clsx from "clsx";
 import Field from "../../ui/Field";
@@ -12,11 +12,9 @@ import {
 } from "../../ui/Utils";
 import { Modal } from "../../ui/Modal";
 import { useScanContext } from "../../contexts/ScanContext";
-import { FileCard } from "../../ui/Cards";
-import { ScanFile } from "../../types";
+import { CommentType, ScanFile } from "../../types";
 import Comment from "../comments/Comment";
 import { useComments } from "../../hooks/useComments";
-import { CommentType } from "../../types";
 import ScanInfo from "../../ui/ScanInfo";
 
 export default function ScanDetails() {
@@ -99,8 +97,18 @@ export default function ScanDetails() {
       ) : null}
       <header className="page-header separated">
         <div className="profil-header">
-          <div className="profil-header__avatar">
-            <Icon name="home-illustration" width="100" />
+          <div className="profil-header__icon">
+            <Icon
+              name="home-illustration"
+              className={clsx(
+                scan.status === 0
+                  ? "text-danger"
+                  : scan.status === 2
+                  ? "text-success"
+                  : "text-info"
+              )}
+              width="100"
+            />
           </div>
           <div className="profil-header__body">
             <h1 className="h1">{formatTitle(scan.title)}</h1>

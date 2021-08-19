@@ -18,7 +18,7 @@
   // background-color: var(--tab-border);
   border: solid 2px var(--tab-border);
 
-  img, svg {
+  img {
     width: 100%;
     height: 100%;
     border-radius: 110px;
@@ -35,6 +35,20 @@
     opacity: 0;
   }
 
+}
+
+.profil-header__icon {
+  display: block;
+  width: 110px;
+  height: 110px;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .profil-header__avatar:hover .profil-header__upload {

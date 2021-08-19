@@ -45,10 +45,7 @@ export default function Scans() {
           </div>
         </div>
         {paginationItems.map((s: Scan) => (
-          <ScanCard
-            key={s._id}
-            scan={s}
-          />
+          <ScanCard key={s._id} scan={s} />
         ))}
       </div>
       <div className="scans-pagination">
