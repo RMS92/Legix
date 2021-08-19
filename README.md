@@ -24,24 +24,23 @@
 - change message erreur login page when user do not exists
 - bloquer création scan si user pas connecté et private routes for role (frontend)
 - ordre pour les scans
+- nom de l'authentificateur pour les scans (expert field for scan)
 
 ## Fonctionnalités TODO
 
-- set more user infos in bdd (last login at, ip, updated at )
-- nom de l'authentificateur pour les scans (expert field for scan)
+- image resizer en backend
 - files voting for user on douteux scan
 - flash messages class à la place de "object" (backend)
 - admin for users (edit and view)
 - faire tous les updated date
-- image resizer en backend
 - design stats page
+- validation form create scan
 - delete auto last notifications ou pagination notifications
 - Edit admin and random profil information
 - statistiques de validité du scan par rapport au nombre de photo validée (expert et comparer à la communauté)
 - path submenu ex: scans -> scans title
 - paypal module
 - envoie email validité ou non d'un scan
-- sous menu dans admin par composants
 - ordre pour les scanfiles
 - authentification a double facteurs (ajouter sms) et oauth (fb, gmail)
 - verify abilities for notification route (a voir)
@@ -63,7 +62,7 @@
 
 - PasswordResetToken (_id, created_at, token, user)
 
-- scan (_id, title, description, status, isVisible, createdAt, updatedAt, user, scan_files[])
+- scan (_id, title, description, status, isVisible, createdAt, updatedAt, user, scan_files[], expert: User)
 
 - scan_file (_id, original_name, current_name, size, extension, category, status, orientation, priority%, order%,
   votesCount, scan_id)

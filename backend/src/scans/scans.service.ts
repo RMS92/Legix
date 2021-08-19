@@ -69,6 +69,14 @@ export class ScansService {
       .findOne({ _id: id })
       .populate({ path: 'user', select: 'username' })
       .populate({
+        path: 'expert',
+        select: 'username avatarFile',
+        populate: {
+          path: 'avatarFile',
+          select: 'current_filename',
+        },
+      })
+      .populate({
         path: 'scanFiles',
         select: 'current_filename position category status orientation',
       });

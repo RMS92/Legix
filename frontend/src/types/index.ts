@@ -16,6 +16,7 @@ export type Scan = {
   created_at: Date;
   updated_at: Date;
   user: User;
+  expert: User;
   scanFiles: ScanFile[];
 };
 

@@ -40,8 +40,8 @@ export class User {
   @Prop({ type: Date })
   deleted_at: Date;
 
-  @Prop({ type: Date })
-  last_login_ip: Date;
+  @Prop({ type: String })
+  last_login_ip: string;
 
   @Prop({ type: Date })
   last_login_at: Date;

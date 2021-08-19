@@ -32,6 +32,9 @@ export class Scan {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user: User;
 
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  expert: User;
+
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ScanFile' }] })
   scanFiles: ScanFile[];
 }

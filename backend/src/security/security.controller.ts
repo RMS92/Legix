@@ -31,8 +31,8 @@ export class SecurityController {
   @Post('login')
   @UseGuards(LocalAuthGuard)
   @HttpCode(200)
-  async passportLogin(@Req() req): Promise<User> {
-    return req.user;
+  passportLogin(@Req() req): Promise<User> {
+    return this.securityService.loginLocal(req);
   }
 
   @Post('jwt-login')

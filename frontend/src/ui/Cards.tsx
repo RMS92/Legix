@@ -42,7 +42,7 @@ export function ScanCard({ scan }: { scan: Scan }) {
                   process.env.PUBLIC_URL +
                   `/media/uploads/profil/${scan.user.username}/${scan.user.avatarFile.current_filename}`
                 }
-                alt={``}
+                alt={`avatar-${scan.user.username}`}
               />
             ) : (
               <img src="/media/default.png" alt="avatar-default" />

@@ -5,11 +5,13 @@ import clsx from "clsx";
 export default function Checkbox({
   object,
   state,
+  fields = {},
   onUpdate,
   type,
 }: {
   object: any;
   state: boolean;
+  fields?: {};
   onUpdate: Function;
   type: string;
 }) {
@@ -23,7 +25,8 @@ export default function Checkbox({
     }
     (async () => {
       try {
-        await onUpdate(object, type, { is_visible: checked });
+        Object.assign(fields, { is_visible: checked });
+        await onUpdate(object, type, fields);
       } catch (err) {
         console.log(err);
       }

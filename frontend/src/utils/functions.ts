@@ -61,6 +61,7 @@ export function dateDiff(createdAt: Date) {
   const now = Date.now();
   let diffInMilliSeconds = Math.abs(createdAt.getTime() - now) / 1000;
   // calculate month
+  const months = Math.floor(diffInMilliSeconds / 2628000);
 
   // calculate days
   const days = Math.floor(diffInMilliSeconds / 86400);
@@ -74,7 +75,13 @@ export function dateDiff(createdAt: Date) {
   const minutes = Math.floor(diffInMilliSeconds / 60) % 60;
 
   let difference = "Il y a ";
-  if (days > 0) {
+
+  if (months > 0) {
+    difference += `${months} mois.`;
+  } else {
+  }
+
+  if (days > 0 && days < 30) {
     difference += days === 1 ? `${days} jour.` : `${days} jours.`;
   } else {
   }

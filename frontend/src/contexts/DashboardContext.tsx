@@ -9,6 +9,7 @@ import { ScanFile } from "../types";
 import { useNotifications } from "../hooks/useNotifications";
 
 interface DashboardContextInterface {
+  user: User | null;
   page: string;
   setPage: Function;
   modal: string;
@@ -44,6 +45,7 @@ interface DashboardContextInterface {
 }
 
 const DashboardContext = createContext<DashboardContextInterface>({
+  user: null,
   page: "users",
   setPage: Function,
   modal: "",
@@ -80,8 +82,10 @@ export function useDashboardContext() {
 }
 
 export function DashboardContextProvider({
+  user,
   children,
 }: {
+  user: User;
   children: JSX.Element;
 }) {
   const { users, fetchUsers, deleteUser } = useUsers();
@@ -135,6 +139,8 @@ export function DashboardContextProvider({
   return (
     <DashboardContext.Provider
       value={{
+        user,
+
         page,
         setPage,
         modal,

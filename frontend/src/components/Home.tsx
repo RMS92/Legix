@@ -57,7 +57,7 @@ export default function Home({ user }: { user: User }) {
           <div className="home-intro__illustration">
             <Icon
               name="home-illustration"
-              className="illustration illustration-home"
+              className="illustration illustration-home text-success"
             />
           </div>
         </section>

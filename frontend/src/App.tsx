@@ -71,7 +71,10 @@ export default function App() {
             </ScanContextProvider>
             <Footer />
           </Route>
-          <PrivateRoute path="/profil">
+          <PrivateRoute
+            path="/profil"
+            requiredRoles={["ROLE_USER", "ROLE_ADMIN", "ROLE_SUPERADMIN"]}
+          >
             <Profil user={user} />
             <Footer />
           </PrivateRoute>
@@ -96,7 +99,7 @@ export default function App() {
             requiredRoles={["ROLE_ADMIN", "ROLE_SUPERADMIN"]}
             path="/administration"
           >
-            <DashboardContextProvider>
+            <DashboardContextProvider user={user}>
               <Dashboard />
             </DashboardContextProvider>
           </PrivateRoute>

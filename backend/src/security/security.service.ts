@@ -12,6 +12,7 @@ import { PasswordsDoNotMatchException } from './exceptions/passwords-do-not-matc
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { DeleteAccountDto } from '../users/dto/delete-account.dto';
 import { InvalidPasswordException } from './exceptions/invalid-password.exception';
+import { User } from '../users/schemas/user.schema';
 
 const { ObjectId } = require('mongodb');
 
@@ -22,6 +23,15 @@ export class SecurityService {
     private readonly authService: AuthService,
     private readonly mailService: MailService,
   ) {}
+
+  async loginLocal(req: any): Promise<User> {
+    // Set ip address when user login
+    await this.usersService.updateField(req.user._id, {
+      last_login_ip: req.ip,
+      last_login_at: Date.now(),
+    });
+    return req.user;
+  }
 
   async login(loginUserDto: LoginUserDto): Promise<string> {
     const user = await this.authService.validateUser(

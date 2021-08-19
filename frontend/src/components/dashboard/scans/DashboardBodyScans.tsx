@@ -12,6 +12,7 @@ import SlideIn from "../../../ui/animations/SlideIn";
 
 export default function DashboardBodyScans() {
   const {
+    user,
     setPage,
     scans,
     selectedScan,
@@ -107,6 +108,7 @@ export default function DashboardBodyScans() {
                     <Checkbox
                       object={s}
                       state={s.is_visible}
+                      fields={{ expert: user?._id }}
                       onUpdate={updateScan}
                       type="confirm"
                     />
