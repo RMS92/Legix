@@ -71,11 +71,13 @@ export default function Comment({
         <div className="comment__author">{comment.author.username}</div>
         <div className="comment__actions">
           <a className="comment__date">{nbOfDays}</a>
-          <a className="comment__answer" onClick={() => setReply()}>
-            <Icon name="reply" width="14" className="icon icon-reply" />
-            Répondre
-          </a>
-          {user.username === comment.author.username ? (
+          {user && (
+            <a className="comment__answer" onClick={() => setReply()}>
+              <Icon name="reply" width="14" className="icon icon-reply" />
+              Répondre
+            </a>
+          )}
+          {user?.username === comment.author.username ? (
             <a className="text-danger" onClick={handleDelete}>
               Supprimer
             </a>

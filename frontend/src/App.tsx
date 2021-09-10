@@ -57,7 +57,10 @@ export default function App() {
             <Home user={user} />
             <Footer />
           </Route>
-          <PrivateRoute path="/scans/nouveau">
+          <PrivateRoute
+            path="/scans/nouveau"
+            requiredRoles={["ROLE_USER", "ROLE_ADMIN", "ROLE_SUPERADMIN"]}
+          >
             <CreateScan user={user} setFlashMessages={setFlashMessages} />
             <Footer />
           </PrivateRoute>

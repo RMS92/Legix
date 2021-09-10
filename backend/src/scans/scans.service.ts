@@ -127,7 +127,7 @@ export class ScansService {
       // @ts-ignore
       const data: CreateNotificationDto = {
         message:
-          'Un expert a authentifié votre paire. <strong>Voir le résultat de l&apos;authentification.</strong>',
+          'Un expert a authentifié votre paire.</br><strong>Voir le résultat de l&apos;authentification.</strong>',
         url: 'http://localhost:3000/scans/' + updatedScan._id,
         // @ts-ignore
         user: updatedScan.user,

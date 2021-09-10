@@ -34,7 +34,6 @@ export default function ScanDetails() {
   useEffect(() => {
     (async () => {
       const res = await apiFetch("/scans/" + id);
-      console.log("res", res);
       setScan(res);
     })();
   }, []);
@@ -303,7 +302,7 @@ function ScanBodyReview() {
           <div>
             <div className="flex">
               <a className="avatar">
-                {scan.expert.avatarFile ? (
+                {scan.expert?.avatarFile ? (
                   <img
                     src={
                       process.env.PUBLIC_URL +
@@ -318,7 +317,11 @@ function ScanBodyReview() {
               <div className="ml2">
                 <strong className="bold">Expert:</strong>
                 <br />
-                <a href="#">{scan.expert.username}</a>
+                <a href="#">
+                  {scan.expert?.username
+                    ? scan.expert.username
+                    : "Indisponible"}
+                </a>
               </div>
             </div>
           </div>

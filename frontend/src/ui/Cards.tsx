@@ -49,7 +49,6 @@ export function ScanCard({ scan }: { scan: Scan }) {
             )}
           </a>
         </div>
-        <p className="ml1">{scan.user.username}</p>
         <div></div>
       </footer>
 

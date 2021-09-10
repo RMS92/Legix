@@ -55,9 +55,11 @@
   img {
     width: auto;
     height: 45px;
-    border-radius: 8px;
     display: block;
     object-fit: contain;
+    border: 2px solid var(--tab-border);
+    border-radius: 10px;
+    overflow: hidden;
   }
 }
 

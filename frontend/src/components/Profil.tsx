@@ -14,6 +14,7 @@ import { apiFetch } from "../utils/api";
 import Alert from "../ui/Alert";
 import ModalDeleteAccount from "./modals/ModalDeleteAccount";
 import { API_URL } from "../config";
+import { dateDiff } from "../utils/functions";
 
 export default function Profil({ user }: { user: User }) {
   const [page, setPage] = useState("profil");
@@ -21,6 +22,8 @@ export default function Profil({ user }: { user: User }) {
   // @ts-ignore
   const [flashMessages, setFlashMessages] = useState<FlashMessage>(null);
   const [profilPicture, setProfilPicture] = useState<AvatarFile | null>(null);
+
+  const nbOfDays: string = dateDiff(new Date(user?.created_at), true);
 
   useEffect(() => {
     (async () => {
@@ -104,7 +107,7 @@ export default function Profil({ user }: { user: User }) {
                 Compte standard
               </a>
               <span className="label-large text-normal">
-                Inscrit depuis environ 1 an
+                Inscrit depuis environ {nbOfDays}
               </span>
             </p>
           </div>

@@ -5,6 +5,7 @@ export type User = {
   full_name: string;
   roles: any;
   avatarFile: AvatarFile;
+  created_at: Date;
 };
 
 export type Scan = {

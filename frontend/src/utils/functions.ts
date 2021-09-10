@@ -57,7 +57,7 @@ export function pagination(currentPage: number, pageCount: number) {
 }
 
 // Find day diff for comment
-export function dateDiff(createdAt: Date) {
+export function dateDiff(createdAt: Date, short: boolean = false) {
   const now = Date.now();
   let diffInMilliSeconds = Math.abs(createdAt.getTime() - now) / 1000;
   // calculate month
@@ -74,7 +74,11 @@ export function dateDiff(createdAt: Date) {
   // calculate minutes
   const minutes = Math.floor(diffInMilliSeconds / 60) % 60;
 
-  let difference = "Il y a ";
+  let difference = "";
+
+  if (!short) {
+    difference = "Il y a ";
+  }
 
   if (months > 0) {
     difference += `${months} mois.`;

@@ -28,13 +28,16 @@
 
 ## Fonctionnalités TODO
 
+- pp for user comment and default pp
 - image resizer en backend
+- page profil for user*
+- design stats page
 - files voting for user on douteux scan
 - flash messages class à la place de "object" (backend)
 - admin for users (edit and view)
 - faire tous les updated date
-- design stats page
 - validation form create scan
+- Footer informations
 - delete auto last notifications ou pagination notifications
 - Edit admin and random profil information
 - statistiques de validité du scan par rapport au nombre de photo validée (expert et comparer à la communauté)
@@ -44,9 +47,11 @@
 - ordre pour les scanfiles
 - authentification a double facteurs (ajouter sms) et oauth (fb, gmail)
 - verify abilities for notification route (a voir)
+- age for user ?
 
 ## fix
 
+- when not update page, notifications count not good on multiple notifs
 - when delete parent comment, delete children comment in front (1 comment not update)
 - delete replies comment in bdd
 - simplify code of remove and unlike file
