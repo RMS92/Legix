@@ -1,7 +1,8 @@
 ## Illustrations
 
 - créer un logo
-- mascotte pour la home page
+- illustration robot qui créer un scan
+- mascotte pour la home page **done**
 - illustration de validité pour chaque scan sur sa page perso à gauche
 - icone pour chaque face d'une sneaker et de la boite et documents
 - icon de validité d'une photo sur sa page scan
@@ -28,9 +29,11 @@
 
 ## Fonctionnalités TODO
 
-- pp for user comment and default pp
 - image resizer en backend
-- page profil for user*
+- page profil for user: 
+  - vu par les autres utilisateurs: ses derniers scan authentifiés (gauche) ses derniers commentaires à droite
+    (faire un partie pour les votes d'un scan douteux)
+  - vu par moi : Les derniers votes que j'ai effectué
 - design stats page
 - files voting for user on douteux scan
 - flash messages class à la place de "object" (backend)

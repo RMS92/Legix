@@ -66,7 +66,19 @@ export default function Comment({
 
   return (
     <div className="comment">
-      <Icon name="roundedUser" width="40" className="comment__avatar" />
+      <a className="avatar">
+        {comment.author?.avatarFile ? (
+          <img
+            src={
+              process.env.PUBLIC_URL +
+              `/media/uploads/profil/${comment.author.username}/${comment.author.avatarFile.current_filename}`
+            }
+            alt={`avatar-${comment.author.username}`}
+          />
+        ) : (
+          <img src="/media/default.png" alt="avatar-default" />
+        )}
+      </a>
       <div className="comment__meta">
         <div className="comment__author">{comment.author.username}</div>
         <div className="comment__actions">

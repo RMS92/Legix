@@ -320,11 +320,14 @@ function ProfilBodyEdit({
 }
 
 function ProfilBodyScans({ user }: { user: User }) {
-  const [scans, setScans] = useState<Scan[]>([]);
+  const [scans, setScans] = useState<Scan[] | null>(null);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     (async () => {
       const res = await apiFetch("/scans/users/" + user._id);
       setScans(res);
+      setLoading(true);
     })();
   }, []);
 
@@ -332,7 +335,22 @@ function ProfilBodyScans({ user }: { user: User }) {
     return <></>;
   }
 
-  return (
+  return scans.length === 0 ? (
+    <div className="py5">
+      <h2 className="h2 center">Bienvenue sur Legix !</h2>
+      <p className="text-muted text-center mt1 mb2">
+        Cette page affichera les scans que vous avez publiés et qui seront
+        authentifier par notre équipe d'expert.
+        <br /> Pour l'instant vous n'avez fait aucune demande de création de
+        scan :(
+      </p>
+      <p className="text-center">
+        <a className="btn-primary-outlined" href="/scans/nouveau">
+          Scanner ma paire
+        </a>
+      </p>
+    </div>
+  ) : (
     <div className="layout-sidebar py5">
       <main className="stack-large">
         <h4 className="stack-large__title">

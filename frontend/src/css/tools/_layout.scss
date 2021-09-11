@@ -124,6 +124,12 @@
   justify-content: flex-end;
 }
 
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 // Stacks
 // ==================
 %stack,

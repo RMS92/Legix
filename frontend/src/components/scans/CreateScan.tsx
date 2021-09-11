@@ -20,9 +20,7 @@ export default function CreateScan({
     <>
       <header className="page-header separated">
         <div className="profil-header">
-          <div className="profil-header__avatar">
-            <Icon name="home-illustration" width="100" />
-          </div>
+          <div className="profil-header__avatar"></div>
           <div className="profil-header__body">
             <h1 className="h1">
               <strong className="strong-title">Créer</strong> ton scan.
@@ -57,14 +55,8 @@ export default function CreateScan({
 }
 
 function CreateScanBody({ setFlashMessages }: { setFlashMessages: Function }) {
-  const {
-    files,
-    fetchFiles,
-    addFile,
-    changeFile,
-    deleteFile,
-    resetFiles,
-  } = useFiles();
+  const { files, fetchFiles, addFile, changeFile, deleteFile, resetFiles } =
+    useFiles();
   const buttonRef = useRef<HTMLButtonElement>();
   const [reset, setReset] = useState(false);
 

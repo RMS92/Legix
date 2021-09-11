@@ -55,7 +55,14 @@ export class CommentsService {
     await newComment.save();
     return this.commentModel
       .findOne({ _id: newComment._id })
-      .populate({ path: 'author', select: 'username -_id' })
+      .populate({
+        path: 'author',
+        select: 'username',
+        populate: {
+          path: 'avatarFile',
+          select: 'current_filename',
+        },
+      })
       .populate({ path: 'parent', select: '_id' })
       .populate({ path: 'scan', select: '_id' });
   }
@@ -71,7 +78,14 @@ export class CommentsService {
   async findAllByScan(id: string): Promise<Comment[]> {
     return this.commentModel
       .find({ scan: ObjectId(id) }, null, null)
-      .populate({ path: 'author', select: 'username -_id' })
+      .populate({
+        path: 'author',
+        select: 'username',
+        populate: {
+          path: 'avatarFile',
+          select: 'current_filename',
+        },
+      })
       .populate({ path: 'parent', select: '_id' })
       .populate({ path: 'scan', select: '_id' });
   }
