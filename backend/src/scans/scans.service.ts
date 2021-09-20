@@ -44,7 +44,14 @@ export class ScansService {
     return this.scanModel
       .find({ user: ObjectId(id) }, null, null)
       .sort({ created_at: -1 })
-      .populate({ path: 'user', select: 'username' })
+      .populate({
+        path: 'user',
+        select: 'username avatarFile',
+        populate: {
+          path: 'avatarFile',
+          select: 'current_filename',
+        },
+      })
       .populate({ path: 'scanFiles', select: 'current_filename' });
   }
 

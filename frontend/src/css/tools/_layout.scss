@@ -94,6 +94,12 @@
   }
 }
 
+// Gap
+// ==================
+.gap4 {
+  --gap: 4;
+}
+
 .grid.fit {
   grid-template-columns: repeat(auto-fit, minmax(var(--col, 275px), 1fr));
 }

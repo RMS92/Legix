@@ -26,7 +26,9 @@ export class UsersService {
   }
 
   async findOne(id: string): Promise<User> {
-    return this.userModel.findOne({ _id: id });
+    return this.userModel
+      .findOne({ _id: id })
+      .populate({ path: 'avatarFile', select: 'current_filename' });
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {

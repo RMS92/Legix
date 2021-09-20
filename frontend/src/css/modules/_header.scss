@@ -110,13 +110,12 @@
   height: 16px;
   justify-content: flex-start;
   color: var(--color-dark-04);
-  // border-right: 1px solid var(--border-header);
-  /*margin-right: space(2);
-  padding-right: space(2);*/
-  margin-top: 2px;
+  border-right: 1px solid var(--color-dark-03);
+  margin-right: space(2);
+  padding-right: space(1.5);
+  margin-top: 5px;
   margin-bottom: 5px;
 
-  // On rend le lien plus grand que le container pour le rendre plus facilement clickable
   a {
     height: 26px;
     display: flex;
@@ -162,21 +161,26 @@
   display: block;
   width: 16px;
   height: 16px;
-  margin-right: calc(1 * var(--space));
 }
 .header__notification {
   position: relative;
   padding-right: calc(1 * var(--space));
-  border-right: 1px solid var(--color-dark-04);
 
   button {
     display: block;
   }
 }
 
+.header__notification .icon, .header__notification > button {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin-right: 0;
+}
+
 .header__dashboard {
   padding-right: calc(1 * var(--space));
-  border-right: 1px solid var(--color-dark-04);
+  border-right: 1px solid var(--color-dark-03);
 
   a {
     margin-right: calc(1 * var(--space));

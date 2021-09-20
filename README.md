@@ -1,7 +1,7 @@
 ## Illustrations
 
 - créer un logo
-- illustration robot qui créer un scan
+- illustration icon d'un scan a gauche
 - mascotte pour la home page **done**
 - illustration de validité pour chaque scan sur sa page perso à gauche
 - icone pour chaque face d'une sneaker et de la boite et documents
@@ -29,11 +29,13 @@
 
 ## Fonctionnalités TODO
 
-- image resizer en backend
 - page profil for user: 
   - vu par les autres utilisateurs: ses derniers scan authentifiés (gauche) ses derniers commentaires à droite
     (faire un partie pour les votes d'un scan douteux)
   - vu par moi : Les derniers votes que j'ai effectué
+  - probleme avatar scan profil page
+- Footer a faire
+- compteur scans en attente admin
 - design stats page
 - files voting for user on douteux scan
 - flash messages class à la place de "object" (backend)
@@ -51,10 +53,13 @@
 - authentification a double facteurs (ajouter sms) et oauth (fb, gmail)
 - verify abilities for notification route (a voir)
 - age for user ?
+- image resizer en backend
+- user/id get: trop d'infos retournée securite
 
 ## fix
 
 - when not update page, notifications count not good on multiple notifs
+- pb of update when is visible is checked many times
 - when delete parent comment, delete children comment in front (1 comment not update)
 - delete replies comment in bdd
 - simplify code of remove and unlike file

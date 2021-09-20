@@ -1,10 +1,12 @@
 import { useCallback, useReducer } from "react";
 import { apiFetch } from "../utils/api";
-import { CommentType } from "../types";
+import { CommentType, User } from "../types";
 import { Scan } from "../types";
 
 export const FETCH_SCAN_COMMENTS_REQUEST = "FETCH_SCAN_COMMENTS_REQUEST";
 export const FETCH_SCAN_COMMENTS_RESPONSE = "FETCH_SCAN_COMMENTS_RESPONSE";
+export const FETCH_USER_COMMENTS_REQUEST = "FETCH_USER_COMMENTS_REQUEST";
+export const FETCH_USER_COMMENTS_RESPONSE = "FETCH_USER_COMMENTS_RESPONSE";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const UPDATE_COMMENT = "UPDATE_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
@@ -15,6 +17,10 @@ function reducer(state: any, action: any) {
     case FETCH_SCAN_COMMENTS_REQUEST:
       return { ...state, loading: true };
     case FETCH_SCAN_COMMENTS_RESPONSE:
+      return { ...state, loading: false, comments: action.payload };
+    case FETCH_USER_COMMENTS_REQUEST:
+      return { ...state, loading: true };
+    case FETCH_USER_COMMENTS_RESPONSE:
       return { ...state, loading: false, comments: action.payload };
     case ADD_COMMENT:
       return { ...state, comments: [...state.comments, action.payload] };
@@ -70,6 +76,17 @@ export function useComments() {
         dispatch({ type: FETCH_SCAN_COMMENTS_REQUEST });
         const data = await apiFetch("/comments/scans/" + scan._id);
         dispatch({ type: FETCH_SCAN_COMMENTS_RESPONSE, payload: data });
+      },
+      [state.comments]
+    ),
+    fetchUserComments: useCallback(
+      async (user: User) => {
+        if (state.comments !== null) {
+          return null;
+        }
+        dispatch({ type: FETCH_USER_COMMENTS_REQUEST });
+        const data = await apiFetch("/comments/users/" + user._id);
+        dispatch({ type: FETCH_USER_COMMENTS_RESPONSE, payload: data });
       },
       [state.comments]
     ),

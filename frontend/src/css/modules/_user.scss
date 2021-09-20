@@ -6,7 +6,7 @@
   grid-gap: calc(2 * var(--space));
 }
 
-.profil-header__avatar {
+.profil-header__avatar, .profil-header__icon {
   display: block;
   width: 110px;
   height: 110px;
@@ -80,7 +80,7 @@
 }
 
 .profil-header__body p > * {
-  margin-right: space(2);
+  margin-right: space(1);
 }
 
 .profil-header__body h5 .badge {

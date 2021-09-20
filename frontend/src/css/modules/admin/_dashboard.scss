@@ -51,8 +51,13 @@
   }
 }
 
-.dashboard-sidebar__main li a {
+.dashboard-sidebar__nav {
+  position: relative;
+}
 
+.dashboard-sidebar__nav .notifications-badge {
+  top: -3px;
+  left: 100%;
 }
 
 // Main

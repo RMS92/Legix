@@ -46,8 +46,6 @@ export class UsersController {
   }
 
   @Get(':id')
-  @CheckUsersPolicies((ability: UserAbility) => ability.can(Action.Read, User))
-  @UseGuards(AuthenticatedGuard, UsersPoliciesGuard)
   findOne(@Param('id') id: string): Promise<User> {
     return this.usersService.findOne(id);
   }

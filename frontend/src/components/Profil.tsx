@@ -23,14 +23,18 @@ export default function Profil({ user }: { user: User }) {
   const [flashMessages, setFlashMessages] = useState<FlashMessage>(null);
   const [profilPicture, setProfilPicture] = useState<AvatarFile | null>(null);
 
-  const nbOfDays: string = dateDiff(new Date(user?.created_at), true);
+  const nbOfDays: string = dateDiff(new Date(user?.created_at), true).split(
+    "."
+  )[0];
 
   useEffect(() => {
     (async () => {
       if (!user?.avatarFile) {
         return;
       }
-      const res = await apiFetch("/files/" + user.avatarFile + "/avatarFile");
+      const res = await apiFetch(
+        "/files/" + user.avatarFile._id + "/avatarFile"
+      );
       setProfilPicture(res);
     })();
   }, [user?.avatarFile]);
@@ -107,7 +111,7 @@ export default function Profil({ user }: { user: User }) {
                 Compte standard
               </a>
               <span className="label-large text-normal">
-                Inscrit depuis environ {nbOfDays}
+                Inscrit depuis {nbOfDays}
               </span>
             </p>
           </div>

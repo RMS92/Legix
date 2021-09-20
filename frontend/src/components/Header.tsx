@@ -30,7 +30,6 @@ export default function Header({
           <NavLink exact to="/">
             <Icon name="home" />
           </NavLink>
-          <Icon name="separator" />
         </li>
 
         <li>
@@ -51,7 +50,13 @@ export default function Header({
             (user.roles.includes("ROLE_ADMIN") ||
               user.roles.includes("ROLE_SUPERADMIN")) ? (
               <li className="header__dashboard">
-                <NavLink to="/administration">Administration</NavLink>
+                <NavLink to="/administration" className="center">
+                  <Icon
+                    name="dashboard"
+                    width="22"
+                    style={{ marginRight: 0 }}
+                  />
+                </NavLink>
               </li>
             ) : null}
 

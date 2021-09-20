@@ -90,6 +90,12 @@ export class CommentsService {
       .populate({ path: 'scan', select: '_id' });
   }
 
+  async findAllByUser(id: string): Promise<Comment[]> {
+    return this.commentModel
+      .find({ author: ObjectId(id) }, null, null)
+      .populate({ path: 'scan', select: 'title' });
+  }
+
   async findOne(id: string): Promise<Comment> {
     return this.commentModel
       .findOne({ _id: id })

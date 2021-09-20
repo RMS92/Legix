@@ -35,9 +35,25 @@
   grid-template-areas: 'avatar meta' 'content content' 'replies replies';
 }
 
+.comment.without-avatar {
+  grid-template-columns: 1fr;
+}
+
+.comment__content p {
+  white-space: pre-wrap;
+}
+
+.comment.without-avatar .comment__content {
+  padding: 0;
+}
+
 .comment__author {
   font-family: $font-alt;
   font-weight: bold;
+}
+
+.comment__author a:hover {
+  color: var(--color-blue-03);
 }
 
 .comment__avatar {
@@ -85,6 +101,10 @@
     text-decoration: underline;
     cursor: pointer;
   }
+}
+
+.comment__actions .comment__date a {
+  opacity: 1;
 }
 
 .comment__answer {

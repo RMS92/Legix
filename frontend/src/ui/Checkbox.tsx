@@ -7,12 +7,14 @@ export default function Checkbox({
   state,
   fields = {},
   onUpdate,
+  onClick,
   type,
 }: {
   object: any;
   state: boolean;
   fields?: {};
   onUpdate: Function;
+  onClick: Function;
   type: string;
 }) {
   const [checked, setChecked] = useToggle(state);
@@ -25,6 +27,7 @@ export default function Checkbox({
     }
     (async () => {
       try {
+        console.log(checked);
         Object.assign(fields, { is_visible: checked });
         await onUpdate(object, type, fields);
       } catch (err) {
@@ -37,7 +40,7 @@ export default function Checkbox({
     setChecked();
   };
   return (
-    <div className="form-switch">
+    <div className="form-switch" onClick={() => onClick()}>
       <input type="checkbox" checked={checked} onChange={handleChange} />
       <label onClick={handleChange}>
         <span className={clsx("switch")} />

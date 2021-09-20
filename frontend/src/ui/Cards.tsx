@@ -8,6 +8,7 @@ import { Scan } from "../types";
 
 export function ScanCard({ scan }: { scan: Scan }) {
   const filename = scan.scanFiles[0].current_filename;
+
   return (
     <div className="card">
       <div className="card__body stack">
@@ -35,7 +36,7 @@ export function ScanCard({ scan }: { scan: Scan }) {
 
       <footer className="card__footer">
         <div className="card_avatars avatars">
-          <a className="avatar">
+          <Link to={`/profil/${scan.user._id}`} className="avatar">
             {scan.user.avatarFile ? (
               <img
                 src={
@@ -47,7 +48,7 @@ export function ScanCard({ scan }: { scan: Scan }) {
             ) : (
               <img src="/media/default.png" alt="avatar-default" />
             )}
-          </a>
+          </Link>
         </div>
         <div></div>
       </footer>

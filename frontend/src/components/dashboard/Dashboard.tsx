@@ -7,7 +7,7 @@ import ModalScanFileView from "../modals/ModalScanFileView";
 import Icon from "../../ui/Icon";
 
 export default function Dashboard() {
-  const { page, setPage, modal } = useDashboardContext();
+  const { page, setPage, modal, nbWaitingScans } = useDashboardContext();
 
   return (
     <>
@@ -60,6 +60,7 @@ export default function Dashboard() {
                     <a
                       href="#"
                       className={clsx(
+                        "dashboard-sidebar__nav",
                         page === "scans" ||
                           page === "scans/view" ||
                           page === "scans/edit"
@@ -69,6 +70,11 @@ export default function Dashboard() {
                       onClick={() => setPage("scans")}
                     >
                       Scans
+                      {nbWaitingScans !== 0 && (
+                        <span className="notifications-badge">
+                          {nbWaitingScans}
+                        </span>
+                      )}
                     </a>
                   </li>
                 </ul>

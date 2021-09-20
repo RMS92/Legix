@@ -5,10 +5,10 @@ import Icon from "../../../ui/Icon";
 import { formatTitle } from "../../../utils/functions";
 import { ScanStatus } from "../../../ui/Utils";
 import Checkbox from "../../../ui/Checkbox";
-import clsx from "clsx";
 import { MoreModal } from "../../../ui/Modal";
 import Pagination from "../../../ui/Pagination";
 import SlideIn from "../../../ui/animations/SlideIn";
+import { useUpdateEffect } from "../../../hooks/useUpdateEffect";
 
 export default function DashboardBodyScans() {
   const {
@@ -20,6 +20,7 @@ export default function DashboardBodyScans() {
     updateScan,
     deleteScan,
     unselectScan,
+    setNbWaitingScans,
   } = useDashboardContext();
   const [currentModal, setCurrentModal] = useState<string>("");
   const [paginationItems, setPaginationItems] = useState<Scan[]>([]);
@@ -37,6 +38,20 @@ export default function DashboardBodyScans() {
       unselectScan();
     }
   }, []);
+
+  useUpdateEffect(() => {
+    console.log("rendu");
+    let cpt = 0;
+    for (let i = 0; i < scans.length; i++) {
+      if (!scans[i].is_visible) {
+        cpt += 1;
+      }
+    }
+    console.log("scans", scans);
+    setNbWaitingScans(cpt);
+  }, [scans]);
+
+  console.log("scans--", scans);
 
   const handleClick = (scan: Scan, page: string) => {
     fetchScan(scan, "select");
@@ -111,6 +126,7 @@ export default function DashboardBodyScans() {
                       fields={{ expert: user?._id }}
                       onUpdate={updateScan}
                       type="confirm"
+                      onClick={() => console.log("click")}
                     />
                   </td>
                   <td>{s.created_at}</td>

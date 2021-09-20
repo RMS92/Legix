@@ -43,6 +43,11 @@ export class CommentsController {
     return this.commentsService.findAllByScan(id);
   }
 
+  @Get('users/:id')
+  findAllByUser(@Param('id') id: string): Promise<Comment[]> {
+    return this.commentsService.findAllByUser(id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Comment> {
     return this.commentsService.findOne(id);

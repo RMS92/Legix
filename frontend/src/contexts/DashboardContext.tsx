@@ -25,6 +25,9 @@ interface DashboardContextInterface {
   deleteScan: Function;
   unselectScan: Function;
 
+  nbWaitingScans: number;
+  setNbWaitingScans: Function;
+
   selectedFile: ScanFile;
   fetchFile: Function;
   updateFile: Function;
@@ -61,6 +64,9 @@ const DashboardContext = createContext<DashboardContextInterface>({
   updateScan: () => Promise.resolve(),
   deleteScan: () => Promise.resolve(),
   unselectScan: () => Promise.resolve(),
+
+  nbWaitingScans: 0,
+  setNbWaitingScans: Function,
 
   // @ts-ignore
   selectedFile: {},
@@ -112,6 +118,7 @@ export function DashboardContextProvider({
 
   const [page, setPage] = useState("scans");
   const [modal, setModal] = useState("");
+  const [nbWaitingScans, setNbWaitingScans] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -155,6 +162,9 @@ export function DashboardContextProvider({
         updateScan,
         deleteScan,
         unselectScan,
+
+        nbWaitingScans,
+        setNbWaitingScans,
 
         selectedFile,
         fetchFile,

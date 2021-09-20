@@ -24,6 +24,7 @@ import ForgotPasswordForm from "./components/auth/ForgotPasswordForm";
 import ResetPasswordConfirmForm from "./components/auth/ResetPasswordConfirmForm";
 import Notifications from "./components/Notifications";
 import PrivateRoute from "./PrivateRoute";
+import ProfilActivity from "./components/ProfilActivity";
 
 export default function App() {
   // @ts-ignore
@@ -74,6 +75,10 @@ export default function App() {
             </ScanContextProvider>
             <Footer />
           </Route>
+          <Route exact path="/profil/:id">
+            <ProfilActivity />
+            <Footer />
+          </Route>
           <PrivateRoute
             path="/profil"
             requiredRoles={["ROLE_USER", "ROLE_ADMIN", "ROLE_SUPERADMIN"]}
@@ -81,6 +86,7 @@ export default function App() {
             <Profil user={user} />
             <Footer />
           </PrivateRoute>
+
           <Route exact path="/inscription">
             {onConnect ? <Redirect to="/" /> : <RegisterForm />}
           </Route>
