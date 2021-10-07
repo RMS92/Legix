@@ -33,7 +33,6 @@
   - vu par les autres utilisateurs: ses derniers scan authentifiés (gauche) ses derniers commentaires à droite
     (faire un partie pour les votes d'un scan douteux)
   - vu par moi : Les derniers votes que j'ai effectué
-  - probleme avatar scan profil page
 - Footer a faire
 - compteur scans en attente admin
 - design stats page

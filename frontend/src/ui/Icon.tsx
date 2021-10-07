@@ -549,6 +549,63 @@ export default function Icon(props: Props) {
             fill="currentColor"
           />
         </svg>
+      ) : name === "email" ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+          fill="none"
+          viewBox="0 0 21 16"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M1.5 4l7.89 5.26a2 2 0 002.22 0L19.5 4m-16 11h14a2 2 0 002-2V3a2 2 0 00-2-2h-14a2 2 0 00-2 2v10a2 2 0 002 2z"
+          />
+        </svg>
+      ) : name === "tchat" ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+          fill="none"
+          viewBox="0 0 20 18"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M5 5h10H5zm0 4h4-4zm5 8l-4-4H3a2 2 0 01-2-2V3a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+          />
+        </svg>
+      ) : name === "info" ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+          fill="none"
+          viewBox="0 0 3 10"
+        >
+          <path
+            fill="currentColor"
+            d="M2.93 3.59l-2.29.29-.08.38.45.08c.3.07.35.17.29.47L.56 8.28c-.2.9.1 1.31.8 1.31.55 0 1.18-.25 1.47-.6l.09-.41c-.2.18-.5.25-.69.25-.27 0-.37-.2-.3-.54l1-4.7zM2 2.5a1 1 0 100-2 1 1 0 000 2z"
+          />
+        </svg>
+      ) : name === "policy" ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+          fill="none"
+          viewBox="0 0 20 20"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M4.307 16.61l.054-.09A13.916 13.916 0 006.5 9.079a4 4 0 018 0c0 1.017-.07 2.019-.203 3m3.213 4.132c.645-2.266.99-4.66.99-7.132a8 8 0 00-12-6.93m-5 11.294c.64-1.32 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4m6.93 4c0 3.517-1.009 6.799-2.753 9.57L10.5 9.08zm1.679 9.844a21.882 21.882 0 001.492-3.844l-1.492 3.844z"
+          />
+        </svg>
       ) : name === "dislike" ? (
         <svg
           {...props}

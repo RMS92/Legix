@@ -97,19 +97,7 @@ export default function ScanDetails() {
       ) : null}
       <header className="page-header separated">
         <div className="profil-header">
-          <div className="profil-header__icon">
-            <Icon
-              name="home-illustration"
-              className={clsx(
-                scan.status === 0
-                  ? "text-danger"
-                  : scan.status === 2
-                  ? "text-success"
-                  : "text-info"
-              )}
-              width="100"
-            />
-          </div>
+          <div className="profil-header__icon" />
           <div className="profil-header__body">
             <h1 className="h1">{formatTitle(scan.title)}</h1>
             <h5 className="h5">
@@ -301,7 +289,7 @@ function ScanBodyReview() {
           </div>
           <div>
             <div className="flex">
-              <a className="avatar">
+              <a href={`/profil/${scan.expert._id}`} className="avatar">
                 {scan.expert?.avatarFile ? (
                   <img
                     src={
@@ -317,7 +305,7 @@ function ScanBodyReview() {
               <div className="ml2">
                 <strong className="bold">Expert:</strong>
                 <br />
-                <a href="#">
+                <a href={`/profil/${scan.expert?._id}`}>
                   {scan.expert?.username
                     ? scan.expert.username
                     : "Indisponible"}

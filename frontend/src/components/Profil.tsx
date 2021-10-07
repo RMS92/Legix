@@ -173,7 +173,9 @@ function ProfilBody({
   setFlashMessages: Dispatch<SetStateAction<FlashMessage>>;
   setModal: Dispatch<SetStateAction<string>>;
 }) {
-  return page === "edit" ? (
+  return page === "profil" ? (
+    <ProfilBodyView user={user} />
+  ) : page === "edit" ? (
     <ProfilBodyEdit
       user={user}
       setFlashMessages={setFlashMessages}
@@ -182,6 +184,24 @@ function ProfilBody({
   ) : page === "scans" ? (
     <ProfilBodyScans user={user} />
   ) : null;
+}
+
+function ProfilBodyView({ user }: { user: User }) {
+  return (
+    <div className="py5">
+      <h2 className="h2 center">Bienvenue sur Legix !</h2>
+      <p className="text-muted text-center mt1 mb2">
+        Cette page affichera les participations et les votes que vous avez
+        effectués sur l'application.
+        <br /> Pour l'instant vous n'avez participé à aucun vote :(
+      </p>
+      <p className="text-center">
+        <a className="btn-primary-outlined" href="/scans">
+          Participer à l'authenfication de scans
+        </a>
+      </p>
+    </div>
+  );
 }
 
 function ProfilBodyEdit({

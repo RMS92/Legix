@@ -12,7 +12,7 @@
 
 .footer ul li {
   margin-bottom: space(.5);
-  color: var(--color-light)
+  color: var(--color-dark-04)
 }
 
 .footer li a {
@@ -21,14 +21,13 @@
 }
 
 .footer li a .icon {
-  margin-top: -2px;
   width: 17px;
   height: 17px;
-  margin-right: space(.5);
+  margin-right: space(1);
 }
 
 .footer a:hover {
-  color: var(--contrast);
+  color: var(--color-primary-03);
 }
 
 .footer-title {
